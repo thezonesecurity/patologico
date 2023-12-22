@@ -35,6 +35,7 @@
     <script src="{{ asset("assets/scripts/dashboard/plantilla.js")}}" type="text/javascript"></script>
     <script src="{{ asset("assets/librerias/jquery/jquery-3.3.1.min.js")}}" type="text/javascript"></script>
     <script src="{{ asset("assets/librerias/alerts/toastr.min.js")}}" type="text/javascript"></script> 
+    <script src="{{ asset('assets/scripts/alert.js') }}" type="text/javascript"></script>
     <script src="{{ asset("assets/librerias/bootstrap4/js/bootstrap.min.js")}}" type="text/javascript"></script> 
     <script src="{{ asset("assets/librerias/bootstrap4/js/bootstrap.bundle.min.js")}}" type="text/javascript"></script> 
 

@@ -10,47 +10,50 @@
             <div class="iocn-link">
                 <a href="#">
                     <i class="bi bi-journals"></i>
-                    <span class="link_name">Administrar</span>
+                    <span class="link_name">Administrador</span>
                 </a>
                 <i class="bi bi-caret-down arrow"></i>
             </div>
             <ul class="sub-menu">
-                <li><a class="link_name" href="#">Administrar</a></li>
-                <li><a href="{{route('medicos.lista')}}">Lista de medicos</a></li>
-                <li><a href="#">Lista de areas</a></li>
-                <li><a href="#">Lista tipo de contratos</a></li>
-                <li><a href="#">Lista de personas</a></li>
+                <li><a class="link_name" href="#">Administrador</a></li>
+                <li><a href="#">Lista de Medicos</a></li>
+                <li><a href="#">Lista de Pacientes</a></li>
+                <li><a href="#">Lista de Municipios</a></li>
+                <li><a href="#">Lista de Establecimientos</a></li>
+                <li><a href="#">Lista Diagnostiscos</a></li>
             </ul>
         </li>
         <li>
             <div class="iocn-link">
                 <a href="#">
                     <i class="bi bi-calendar2-check"></i>
-                    <span class="link_name">Rolturnos</span>
+                    <span class="link_name">Patologia</span>
                 </a>
                 <i class="bi bi-caret-down arrow"></i>
             </div>
             <ul class="sub-menu">
-                <li><a class="link_name" href="#">Rolturnos</a></li>
-                <li><a href="#">Lista tipo de turnos</a></li>
-                <li><a href="#">Crear rol de turnos</a></li>
-                <li><a href="#">Lista de rol turnos</a></li>
-                <li><a href="#">Habilitacion de turnos</a></li>
+                <li><a class="link_name" >Patologia</a></li>
+                <li><a href="{{route('SolicitudRural.index')}}">Rural Solicitudes</a></li>{{--SolicitudRural.index--}}
+                <li><a href="{{route('resultado_rural.resultadoR')}}">Rural Resultados</a></li>
+                <li><a href="{{route('test')}}">Rural Informes</a></li>
+                <li><a href="#">Urbano Solicitudes</a></li>
+                <li><a href="#">Urbano Resultados</a></li>
+                <li><a href="#">Urbano Informes</a></li>
             </ul>
         </li>
         <li>
             <div class="iocn-link">
                 <a href="#">
                     <i class="bi bi-clipboard-data"></i>
-                    <span class="link_name">Reportes</span>
+                    <span class="link_name">Citologia</span>
                 </a>
                 <i class="bi bi-caret-down arrow"></i>
             </div>
             <ul class="sub-menu">
-                <li><a class="link_name" href="#">Reportes</a></li>
-                <li><a href="#">Reportes 1</a></li>
-                <li><a href="#">Reportes 2</a></li>
-                <li><a href="#">Reportes 3</a></li>
+                <li><a class="link_name" href="#">Citologia</a></li>
+                <li><a href="#">Solicitud</a></li>
+                <li><a href="#">Resultado</a></li>
+                <li><a href="#">Informes</a></li>
             </ul>
         </li>
       

@@ -1,0 +1,28 @@
+ var formData = new FormData(document.getElementById("form-registrar-paciente"));
+        $.ajax({
+            url: "{{route('modal.registrar.paciente')}}",
+            type:'POST',
+            dataType: "html",
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData
+         }).done(function(resp){ //alert(resp); ci_pac: ci_pac, nombre_pac: nombre, apellido_pac: apellido, fecha_nac: fec_nac
+            alert(resp);
+                /*if(data == 'registrado'){
+                    $('#exampleModal').modal('hide');
+                        limpiarformModalPaciente();
+                        notificaciones("Paciente registrado correctamente..!!", "Felicidades", 'success');
+                        $('#nombre_paciente').val(ci_pac);
+                        $('#apellido_paciente').val(nombre);
+                        $('#fecha_nac_p').val(fec_nac);
+                        exitePaciente = 0;
+                                    
+                }else{
+                        notificaciones("ERROR NO SE REGISTRO Al PACIENTE..!!", "CONTACTE CON SOPORTE", 'error');
+                        document.getElementById("nombre_paciente").value = "";
+                        document.getElementById("apellido_paciente").value = "";
+                        document.getElementById("fecha_nac_p").value = "";
+                        exitePaciente = 1;
+                }*/
+        });
