@@ -1,47 +1,46 @@
 @extends("Home.index") <!--extends se situa en views-->
 @section('titulo')
- - Solicitud rural
+ - Registro resultado
 @stop
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/librerias/Select2/css/select2.css') }}">
 <style>
     #este {
-  height: 40em;
-  line-height: 1em;
-  overflow-x: scroll;
-  overflow-y: scroll;
-  width: 100%;
-  border: 1px solid;
-  border-color: rgba(0, 191, 255, 0.695);
-}
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
+    height: 40em;
+    line-height: 1em;
+    overflow-x: scroll;
+    overflow-y: scroll;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 99;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    border: 1px solid;
+    border-color: rgba(0, 191, 255, 0.695);
+    }
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 99;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-.overlay-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    text-align: center;
-    max-width: 80%;
-}
-.error {
-    color: red;
-}
+    .overlay-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+        max-width: 80%;
+    }
+    .error {
+        color: red;
+    }
 </style>
 @stop
-
 
 @section('contenido')  
 
@@ -68,18 +67,6 @@
                                             <label class="form-check-label" for="exampleRadios1M">Rural</label>
                                         </div>
                                     </div>
-                                    {{--<div class="form-row " >
-                                        <div class="form-group col-md-4">
-                                            <label for="nro_exa">Nro. Examen</label>
-                                            <input type="text" class="form-control controlExamen" name="examen_nro" id="examen_nro" >
-                                            <small id="validacionExamen" class="form-text"></small>
-                                        </div>
-                                        <div class="form-group col-md-8">
-                                            <label for="fecha_resu">Fecha resultado</label>
-                                            <input type="date" class="form-control" name="fec_result" id="fec_result" value="< ?php echo date('Y-m-d'); ?>">
-                                        </div>
-                                    </div>--}}
-                                   
                                     <div class="form-row " >
                                         <div class="form-group col-md-6">
                                             <div class="form-row">
@@ -133,12 +120,12 @@
                                             <input type="text" class="form-control" name="paciente_edad" id="paciente_edad" readonly>
                                         </div>
                                     </div>
-                                    <div class="form-row " style="displa y: none;">
+                                    <div class="form-row " style="display: none;">
                                         <div class="form-group col-md-3">
                                             <label class="form-check-label" for="secer_id_examen">codigo examen</label>
                                         </div>
                                         <div class="form-group col-md-9">
-                                            <input type="text" class="form-control" name="id_examen" id="id_examen" readonly>
+                                            <input type="hidden" class="form-control" name="id_examen" id="id_examen" readonly>
                                         </div>
                                     </div>
                                     
@@ -150,14 +137,13 @@
                                             <label >Codigo</label>
                                         </div>
                                         <div class="form-group col-md-9">
-                                            <input type="text" class="form-control controlDiagnostico" name="nombre_diag" id="nombre_diag">
-                                            <input type="text" class="form-control " name="codigo_diag" id="codigo_diag" readonly style="displa y: none;">
+                                            <input type="text" class="form-control text-uppercase controlDiagnostico" name="nombre_diag" id="nombre_diag">
+                                            <input type="hidden" class="form-control " name="codigo_diag" id="codigo_diag" readonly style="display: none;">
                                             <small id="validacionDiagnostico" class="form-text"></small>
                                         </div>
                                     </div>
                                     <label for="ho_diang" >Descripcion</label>
                                     <div class="form-group ">
-                                        {{--<input type="text" class="form-control " name="descripcion" id="descripcion">--}}
                                         <textarea class="form-control" name="descripcion" id="descripcion" rows="3" readonly></textarea>
                                     </div>
                                 </div>
@@ -220,7 +206,7 @@ $(document).ready(function() {
             url: "{{ route('examens.lista.resultados') }}",
             data: { nro_examen: $('#examen_nro').val(), prefijo: $('#prefijo').val() }, 
         }).done(function(data){ //alert(resp);
-           // console.log(data);
+            console.log(data);
             if(data == 'No existe'){
                      $(".controlExamen").addClass('is-invalid');
                      $('#validacionExamen').text('Nro de examen no existe, registrelo !!!').addClass('text-danger').show();
@@ -272,7 +258,7 @@ $(document).ready(function() {
     });
      //PROCESO PARA ADICIONAR LOS DATOS DEL FORMUALRIO A LA TABLA TEMPORAL y VALIDACION DEL FORMULARIO
      var i = 1, fila; //contador para asignar id al boton que borrara la fila
-        $('#adicionar').click(function() {
+    $('#adicionar').click(function() {
             //obtenemos el valor de todos los input
             //id_examen examen_nro  fec_result paciente_nombre paciente_cedula paciente_apellido paciente_fec_nac paciente_edad codigo_diag descripcion
             var id_exa = $('#id_examen').val();
@@ -326,15 +312,15 @@ $(document).ready(function() {
                 $('#validacionAgregarR').text('Error verifique los errores del formulario !!!').addClass('text-danger').show();
             }
            
-        });
+    });
             
-        $(document).on('click', '.btn_remove', function() { //limpia el formulario para que vuelva a contar las filas de la tabla
+    $(document).on('click', '.btn_remove', function() { //limpia el formulario para que vuelva a contar las filas de la tabla
              var button_id = $(this).attr("id");
              $('#row' + button_id + '').remove(); //borra la fila
-        });
+    });
 
-        //PROCESO PARA REGISTRAR MULTIPLES FILAS DE LA TABLA  TEMPORAL
-        $("#registrarResult").click(function(e){
+    //PROCESO PARA REGISTRAR MULTIPLES FILAS DE LA TABLA  TEMPORAL
+    $("#registrarResult").click(function(e){
             e.preventDefault();
             var examen = $('#examen_nro').val();
             var fecha_result = $('#fec_result').val();
@@ -380,7 +366,7 @@ $(document).ready(function() {
                 notificaciones("Verifique los campos numero de examen y fecha resultado !!", "ERROR DE FORMULARIO", 'error');
                 return false;
            }
-        });       
+    });       
     // Detectar el cambio en los radios
     $('#prefijo').val('-U');
     $('input[type="radio"]').change(function() {
@@ -391,6 +377,20 @@ $(document).ready(function() {
             $('#prefijo').val('-R'); // Añadir -R al final
         }
     });
+    //focus a los inputs
+    $("#examen_nro").keypress(function() {
+        if ( event.which == 13 && exiteExamen == 0) { $('#fec_result').focus(); }   
+    });
+    $("#fec_result").keypress(function() {
+        if ( event.which == 13 ) { $('#nombre_diag').focus(); }   
+    });
+    $("#nombre_diag").keypress(function() {
+        if ( event.which == 13 && exiteExamen == 0 && exiteDiagnsotico == 0) { $('#adicionar').focus(); }   
+    });
+    $("#adicionar").keypress(function() {
+        if ( event.which == 13 && exiteExamen == 0 && exiteDiagnsotico == 0) { $('#nombre_diag').focus(); }   
+    });
+
 });
 </Script>
 @stop

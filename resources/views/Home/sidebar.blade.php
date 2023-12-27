@@ -33,27 +33,38 @@
             </div>
             <ul class="sub-menu">
                 <li><a class="link_name" >Patologia</a></li>
-                <li><a href="{{route('SolicitudRural.index')}}">Rural Solicitudes</a></li>{{--SolicitudRural.index--}}
-                <li><a href="{{route('resultado_rural.resultadoR')}}">Rural Resultados</a></li>
-                <li><a href="{{route('test')}}">Rural Informes</a></li>
-                <li><a href="#">Urbano Solicitudes</a></li>
-                <li><a href="#">Urbano Resultados</a></li>
-                <li><a href="#">Urbano Informes</a></li>
+                <li><a href="{{route('SolicitudRural.index')}}">Registro solicitudes</a></li>
+                <li><a href="{{route('resultado_rural.resultadoR')}}">Registro resultados</a></li>
+                <li><a href="{{route('test')}}">pruebas</a></li>
+                <li><a href="#">Imprimir resultados</a></li>
             </ul>
         </li>
         <li>
             <div class="iocn-link">
                 <a href="#">
-                    <i class="bi bi-clipboard-data"></i>
+                    <i class="bi bi-kanban"></i>
                     <span class="link_name">Citologia</span>
                 </a>
                 <i class="bi bi-caret-down arrow"></i>
             </div>
             <ul class="sub-menu">
                 <li><a class="link_name" href="#">Citologia</a></li>
-                <li><a href="#">Solicitud</a></li>
-                <li><a href="#">Resultado</a></li>
-                <li><a href="#">Informes</a></li>
+                <li><a href="{{route('SolicitudCitolgia.index')}}">Registro solicitudes</a></li>
+                <li><a href="{{route('ResultadoCitolgia.index')}}">Registro resultados</a></li>
+                <li><a href="#">Imprimir resultados</a></li>
+            </ul>
+        </li>
+        <li>
+            <div class="iocn-link">
+                <a href="#">
+                    <i class="bi bi-clipboard-data"></i>
+                    <span class="link_name">Reportes</span>
+                </a>
+                <i class="bi bi-caret-down arrow"></i>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name" href="#">Reportes</a></li>
+                <li><a href="#">Imprimir resultados</a></li>
             </ul>
         </li>
       

@@ -42,7 +42,7 @@
             </div>
 
             <div class="modal-footer">
-                {!! Form::submit('Registrar', ['class' => 'btn btn-primary', 'id'=> 'BtnPacienteRegistrar' ] ) !!} 
+                {!! Form::button('Registrar', ['class' => 'btn btn-primary', 'id'=> 'BtnPacienteRegistrar' ] ) !!} 
                 {!! Form::reset('Cancelar', ['class' => 'btn btn-secondary cancelar', 'data-dismiss'=>"modal", 'id'=>"cancelarBtn"] ) !!}
             </div>
          </form>  

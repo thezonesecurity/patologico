@@ -1,47 +1,46 @@
 @extends("Home.index") <!--extends se situa en views-->
 @section('titulo')
- - Solicitud rural
+ - Registro Solicitud
 @stop
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/librerias/Select2/css/select2.css') }}">
 <style>
     #este {
-  height: 40em;
-  line-height: 1em;
-  overflow-x: scroll;
-  overflow-y: scroll;
-  width: 100%;
-  border: 1px solid;
-  border-color: rgba(0, 191, 255, 0.695);
-}
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
+    height: 40em;
+    line-height: 1em;
+    overflow-x: scroll;
+    overflow-y: scroll;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 99;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    border: 1px solid;
+    border-color: rgba(0, 191, 255, 0.695);
+    }
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 99;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-.overlay-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    text-align: center;
-    max-width: 80%;
-}
-.error {
-    color: red;
-}
+    .overlay-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+        max-width: 80%;
+    }
+    .error {
+        color: red;
+    }
 </style>
 @stop
-
 
 @section('contenido')  
 
@@ -97,12 +96,6 @@
                                         <div class="form-group col-md-9">
                                             <select class="form-control-sm custom-select text-uppercase select2" style="width: 100%" name="establecimiento" id="establecimiento" >
                                             </select>
-                                           {{-- <select class="form-control-sm custom-select text-uppercase controlServicio select2" name="establecimiento" id="establecimiento">
-                                                <option value="Elegir opcion" disabled selected>Selecione una opcion</option> 
-                                                @foreach($establecimientos as $id => $item)
-                                                    <option value="{{$id}}" > {{$item}} </option>                      
-                                                @endforeach
-                                            </select>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -132,7 +125,7 @@
                                         </div>
                                         <div class="form-group col-md-9">
                                             <input type="text" class="form-control" name="apellido_paciente" id="apellido_paciente" readonly>
-                                            <input type="text" class="form-control" name="id_paciente" id="id_paciente" readonly style="display: none;">
+                                            <input type="hidden" class="form-control" name="id_paciente" id="id_paciente" readonly style="display: none;">
                                         </div>
                                     </div>
                                     <div class="form-row " >
@@ -154,7 +147,6 @@
                             </tr>
                         </table> <!--REGISTRAR ROL TURNO-->
                     </div>
-                    <!---->
                     <div class="col-md-9" id="este"> {{--listar tabla--}}
                         <center class="font-weight-bold mt-2">Lista Temporal de Solicitudes</center> <br>
                         <table id="mytable" class="table table-sm table-striped border" style="font-size: 12px;  table-layout: fixed;" width="">
@@ -231,9 +223,9 @@
                      $(".controlCi").addClass('is-invalid');
                      $('#validacionCi').text('El C.I. del paciente no existe, registrelo !!!').addClass('text-danger').show();
                      
-                     $('#cedula').focus();
+                     $('#cedula').val( $('#ci').val() );
                      $('#exampleModal').modal('show');
-                   
+                     
                      document.getElementById("nombre_paciente").value = "";
                      document.getElementById("apellido_paciente").value = "";
                      document.getElementById("fecha_nac_p").value = "";
@@ -272,7 +264,7 @@
             method:"POST",
             data:{ _token:_token, ci_pac: ci_pac, nombre_pac: nombre, apellido_pac: apellido, fecha_nac: fec_nac, sexo_pac: sexo},
             success:function(data){
-                if(data == 'registrado'){
+                if(data != 'error Paciente'){
                     $('#exampleModal').modal('hide');
                     limpiarformModalPaciente();
                     notificaciones("Paciente registrado correctamente..!!", "Felicidades", 'success');
@@ -282,6 +274,8 @@
                     $('#nombre_paciente').val(nombre);
                     $('#apellido_paciente').val(apellido);
                     $('#fecha_nac_p').val(fec_nac);
+                    $('#id_paciente').val(data);
+                    $("#BtnPacienteRegistrar").prop("disabled", false);
                     exitePaciente = 0;              
                 }else{
                     $('#exampleModal').modal('hide');
@@ -290,15 +284,17 @@
                     document.getElementById("nombre_paciente").value = "";
                     document.getElementById("apellido_paciente").value = "";
                     document.getElementById("fecha_nac_p").value = "";
+                    document.getElementById("id_paciente").value = "";
                     exitePaciente = 1;
                 }
             }
           });
+          $("#BtnPacienteRegistrar").prop("disabled", true);//-
         }
     });
 
      //PROCESO PARA ADICIONAR LOS DATOS DEL FORMUALRIO A LA TABLA TEMPORAL y VALIDACION DEL FORMULARIO
-         var i = 1, fila; //contador para asignar id al boton que borrara la fila
+     var i = 1, fila; //contador para asignar id al boton que borrara la fila
         $('#adicionar').click(function() {
             //obtenemos el valor de todos los input
             var fec_solicitud = $('#fecha_solicitud').val();
@@ -370,13 +366,13 @@
            
         });
             
-        $(document).on('click', '.btn_remove', function() { //limpia el formulario para que vuelva a contar las filas de la tabla
-             var button_id = $(this).attr("id");
-             $('#row' + button_id + '').remove(); //borra la fila
-        });
+    $(document).on('click', '.btn_remove', function() { //limpia el formulario para que vuelva a contar las filas de la tabla
+        var button_id = $(this).attr("id");
+        $('#row' + button_id + '').remove(); //borra la fila
+    });
 
-        //PROCESO PARA REGISTRAR MULTIPLES FILAS DE LA TABLA  TEMPORAL
-        $("#registrar").click(function(e){
+    //PROCESO PARA REGISTRAR MULTIPLES FILAS DE LA TABLA  TEMPORAL
+    $("#registrar").click(function(e){
             e.preventDefault();
             var fec_solicitud = $('#fecha_solicitud').val();
             var municipio = $('#municipio :selected').text();
@@ -407,9 +403,9 @@
                    // alert(data);
                     if(data=='error_registro_solicitud'){ //resp=='error'	
                         notificaciones("ERROR NO SE PUDO REALIZAR EL REGISTRO !!", "CONTACTE CON SOPORTE", 'error');
-                        /*setTimeout(function(){	
+                        setTimeout(function(){	
                             window.location="{{ route('SolicitudRural.index') }}";
-                        },4000);*/
+                        },4000);
                     }
                     else {//paa Registro Exitoso
                         console.log(data);
@@ -426,6 +422,7 @@
                             cuerpoTabla.append(nuevaFila);
                         });
                         $('#ModalListaExamenes').modal('show');
+                        notificaciones("Se registro correctamente !!", "FELICIDADES", 'success');
                     }
                 });
                 $('#form_reg_solicitud')[0].reset(); 
@@ -437,14 +434,51 @@
                 return false;
            }
            
-        });   
+    });   
     //se recarga la pagina cuando se cierra el modal de lista de solicitudes
     $('#ModalListaExamenes').on('hidden.bs.modal', function () {
         setTimeout(function(){
         window.location="{{ route('SolicitudRural.index') }}";
         },1000);
     });
-
+    //focus al siguiente imput
+    $("#fecha_solicitud").keypress(function() {
+        if ( event.which == 13 ) { $('#municipio').focus(); }   
+        });
+        $("#municipio").keypress(function() {
+            if ( event.which == 13 ) { $('#establecimiento').focus(); }   
+        });
+        $("#establecimiento").keypress(function() {
+            if ( event.which == 13 ) { $('#ci').focus(); }   
+        });
+        $("#ci").keypress(function() {
+            if ( event.which == 13  && exitePaciente == 0) { $('#adicionar').focus(); }  
+        });
+        $("#adicionar").keypress(function() {
+            if ( event.which == 13 ) { $('#ci').focus(); }   
+        });
+        //focus para el modal registrar paciente
+        $("#ci").keypress(function() {
+            if ( event.which == 13  && exitePaciente == 1) { $('#cedula').focus(); }  
+        });
+        $("#cedula").keypress(function() {
+            if ( event.which == 13  && exitePaciente == 1) { $('#nombres').focus(); }  
+        });
+        $("#nombres").keypress(function() {
+            if ( event.which == 13  && exitePaciente == 1) { $('#apellidos').focus(); }  
+        });
+        $("#apellidos").keypress(function() {
+            if ( event.which == 13  && exitePaciente == 1) { $('#fec_nacimiento').focus(); }  
+        });
+        $("#fec_nacimiento").keypress(function() {
+            if ( event.which == 13  && exitePaciente == 1) { $('input[name=sexo]:checked').focus();}  
+        });
+    /* $('input[name=sexo]:checked').keypress(function() {
+            if ( event.which == 13  && exitePaciente == 1) { $('#BtnPacienteRegistrar').focus();}  
+        });*/
+        $('#exampleModal').on('shown.bs.modal', function () {
+            $('#cedula').focus();
+        });
 });
 
 </script>

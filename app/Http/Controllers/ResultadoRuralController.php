@@ -20,6 +20,7 @@ class ResultadoRuralController extends Controller
 
     public function getExamenesR(Request $request)
     {
+        //return response()->json($listadatos);
         $prefijo = substr($request->prefijo, 1);// Quitar el guion y obtiene solo la letra
         $respExamen= Examen::where('num_examen', request()->input('nro_examen') )->where('estado', 'TRUE')->get(); 
         foreach ($respExamen as $examen){
@@ -41,20 +42,20 @@ class ResultadoRuralController extends Controller
         }else{
             return response()->json('No existe');
         }
-
     }
     public function getDiagnosticosR(Request $request)
     {
         //return response()->json($request->nro_examen);
-        $diagnostico= Diagnostico::where('codigo_diagnostico', request()->input('nro_diagnostico'))->where('estado', 'TRUE')->get(); 
+        $codigo_diag = strtoupper(trim(request()->input('nro_diagnostico')));
+        $diagnostico= Diagnostico::where('codigo_diagnostico', $codigo_diag)->where('estado', 'TRUE')->get(); 
         if(isset($diagnostico) && count($diagnostico) > 0){
             return response()->json($diagnostico);}
         else{
              return response()->json('No existe');}
     }
-    public function create()
+    public function create()//
     {
-    //
+        ///
     }
 
     public function store(Request $request)

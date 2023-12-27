@@ -23,5 +23,8 @@ class Establecimiento extends Model
     public function establecimiento_solicitudes(){
         return $this->hasMany(\App\Models\Solicitud::class, 'establecimiento_id');
     }
+    public function establecimiento_solicitudesCito(){
+        return $this->hasMany(\App\Models\SolicitudCitologia::class, 'establecimiento_id');
+    }
 
 }

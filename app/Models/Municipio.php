@@ -20,4 +20,7 @@ class Municipio extends Model
         return $this->hasMany(\App\Models\Solicitud::class, 'municipio_id');
     }
     
+    public function municipio_solicitudesCito(){
+        return $this->hasMany(\App\Models\SolicitudCitologia::class, 'municipio_id');
+    }
 }

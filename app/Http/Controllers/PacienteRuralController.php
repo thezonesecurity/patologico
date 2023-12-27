@@ -41,7 +41,7 @@ class PacienteRuralController extends Controller
             $newPaciente->creatoruser_id = auth()->user()->id;
             $newPaciente->updateduser_id = auth()->user()->id;
             $newPaciente->save();
-            return 'registrado';
+            return response()->json($newPaciente->id); // return 'registrado';
         }else{ return 'error Paciente';}
     }
 
