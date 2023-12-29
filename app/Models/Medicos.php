@@ -8,7 +8,7 @@ class Medicos extends Model
 {
     protected $table = 'sispatologico.medicos';
 
-    protected $fillable = ['id','ci','nombre','apellido','fecha_nacimiento','edad','direccion','especialidad','matricula_profeciona',
+    protected $fillable = ['id','ci','nombre','apellido','fecha_nacimiento','edad','direccion','especialidad','matricula_profesional',
     'sexo','email','num_celular','descripcion','estado','creatoruser_id','updateduser_id'];
     
     protected $dates = ['created_at','updated_at'];

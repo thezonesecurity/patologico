@@ -200,16 +200,27 @@
 <Script  type="text/javascript">
 $(document).ready(function() {
     var exiteExamen = 0, exiteDiagnsotico = 0; ; 
-     //PROCESO PARA MOSTRAS NOMBRE, APELLIDO Y FECHA_NACIMIENTO MEDIANTE EL CI
+     //PROCESO PARA MOSTRAS NOMBRE, APELLIDO, CI Y FECHA_NACIMIENTO MEDIANTE EL NRO DE EXAMEN TAMBIEN CONTROLA SI YA ESTA REGISTRADO EL NRO_EXAMEN
      $('.controlExamen').change(function() {
         $.ajax({
             url: "{{ route('examens.lista.resultados') }}",
             data: { nro_examen: $('#examen_nro').val(), prefijo: $('#prefijo').val() }, 
         }).done(function(data){ //alert(resp);
             console.log(data);
-            if(data == 'No existe'){
-                     $(".controlExamen").addClass('is-invalid');
-                     $('#validacionExamen').text('Nro de examen no existe, registrelo !!!').addClass('text-danger').show();
+            if(data == 'no_encontrado'){
+                $(".controlExamen").addClass('is-invalid');
+                $('#validacionExamen').text('Nro. de examen no econtrado.. !!!').addClass('text-danger').show();
+                document.getElementById("paciente_cedula").value = "";
+                document.getElementById("paciente_nombre").value = "";
+                document.getElementById("paciente_apellido").value = "";
+                document.getElementById("paciente_fec_nac").value = "";
+                document.getElementById("paciente_edad").value = "";
+                document.getElementById("id_examen").value = "";
+                exiteExamen = 1;
+            }else{
+                if(data == 'ya_registrado'){
+                    $(".controlExamen").addClass('is-invalid');
+                     $('#validacionExamen').text('Nro. de examen ya registrado.. !!!').addClass('text-danger').show();
                      document.getElementById("paciente_cedula").value = "";
                      document.getElementById("paciente_nombre").value = "";
                      document.getElementById("paciente_apellido").value = "";
@@ -217,9 +228,8 @@ $(document).ready(function() {
                      document.getElementById("paciente_edad").value = "";
                      document.getElementById("id_examen").value = "";
                      exiteExamen = 1;
-                }
-                 else{
-                     $(".controlExamen").removeClass('is-invalid');
+                }else{
+                    $(".controlExamen").removeClass('is-invalid');
                      $('#validacionExamen').text('Nro de examen no existe, registrelo !!!').removeClass('text-danger').hide();
                      $('#paciente_cedula').val(data[0]['ci_pac']);
                      $('#paciente_nombre').val(data[0]['nombre_pac']);
@@ -229,7 +239,8 @@ $(document).ready(function() {
                      $('#id_examen').val(data[0]['examen_id']);
                      $('#validacionAgregarR').text('Error verifique los errores del formulario !!!').removeClass('text-danger').hide();
                      exiteExamen = 0;   
-                 }
+                }
+            }
         });
     });
      //PROCESO PARA MOSTRAS DATOS DEL DIAGNOSTICO MEDIANTE EL CODIGO DE DIAGNOSTICO
@@ -379,7 +390,7 @@ $(document).ready(function() {
     });
     //focus a los inputs
     $("#examen_nro").keypress(function() {
-        if ( event.which == 13 && exiteExamen == 0) { $('#fec_result').focus(); }   
+        if ( event.which == 13 && exiteExamen != 1) { $('#fec_result').focus(); }   
     });
     $("#fec_result").keypress(function() {
         if ( event.which == 13 ) { $('#nombre_diag').focus(); }   

@@ -90,7 +90,6 @@
             <label  for="inline_medico">Medico</label>
             <select class="form-control-sm custom-select text-uppercase select2 controlMunicipio" name="medico" id="medico" style="width: 100%">
                 <option value="0" disabled selected >Selecione una opcion</option> 
-                <option value="Ninguno" >Ninguno</option> 
                 @foreach($medicos as $medico)
                     <option value="{{$medico->id}}" >{{$medico->nombre}} {{$medico->apellido}}</option>                      
                 @endforeach
@@ -160,9 +159,6 @@
   </form>
 </div>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalImprimirResultCitologia">
-  Launch demo modal
-</button>
 @include('Patologia.modalImprimirResul');
 
 @stop
@@ -183,7 +179,6 @@
 <script type="text/javascript">
   $(document).ready(function() {
     var exiteExamen = 0;   
-    //fec_result num_examen  nombre_pac apellido_pac cedula_pac nac_pac codigo_examen
       //PROCESO PARA MOSTRAS NOMBRE, APELLIDO, CI Y FECHA_NACIMIENTO MEDIANTE EL NRO DE EXAMEN TAMBIEN CONTROLA SI YA ESTA REGISTRADO EL NRO_EXAMEN
       $('.controlExamenC').change(function() {
         $.ajax({
@@ -225,7 +220,6 @@
              }
           });
       });
-      
       //PROCESO PARA REGISTRAR FORMULARIO RESULTADO
       $("#registrarForm").click(function(e){
         e.preventDefault();
@@ -263,9 +257,6 @@
                   if(data == 'ok'){
                     notificaciones("Se registro correctamente !!", "FELICIDADES", 'success');
                     $('#ModalImprimirResultCitologia').modal('show');
-                   /* setTimeout(function(){	NO USADO
-                         window.location="{{ route('ResultadoCitolgia.index') }}";
-                    },4000);	*/
                   }
                   else {
                     notificaciones("ERROR NO SE PUDO REALIZAR EL REGISTRO !!", "CONTACTE CON SOPORTE", 'error');
@@ -297,9 +288,6 @@
         if ( event.which == 13 ) { $('#diag_clinico').focus(); }   
     });
 
-    $("#diag_clinico").keydown(function() {
-        if ( event.which == 13 ) { $('#datos').focus(); event.preventDefault();}   
-    });
 
   });
 </script>

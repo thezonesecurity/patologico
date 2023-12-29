@@ -471,11 +471,21 @@
             if ( event.which == 13  && exitePaciente == 1) { $('#fec_nacimiento').focus(); }  
         });
         $("#fec_nacimiento").keypress(function() {
-            if ( event.which == 13  && exitePaciente == 1) { $('input[name=sexo]:checked').focus();}  
+            if ( event.which == 13 ) { $('#radiofemenino').focus(); }  
         });
-    /* $('input[name=sexo]:checked').keypress(function() {
-            if ( event.which == 13  && exitePaciente == 1) { $('#BtnPacienteRegistrar').focus();}  
-        });*/
+        $("#radiofemenino").keypress(function() {
+            if ( event.which == 13 ) {  $('#BtnPacienteRegistrar').focus(); }  
+        });         
+        $("#radioMasculino").keypress(function() {
+            if ( event.which == 13 ) {  $('#BtnPacienteRegistrar').focus(); }  
+        });  
+        //vuele al boton añadir
+        $("#BtnPacienteRegistrar").keypress(function() {
+            if ( event.which == 13 ) {  $('#adicionar').focus(); }  
+        }); 
+        $("#adicionar").keypress(function() {
+            if ( event.which == 13 ) { $('#ci').focus(); }   
+        });
         $('#exampleModal').on('shown.bs.modal', function () {
             $('#cedula').focus();
         });

@@ -35,9 +35,9 @@
               <div class="row mt-2">
                 <div class="col-md-8">
                     <label for="recipient-name" class="col-form-label">Sexo</label>
-                    <input type="radio" name="c_sexo" id="radiofemenino" value="Femenino" checked class="ml-3">
+                    <input type="radio" name="c_sexo" id="radiofemeninoC" value="Femenino" checked class="ml-3">
                     <label class="form-check-label" for="exampleRadios1F">Femenino</label>
-                    <input  type="radio" name="c_sexo" id="radioMasculino" value="Masculino" class="ml-3">
+                    <input  type="radio" name="c_sexo" id="radioMasculinoC" value="Masculino" class="ml-3">
                     <label class="form-check-label" for="exampleRadios1M">Masculino</label>
                 </div>
               </div>

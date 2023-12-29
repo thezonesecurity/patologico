@@ -26,8 +26,7 @@ class SolicitudCitologiaController extends Controller
         $variable = 0;
         $listadatos = [];
         $id_user = auth()->user()->id;
-// return response()->json($request);
-        $lastSolicitud = ExamenCitologia::latest()->first(); //obtine ultimo nro de examen
+        $lastSolicitud = ExamenCitologia::latest('id')->first(); //obtine ultimo nro de examen
         if(isset($lastSolicitud)){
             $nro_examen = $lastSolicitud->num_examen + 1 ; // verificamos si exite el ultimo nro de solictud si existe +1 pero sino toma el valor d 1
         }else { $nro_examen=1; }
@@ -58,6 +57,7 @@ class SolicitudCitologiaController extends Controller
                 $newexamen->estado = 'TRUE';
                 $newexamen->creatoruser_id = $id_user;
                 $newexamen->updateduser_id = $id_user;
+                $newexamen->result_estado = 'FALSE';
                 $newexamen->save();
                 $exemen_nro = $nro_examen.'-C';
                 $listadatos[] = [

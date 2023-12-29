@@ -15,5 +15,9 @@ class Diagnostico extends Model
     'descripcion','creatoruser_id','updateduser_id','created_at','updated_at'];
     
     protected $primaryKey = 'id';    
+
+    public function resultado(){
+        return $this->hasMany(\App\Models\Resultado::class, 'diagnostico_id');
+    }
     
 }

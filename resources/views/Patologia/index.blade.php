@@ -443,14 +443,26 @@
             if ( event.which == 13  && exitePaciente == 1) { $('#c_apellidos').focus(); }  
         });
         $("#c_apellidos").keypress(function() {
-            if ( event.which == 13  && exitePaciente == 1) { $('#c_fec_nac').focus(); }  
-        });
+            if ( event.which == 13 ) { $('#c_fec_nac').focus(); }  
+        });   
         $("#c_fec_nac").keypress(function() {
-            if ( event.which == 13  && exitePaciente == 1) { $('input[name=c_sexo]:checked').focus();}  
-        });
+            if ( event.which == 13 ) { $('#radiofemeninoC').focus(); }  
+        });    
+        $("#radiofemeninoC").keypress(function() {
+            if ( event.which == 13 ) {  $('#BtnPacienteRegistrarP').focus(); }  
+        });         
+        $("#radioMasculinoC").keypress(function() {
+            if ( event.which == 13 ) {  $('#BtnPacienteRegistrarP').focus(); }  
+        });  
+
+       /* $('input[name="c_sexo"]').last().on('change', function() {
+            $('#BtnPacienteRegistrarP').focus();
+        });*/
+
         $('#registrarPaciente').on('shown.bs.modal', function () {
             $('#c_cedula').focus();
         });
+       
 
     });
 </script>

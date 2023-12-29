@@ -20,47 +20,46 @@ class ResultadoCitologiaController extends Controller
 
     public function getExamenesC(Request $request)
     {
-        // return response()->json($request);
+        $nro_examen = $request->nro_examen;
         $listadatos = [];
-        $respExamen= ExamenCitologia::where('num_examen', $request->nro_examen)->where('estado', 'TRUE')->first(); 
-
-        if($respExamen){
-            $respResultado = ResultadoCitologia::where('id_examen', $respExamen->id)->where('estado', 'TRUE')->first(); 
-            if($respResultado){//existe nro_examen ya registrado en resultado
-                return response()->json('registrado'); 
+        $resultado=ExamenCitologia::query();
+        $resultado=$resultado->where('num_examen', $nro_examen)->first();
+        if($resultado){
+            $existeResultado=$resultado->where('num_examen', $nro_examen)->where('result_estado', 'FALSE')->get();
+            if(count($existeResultado) == 0){
+                return 'registrado'; 
             }else{
-                //return response()->json('no registrado');
-                $paciente = $respExamen->examen_citoPacientes;
+                $paciente = $existeResultado[0]->examen_citoPacientes;
                 $listadatos[] = [
                     'ci_pac' => $paciente->ci,
                     'nombre_pac' =>$paciente->nombre,
                     'apellido_pac' => $paciente->apellido,
                     'fec_nac_pac' => $paciente->fecha_nacimiento,
                     'edad_pac' => $paciente->edad,
-                    'examen_id' => $respExamen->id
+                    'examen_id' => $existeResultado[0]->id,
                 ];
-                return response()->json($listadatos);  
+                return response()->json($listadatos);
             }
-        }else{ //no encontrado nro_examen
+        }
+        else{
             return 'no_encontrado';
         }
     }
 
     public function create()
     {
-       //
+      //
     }
 
     public function store(Request $request)
     {
-       // return response()->json($request);
+       
         if($request){
             $datos = ucfirst(strtolower($request->datos)); 
             $descripcion = ucfirst(strtolower($request->descripcion)); 
             $diag = ucfirst(strtolower($request->diag_clinico)); 
             $conclucion = ucfirst(strtolower($request->conclucion)); 
             $nota = ucfirst(strtolower($request->nota)); 
-
             $resultado = new ResultadoCitologia;
             $resultado->id_examen = $request->num_examen;
             $resultado->id_servicio = $request->servicio;
@@ -73,6 +72,11 @@ class ResultadoCitologiaController extends Controller
             $resultado->conclucion =  $request->conclucion;
             $resultado->nota =$nota; // $request->nota;
             $resultado->estado = 'TRUE';
+                $editExamen = $resultado->resultado_examenCito;
+                $editExamen->fecha_resultado = $request->fec_result;
+                $editExamen->result_estado = 'TRUE';
+                //return response()->json($resultado);
+                $editExamen->save();
             $resultado->save();
             return 'ok';
         }else{

@@ -17,4 +17,7 @@ class Resultado extends Model
     public function resultadoExamenes(){
         return $this->belongsTo(Examen::class, 'examen_id');
     }
+    public function examenDiagnostico(){
+        return $this->belongsTo(Diagnostico::class, 'diagnostico_id');
+    }
 }

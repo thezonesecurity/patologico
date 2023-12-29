@@ -8,7 +8,7 @@ class ExamenCitologia extends Model
 {
     protected $table = 'sispatologico.examencitologia';
 
-    protected $fillable = ['id','solicitud_id','num_examen','paciente_id','descripcion','estado',
+    protected $fillable = ['id','solicitud_id','num_examen','paciente_id','result_estado','descripcion','estado',
     'fecha_resultado','creatoruser_id','updateduser_id'];
     
     protected $dates = ['created_at','updated_at'];

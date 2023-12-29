@@ -16,11 +16,11 @@
             </div>
             <ul class="sub-menu">
                 <li><a class="link_name" href="#">Administrador</a></li>
-                <li><a href="#">Lista de Medicos</a></li>
-                <li><a href="#">Lista de Pacientes</a></li>
-                <li><a href="#">Lista de Municipios</a></li>
-                <li><a href="#">Lista de Establecimientos</a></li>
-                <li><a href="#">Lista Diagnostiscos</a></li>
+                <li><a href="{{route('listar.medicos.registrar')}}">LISTA MEDICOS</a></li>
+                <li><a href="#">LISTA PACIENTES</a></li>
+                <li><a href="#">LISTA MUNICIPIOS</a></li>
+                <li><a href="#">LISTA ESTABLECIMIENTOS</a></li>
+                <li><a href="#">LISTA DIAGNOSTICOS</a></li>
             </ul>
         </li>
         <li>
@@ -33,10 +33,8 @@
             </div>
             <ul class="sub-menu">
                 <li><a class="link_name" >Patologia</a></li>
-                <li><a href="{{route('SolicitudRural.index')}}">Registro solicitudes</a></li>
-                <li><a href="{{route('resultado_rural.resultadoR')}}">Registro resultados</a></li>
-                <li><a href="{{route('test')}}">pruebas</a></li>
-                <li><a href="#">Imprimir resultados</a></li>
+                <li><a href="{{route('SolicitudRural.index')}}">REGISTRO SOLICITUDES</a></li>
+                <li><a href="{{route('resultado_rural.resultadoR')}}">REGISTRO RESULTADOS</a></li>
             </ul>
         </li>
         <li>
@@ -49,9 +47,8 @@
             </div>
             <ul class="sub-menu">
                 <li><a class="link_name" href="#">Citologia</a></li>
-                <li><a href="{{route('SolicitudCitolgia.index')}}">Registro solicitudes</a></li>
-                <li><a href="{{route('ResultadoCitolgia.index')}}">Registro resultados</a></li>
-                <li><a href="#">Imprimir resultados</a></li>
+                <li><a href="{{route('SolicitudCitolgia.index')}}">REGISTRO SOLICITUDES</a></li>
+                <li><a href="{{route('ResultadoCitolgia.index')}}">REGISTRO RESULTADOS</a></li>
             </ul>
         </li>
         <li>
@@ -64,7 +61,7 @@
             </div>
             <ul class="sub-menu">
                 <li><a class="link_name" href="#">Reportes</a></li>
-                <li><a href="#">Imprimir resultados</a></li>
+                <li><a href="{{route('vista.reportes.index')}}">IMPRIMIR RESULTADOS</a></li>
             </ul>
         </li>
       

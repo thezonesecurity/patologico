@@ -37,89 +37,34 @@ class SolicitudRuralController extends Controller
         else{
              return response()->json('No existe');}
     }
-    public function getsolicitud()//pruebas
-    { 
-        $n_exmanem = 1;
-        $prefijo = 'U';
-        $listadatos = [];
-        $respExamen= Examen::where('num_examen', $n_exmanem)->where('estado', 'TRUE')->get(); 
-        foreach ($respExamen as $examen){
-            $respSolicitud = Solicitud::where('id', $examen->solicitud_id)->where('tipo_solicitud', $prefijo)->get();
-            if(isset($respSolicitud[0]->id) && isset($respExamen)){
-                //echo $respSolicitud;
-                $data = $respExamen[0]->examenPacientes;
-                //echo $data;
-                $listadatos[] = [
-                    'ci_pac' => $data->ci,
-                    'nombre_pac' =>$data->nombre,
-                    'apellido_pac' => $data->apellido,
-                    'fec_nac_pac' => $data->fecha_nacimiento,
-                    'edad_pac' => $data->edad,
-                    'examen_id' => $examen->id,
-                ];
-            }            
-        }
-        if(isset($listadatos)){
-            return response()->json($listadatos);
-        }else{
-            return response()->json('no_existe');
-        }
-        dd($listadatos);
-
-
-        /*$tipo_soli = 'R'; //'R'; //'U';
-        $nro_examen;
-        $variable = 0;
-        if($tipo_soli == 'U'){
-            $respSoli = Solicitud::where('tipo_solicitud', $tipo_soli)->where('estado','TRUE')->latest()->get();
-            if(isset($respSoli[0]->tipo_solicitud)){ // dd($respSoli[0]);
-                $respExamen = $respSoli[0]->solicitud_examenes->last(); //dd($respExamen);
-                $nro_examen = $respExamen->num_examen + 1; //dd($nro_examen);
-            }else{
-                $nro_examen = $variable + 1; //dd($nro_examen);
-            }
-        }else{
-            $respSoli = Solicitud::where('tipo_solicitud', $tipo_soli)->where('estado','TRUE')->latest()->get(); //dd($respSoli[0]->tipo_solicitud);
-             if(isset($respSoli[0]->tipo_solicitud)){ // dd($respSoli[0]);
-                 $respExamen = $respSoli[0]->solicitud_examenes->last(); // dd($respExamen);
-                 $nro_examen = $respExamen->num_examen + 1; //dd($nro_examen);
-             }else{
-                 $nro_examen = $variable + 1; //dd($nro_examen);
-             }
-        }
-        dd($nro_examen);*/
-    }
-
+   
     public function create()
     {
         //
     }
-
+   
     public function store(Request $request)
     {
         $nro_examen = 0;
         $variable = 0;
         $listadatos = [];
         $id_user = auth()->user()->id;
-        if($request->tipo_soli === 'U'){ //obtine el ultimo nro de examen
-            $respSoli = Solicitud::where('tipo_solicitud', $request->tipo_soli)->where('estado','TRUE')->latest()->get();
-            if(isset($respSoli[0]->tipo_solicitud)){ // dd($respSoli[0]);
-                $respExamen = $respSoli[0]->solicitud_examenes->last(); //dd($respExamen);
-                $nro_examen = $respExamen->num_examen + 1; //dd($nro_examen);
-            }else{
-                $nro_examen = $variable + 1; //dd($nro_examen);
-            }
-          
-        }else{
-            $respSoli = Solicitud::where('tipo_solicitud', $request->tipo_soli)->where('estado','TRUE')->latest()->get(); //dd($respSoli[0]->tipo_solicitud);
-             if(isset($respSoli[0]->tipo_solicitud)){ // dd($respSoli[0]);
-                 $respExamen = $respSoli[0]->solicitud_examenes->last(); // dd($respExamen);
-                 $nro_examen = $respExamen->num_examen + 1; //dd($nro_examen);
-             }else{
-                 $nro_examen = $variable + 1; //dd($nro_examen);
-             }
-        }
 
+        $tipo = $request->tipo_soli;
+        $resultExamen=Examen::query();
+        if($tipo == 'U'){
+            $resultado=$resultExamen->whereHas('examen_solicitudes',function($query) use($tipo){
+                return $query->where('tipo_solicitud', $tipo);
+            })->latest('id')->first();
+            if(isset($resultado->num_examen)){ $nro_examen = $resultado->num_examen + 1; }
+            else{ $nro_examen = $variable + 1; }
+        }else{
+            $resultado=$resultExamen->whereHas('examen_solicitudes',function($query) use($tipo){
+                return $query->where('tipo_solicitud', $tipo);
+            })->latest('id')->first();
+            if(isset($resultado->num_examen)){ $nro_examen = $resultado->num_examen + 1; }
+            else{  $nro_examen = $variable + 1;  }
+        }
         $lastSolicitud = Solicitud::latest()->first(); //obtine ultimo nro de solicitud
         if(isset($lastSolicitud)){
             $numero_soli = $lastSolicitud->num_solicitud + 1 ; // verificamos si exite el ultimo nro de solictud si existe +1 pero sino toma el valor d 1
@@ -135,6 +80,7 @@ class SolicitudRuralController extends Controller
             $solicitud->creatoruser_id = $id_user;
             $solicitud->updateduser_id = $id_user;
             $solicitud->estado = 'TRUE';
+            
             $solicitud->save();
             $pos=0;
             foreach($request->id_paciente as $paciente_id) {
@@ -146,7 +92,8 @@ class SolicitudRuralController extends Controller
                 $newExamenR->creatoruser_id = $id_user;
                 $newExamenR->updateduser_id = $id_user;
                 $newExamenR->num_examen = $nro_examen;
-                 $newExamenR->save();
+                $newExamenR->resultado_estado = 'FALSE';
+                $newExamenR->save();
                 if($request->tipo_soli === 'U'){ $exemen_nro = $nro_examen.'-U';}
                 else{  $exemen_nro = $nro_examen.'-R'; }
                 $listadatos[] = [
@@ -172,14 +119,12 @@ class SolicitudRuralController extends Controller
 
     public function edit($id)
     {
-        //
+        
     }
 
     public function update(Request $request, $id)
     {
         //
-        
-         
     }
 
     public function destroy($id)

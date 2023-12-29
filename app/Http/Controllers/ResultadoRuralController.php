@@ -14,33 +14,47 @@ class ResultadoRuralController extends Controller
     
     public function index()
     {
-        //
-        return view('SolicitudRural.ResultadoR'); //->with(compact('municipios')); 
+        return view('SolicitudRural.ResultadoR'); 
     }
 
     public function getExamenesR(Request $request)
     {
-        //return response()->json($listadatos);
-        $prefijo = substr($request->prefijo, 1);// Quitar el guion y obtiene solo la letra
-        $respExamen= Examen::where('num_examen', request()->input('nro_examen') )->where('estado', 'TRUE')->get(); 
-        foreach ($respExamen as $examen){
-            $respSolicitud = Solicitud::where('id', $examen->solicitud_id)->where('tipo_solicitud', $prefijo)->get(); //request()->input('prefijo')
-            if(isset($respSolicitud[0]->id) && isset($respExamen)){
-                $data = $respExamen[0]->examenPacientes;
+        $nro_examen = request()->input('nro_examen'); 
+        $prefijo = substr($request->prefijo, 1); 
+        $listadatos = [];
+       
+        $resultado=Examen::query();
+        $exiteExamen=$resultado->whereHas('examen_solicitudes',function($query) use($prefijo){
+            return $query->where('tipo_solicitud', $prefijo);
+        })->where('num_examen', $nro_examen)->get();
+        if(count($exiteExamen) > 0){
+            $existeResultado=$resultado->whereHas('examenesResultados',function($query) use($nro_examen){
+                return $query->where('num_examen', $nro_examen);
+            });
+            $existeResultado=$existeResultado->whereHas('examen_solicitudes',function($query) use($prefijo){
+                return $query->where('tipo_solicitud', $prefijo);
+            })->get();
+
+            if(count($existeResultado) > 0){
+                return 'ya_registrado'; 
+            }else{
+                $data = Examen::whereHas('examen_solicitudes',function($query) use($prefijo){
+                    return $query->where('tipo_solicitud', $prefijo);
+                })->where('num_examen', $nro_examen)->where('fecha_resultado', )->get();
+                $paciente = $data[0]->examenPacientes;
                 $listadatos[] = [
-                    'ci_pac' => $data->ci,
-                    'nombre_pac' =>$data->nombre,
-                    'apellido_pac' => $data->apellido,
-                    'fec_nac_pac' => $data->fecha_nacimiento,
-                    'edad_pac' => $data->edad,
-                    'examen_id' => $examen->id,
+                    'ci_pac' => $paciente->ci,
+                    'nombre_pac' =>$paciente->nombre,
+                    'apellido_pac' => $paciente->apellido,
+                    'fec_nac_pac' => $paciente->fecha_nacimiento,
+                    'edad_pac' => $paciente->edad,
+                    'examen_id' => $data[0]->id,
                 ];
-            }            
+                return response()->json($listadatos);  
+            }
         }
-        if(isset($listadatos)){
-            return response()->json($listadatos);
-        }else{
-            return response()->json('No existe');
+        else{
+            return 'no_encontrado';
         }
     }
     public function getDiagnosticosR(Request $request)
@@ -53,14 +67,15 @@ class ResultadoRuralController extends Controller
         else{
              return response()->json('No existe');}
     }
-    public function create()//
+    public function create()//temp
     {
-        ///
+       //
     }
 
     public function store(Request $request)
     {
         //
+       
         if(isset($request->codig_diag)){
             $pos=0;
             foreach ($request->codig_diag as $codigo_diagnostico) {
@@ -68,9 +83,10 @@ class ResultadoRuralController extends Controller
                 $newResult->examen_id = $request->id_examen; 
                 $newResult->diagnostico_id = $request->codig_diag[$pos];
                 $newResult->fecha_resultado = $request->fec_result;
-                $editExamen = $newResult->resultadoExamenes;
-                $editExamen->fecha_resultado = $request->fec_result;
-                $editExamen->save();
+                    $editExamen = $newResult->resultadoExamenes;
+                    $editExamen->fecha_resultado = $request->fec_result;
+                    $editExamen->resultado_estado = 'TRUE';
+                    $editExamen->save();
                 $newResult->estado = 'TRUE';
                 $newResult->creatoruser_id = auth()->user()->id;
                 $newResult->updateduser_id = auth()->user()->id;

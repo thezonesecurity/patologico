@@ -8,7 +8,7 @@ class Examen extends Model
 {
     protected $table = 'sispatologico.examenes';
 
-    protected $fillable = ['id','solicitud_id','num_examen','paciente_id','descripcion','estado','ci','fecha_resultado','creatoruser_id','updateduser_id'];
+    protected $fillable = ['id','solicitud_id','num_examen','paciente_id','descripcion','estado','ci','fecha_resultado','resultado_estado','creatoruser_id','updateduser_id'];
     
     protected $dates = ['created_at','updated_at'];
     

@@ -5,9 +5,12 @@ function ClearformParcialR(){
 }
 
 $(document).ready(function() {
+ 
     //PROCESO PARA LIMPIAR EL FORMULARIO de resultado
     $('#limpiarResultR').click(function() {//para limpiar el formulario  cuando cancelas
+        var temp = $('#prefijo').val();
         $('#form_reg_ResultadoR')[0].reset(); 
+        $('#prefijo').val(temp);
         $(".controlExamen").removeClass('is-invalid');
         $('#validacionExamen').text('Nro de examen no existe, registrelo !!!').removeClass('text-danger').hide();
         $(".controlDiagnostico").removeClass('is-invalid');
