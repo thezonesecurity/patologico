@@ -21,30 +21,40 @@ class MedicoController extends Controller
     }
 
     public function store(Request $request)
-    {
-        //['id','ci','nombre','apellido','fecha_nacimiento','edad','direccion','especialidad','matricula_profesional','sexo','email','num_celular','descripcion','estado','creatoruser_id','updateduser_id'];
-      //  dd($request);
-        $nombre = ucfirst(strtolower($request->nombre_med)); //esto elimina espacios innesesarios y la 1ra letra en mayuscula
-        $apellido = ucfirst(strtolower($request->apellido_med));
-        $direccion = ucfirst(strtolower($request->dir_med));
-        $especialidad = ucfirst(strtolower($request->espe_med));
+    { //  dd($request);
+        $validatedData = $request->validate([
+            'fec_med' => ['required'],
+            'email_med' => ['required'],
+            'nombre_med' => ['required', 'regex:/^[a-zA-ZÑñ ]{3,50}$/'],//
+            'apellido_med' =>['required', 'regex:/^[a-zA-ZÑñ ]{3,50}$/'],//
+            'dir_med' =>  ['required', 'regex:/^[a-zA-ZÑñ0-9- ]{5,20}$/'],//
+            'cedula_med' => ['required', 'regex:/^[a-zA-ZÑñ0-9- ]{5,20}$/'],//
+            'celular_med' => ['required', 'regex:/^[0-9- ]{8,12}$/'],
+            'matricula_med' =>  ['required', 'regex:/^[a-zA-ZÑñ0-9- ]{5,20}$/'],//
+            'espe_med' => ['required', 'regex:/^[a-zA-ZÑñ ]{3,50}$/'],//           
+        ]);
 
-        $fechaNacimiento = Carbon::parse($request->fec_med);
+        $nombre = ucfirst(strtolower($validatedData['nombre_med']));//$request->nombre_med  //esto elimina espacios innesesarios y la 1ra letra en mayuscula
+        $apellido = ucfirst(strtolower($validatedData['apellido_med'])); //$request->apellido_med
+        $direccion = ucfirst(strtolower($validatedData['dir_med'])); //$request->dir_med
+        $especialidad = ucfirst(strtolower($validatedData['espe_med'])); //$request->espe_med
+
+        $fechaNacimiento = Carbon::parse($validatedData['fec_med']); //$request->fec_med
         $edad = $fechaNacimiento->age; //se obtiene la edad a partir d la fecha d nacimiento
 
         $id_user = auth()->user()->id;
         $medico = new Medicos();
         $medico->nombre = $nombre;
         $medico->apellido = $apellido;
-        $medico->ci = $request->cedula_med;
-        $medico->fecha_nacimiento = $request->fec_med;
+        $medico->ci = $validatedData['cedula_med']; // $request->cedula_med;
+        $medico->fecha_nacimiento = $validatedData['fec_med']; // $request->fec_med;
         $medico->edad = $edad;
         $medico->sexo = $request->sexo_med;
         $medico->direccion = $direccion;
-        $medico->num_celular = $request->celular_med;
-        $medico->matricula_profesional = $request->matricula_med;
+        $medico->num_celular = $validatedData['celular_med']; //$request->celular_med;
+        $medico->matricula_profesional = $validatedData['matricula_med'];  //$request->matricula_med;
         $medico->especialidad = $especialidad;
-        $medico->email = $request->email_med;
+        $medico->email = $validatedData['email_med']; //$request->email_med;
         $medico->estado = 'TRUE';
         $medico->creatoruser_id = $id_user;
         $medico->updateduser_id = $id_user;

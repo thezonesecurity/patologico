@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Examen;
 use App\Models\ExamenCitologia;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 class ReportesController extends Controller
 {
@@ -24,7 +25,7 @@ class ReportesController extends Controller
             $resultado=Examen::query();
             $resultado=$resultado->whereHas('examen_solicitudes',function($query) use($tipo){
                 return $query->where('tipo_solicitud', $tipo);
-            })->where('fecha_resultado', $fecha)->get();
+            })->where('fecha_resultado', $fecha)->where('resultado_estado','TRUE')->get();
            $pdf = Pdf::loadView('Reportes.pdf', compact('resultado'));
            return $pdf->stream();
        }else{
@@ -32,17 +33,29 @@ class ReportesController extends Controller
             $resultado=$resultado->whereHas('examenesResultadoCito',function($query) use($fecha){
                 return $query->where('fecha_resultado', $fecha);
             })->where('fecha_resultado', $fecha)->where('result_estado','TRUE')->get();
-            dd($resultado);
-            return view('Reportes.pdfCitologia')->with(compact('resultado')); 
-           // $pdf = Pdf::loadView('Reportes.pdf', compact('resultado'));
-            //return $pdf->stream();
+ 
+            //return view('Reportes.pdfCitologia')->with(compact('resultado')); 
+            $pdf = Pdf::loadView('Reportes.pdfCitologia', compact('resultado'));
+            return $pdf->stream();
        }
      
     }
     
 }
 
+/*
+ 
+            ->join('sistemaventas.diagnosticos as CA', 'CA.id', '=', 'C.categoria_id')
 
+ $query11 = DB::table('sistemaventas.productos as P1')
+                ->select('CA.caracteristica_id')
+                ->join('sistemaventas.categoria_producto as C', 'P1.id', '=', 'C.producto_id')
+                ->join('sistemaventas.categorias as CA', 'CA.id', '=', 'C.categoria_id')
+                ->where('P1.estado','Habilitado')
+                ->get();
+
+        dd($query11);
+ */
 
 
 

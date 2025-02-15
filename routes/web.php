@@ -47,6 +47,9 @@ Route::group(['middleware' => 'auth'], function(){
 
 });
 Route::group(['middleware' => 'auth'], function(){
+    //pacientes
+    Route::resource('/pacientes', PacienteRuralController::class)->names('pacientes');
+
     //solicitud citologia
     Route::resource('/solicitud_citologia', SolicitudCitologiaController::class)->names('SolicitudCitolgia');
 

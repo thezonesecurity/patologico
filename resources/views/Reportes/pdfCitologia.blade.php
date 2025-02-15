@@ -131,7 +131,7 @@
 </head>
 <body>
     @foreach($resultado as $examenes)
-
+       
     <table style="width: 100%; border-top: 2px solid black;">
         <tr >
             <th rowspan="3"  style="float: center"><img src="{{asset("assets/img/hdb.jpg")}}" width="110px" height="90px"></th>      
@@ -195,17 +195,39 @@
                     </tr>            
                 </thead>
                 <tbody>
-                    <?php $resultados=App\Models\ResultadoCitologia::where('id_examen',$examenes->id)->get(); ?>
-                    @foreach($resultados as $resultado)
+                    <?php  $resultadoExamenes=App\Models\Examen::where('paciente_id',$examenes->paciente_id)->get();  ?>
+                   
+                    @if (count($resultadoExamenes) > 0)
+                        <?php  
+                                $diagnosticos = DB::table('sispatologico.resultados as R')
+                                ->select( 'D.id','D.codigo_diagnostico','D.descripcion_diagnostico') // 'R.id','R.examen_id','R.diagnostico_id','R.fecha_resultado')
+                                ->join('sispatologico.diagnosticos as D', 'D.id', '=', 'R.diagnostico_id')
+                                ->where('R.examen_id', '=', $resultadoExamenes[0]->num_examen)
+                                ->where('R.estado','TRUE')
+                                ->get();
+                        ?>
+                        @foreach($diagnosticos as $item)
+                            <tr >
+                                <td class="min-width" style="text-align: center; font-size: 12px; vertical-align: middle; height: 10px;">
+                                    <p>{{$item->codigo_diagnostico}}</p>
+                                </td>
+                                <td class="min-width" style="font-size: 12px; vertical-align: middle; height: 10px;">
+                                    <p>{{$item->descripcion_diagnostico}}</p>
+                                </td>
+                            </tr>
+                        @endforeach   
+                    @else
                         <tr >
                             <td class="min-width" style="text-align: center; font-size: 12px; vertical-align: middle; height: 10px;">
-                                <p>{{$resultado->examenDiagnostico->codigo_diagnostico}}</p>
+                                <p>No existe</p>
                             </td>
                             <td class="min-width" style="font-size: 12px; vertical-align: middle; height: 10px;">
-                                <p>{{$resultado->examenDiagnostico->descripcion_diagnostico}}</p>
+                                <p>No existe</p>
                             </td>
                         </tr>
-                    @endforeach              
+                    @endif
+
+                              
                 </tbody>
             </table><br><br><br><br>
         <table>
@@ -219,3 +241,24 @@
 </body>
 
 </html>
+{{--
+< ?php  $resultadoExamenes=App\Models\Examen::where('paciente_id',$examenes->paciente_id)->get(); 
+$diagnosticos = DB::table('sispatologico.resultados as R')
+->select( 'D.id','D.codigo_diagnostico','D.descripcion_diagnostico') // 'R.id','R.examen_id','R.diagnostico_id','R.fecha_resultado')
+->join('sispatologico.diagnosticos as D', 'D.id', '=', 'R.diagnostico_id')
+->where('R.examen_id', '=', $resultadoExamenes[0]->num_examen)
+->where('R.estado','TRUE')
+->get();
+?>
+{{ --dd($resultadoExamenes->examenesResultados)-- }}
+@foreach($diagnosticos as $item)
+<tr >
+<td class="min-width" style="text-align: center; font-size: 12px; vertical-align: middle; height: 10px;">
+    <p>{{$item->codigo_diagnostico}}</p>
+</td>
+<td class="min-width" style="font-size: 12px; vertical-align: middle; height: 10px;">
+    <p>{{$item->descripcion_diagnostico}}</p>
+</td>
+</tr>
+@endforeach   
+--}}

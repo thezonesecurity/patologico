@@ -19,5 +19,8 @@ class Paciente extends Model
     public function pacienteExamenes(){
         return $this->hasOne(Examen::class, 'paciente_id');
     }
+    public function paciente_examen_cito(){
+        return $this->hasOne(ExamenCitologia::class, 'paciente_id');
+    }
 }
  

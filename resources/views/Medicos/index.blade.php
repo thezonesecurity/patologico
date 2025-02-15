@@ -4,7 +4,12 @@
 @stop
 
 @section('styles')
-
+{{ Html::style( asset('assets/librerias/datatables/dataTables.bootstrap4.min.css') )}}
+<style>
+    .error {
+    color: red;
+  }
+</style>
 @stop
 
 
@@ -143,7 +148,9 @@ $(document).ready(function() {
        
 });
 </script>
+
 <script type="text/javascript" src="{{ asset('assets/librerias/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset("assets/librerias/datatables/dataTables.bootstrap4.min.js")}}" type="text/javascript"></script> 
 <script>
     $(document).ready(function () {
        var table =  $('#listaMedicos').DataTable({

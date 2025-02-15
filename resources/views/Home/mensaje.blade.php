@@ -35,7 +35,7 @@
    </div>
 </div>
 @endif
-
+{{--
 @if(count($errors) > 0)
     <div class="errors alert alert-danger alert-dismissible temp1" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
@@ -49,5 +49,5 @@
         </div>
     </div>
 @endif
-
+--}}
 

@@ -17,7 +17,7 @@
             <ul class="sub-menu">
                 <li><a class="link_name" href="#">Administrador</a></li>
                 <li><a href="{{route('listar.medicos.registrar')}}">LISTA MEDICOS</a></li>
-                <li><a href="#">LISTA PACIENTES</a></li>
+                <li><a href="{{route('pacientes.index')}}">LISTA PACIENTES</a></li>
                 <li><a href="#">LISTA MUNICIPIOS</a></li>
                 <li><a href="#">LISTA ESTABLECIMIENTOS</a></li>
                 <li><a href="#">LISTA DIAGNOSTICOS</a></li>
