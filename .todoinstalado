@@ -2,3 +2,46 @@ comandos ejecutados
  - composer require laravel/ui
  - composer require nesbot/carbon 
 
+ 
+/**
+    $validatedData = $request->validate([
+            'fec_med' => ['required'],
+            'email_med' => ['required'],
+            'nombre_med' => ['required', 'regex:/^[a-zA-ZÑñ ]{3,50}$/'],//
+            'apellido_med' =>['required', 'regex:/^[a-zA-ZÑñ ]{3,50}$/'],//
+            'dir_med' =>  ['required', 'regex:/^[a-zA-ZÑñ0-9- ]{5,20}$/'],//
+            'cedula_med' => ['required', 'regex:/^[a-zA-ZÑñ0-9- ]{5,20}$/'],//
+            'celular_med' => ['required', 'regex:/^[0-9- ]{8,12}$/'],
+            'matricula_med' =>  ['required', 'regex:/^[a-zA-ZÑñ0-9- ]{5,20}$/'],//
+            'espe_med' => ['required', 'regex:/^[a-zA-ZÑñ ]{3,50}$/'],//           
+        ]);
+
+        $nombre = ucfirst(strtolower($validatedData['nombre_med']));//$request->nombre_med  //esto elimina espacios innesesarios y la 1ra letra en mayuscula
+        $apellido = ucfirst(strtolower($validatedData['apellido_med'])); //$request->apellido_med
+        $direccion = ucfirst(strtolower($validatedData['dir_med'])); //$request->dir_med
+        $especialidad = ucfirst(strtolower($validatedData['espe_med'])); //$request->espe_med
+
+        $fechaNacimiento = Carbon::parse($validatedData['fec_med']); //$request->fec_med
+        $edad = $fechaNacimiento->age; //se obtiene la edad a partir d la fecha d nacimiento
+
+        $id_user = auth()->user()->id;
+        $medico = new Medicos();
+        $medico->nombre = $nombre;
+        $medico->apellido = $apellido;
+        $medico->ci = $validatedData['cedula_med']; // $request->cedula_med;
+        $medico->fecha_nacimiento = $validatedData['fec_med']; // $request->fec_med;
+        $medico->edad = $edad;
+        $medico->sexo = $request->sexo_med;
+        $medico->direccion = $direccion;
+        $medico->num_celular = $validatedData['celular_med']; //$request->celular_med;
+        $medico->matricula_profesional = $validatedData['matricula_med'];  //$request->matricula_med;
+        $medico->especialidad = $especialidad;
+        $medico->email = $validatedData['email_med']; //$request->email_med;
+        $medico->estado = 'TRUE';
+        $medico->creatoruser_id = $id_user;
+        $medico->updateduser_id = $id_user;
+        //$medico->save();
+        return redirect(route('listar.medicos.registrar'))->with('success', 'El medico se registro correctamente');
+
+
+

@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMedicoRequest;
+use App\Http\Requests\UpdateMedicoRequest;
 use Illuminate\Http\Request;
 use App\Models\Medicos;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 class MedicoController extends Controller
 {
 
     public function index()
     {
-        $medicos = Medicos::get();
-        return view('Medicos.index')->with(compact('medicos')); 
+        $medicos = Medicos::orderBy('id')->get();
+        return view('medicos.index', compact('medicos'));
     }
 
     public function create()
@@ -20,47 +24,40 @@ class MedicoController extends Controller
         //
     }
 
-    public function store(Request $request)
-    { //  dd($request);
-        $validatedData = $request->validate([
-            'fec_med' => ['required'],
-            'email_med' => ['required'],
-            'nombre_med' => ['required', 'regex:/^[a-zA-ZÑñ ]{3,50}$/'],//
-            'apellido_med' =>['required', 'regex:/^[a-zA-ZÑñ ]{3,50}$/'],//
-            'dir_med' =>  ['required', 'regex:/^[a-zA-ZÑñ0-9- ]{5,20}$/'],//
-            'cedula_med' => ['required', 'regex:/^[a-zA-ZÑñ0-9- ]{5,20}$/'],//
-            'celular_med' => ['required', 'regex:/^[0-9- ]{8,12}$/'],
-            'matricula_med' =>  ['required', 'regex:/^[a-zA-ZÑñ0-9- ]{5,20}$/'],//
-            'espe_med' => ['required', 'regex:/^[a-zA-ZÑñ ]{3,50}$/'],//           
-        ]);
+    public function store(StoreMedicoRequest $request) //Request $request) //
+    { 
+       // dd($request);
+       $apellido = ucfirst(strtolower($request->apellido));
+        try{
+            DB::beginTransaction();
+            $id_user = auth()->user()->id;
+            $persona = new Medicos(); //llenado a la tabla Productos
+            $persona->fill([
+                'nombre' => $request->nombre,
+                'apellido' => $request->apellido,
+                'ci' => $request->ci,
+                'fecha_nacimiento' => $request->fecha_nacimiento,
+                'edad' => $request->edad,
+                'direccion' => $request->direccion,
+                'num_celular' => $request->num_celular,
+                'email' => $request->email,
+                'especialidad' => $request->especialidad,
+                'matricula_profesional' => $request->matricula_profesional,
+                'sexo' => $request->sexo,
+                'descripcion' => $request->descripcion,
+                'estado' => 'TRUE',
+                'creatoruser_id' =>$id_user,
+                'updateduser_id' => $id_user
+            ]);
+             $persona->save();
+            //dd($persona);
+            DB::commit();
+        }catch(Exception $e){
+            dd($e);
+            DB::rollBack();
+        }
+        return redirect()->route('medicos.index')->with('success','Medico registrado');
 
-        $nombre = ucfirst(strtolower($validatedData['nombre_med']));//$request->nombre_med  //esto elimina espacios innesesarios y la 1ra letra en mayuscula
-        $apellido = ucfirst(strtolower($validatedData['apellido_med'])); //$request->apellido_med
-        $direccion = ucfirst(strtolower($validatedData['dir_med'])); //$request->dir_med
-        $especialidad = ucfirst(strtolower($validatedData['espe_med'])); //$request->espe_med
-
-        $fechaNacimiento = Carbon::parse($validatedData['fec_med']); //$request->fec_med
-        $edad = $fechaNacimiento->age; //se obtiene la edad a partir d la fecha d nacimiento
-
-        $id_user = auth()->user()->id;
-        $medico = new Medicos();
-        $medico->nombre = $nombre;
-        $medico->apellido = $apellido;
-        $medico->ci = $validatedData['cedula_med']; // $request->cedula_med;
-        $medico->fecha_nacimiento = $validatedData['fec_med']; // $request->fec_med;
-        $medico->edad = $edad;
-        $medico->sexo = $request->sexo_med;
-        $medico->direccion = $direccion;
-        $medico->num_celular = $validatedData['celular_med']; //$request->celular_med;
-        $medico->matricula_profesional = $validatedData['matricula_med'];  //$request->matricula_med;
-        $medico->especialidad = $especialidad;
-        $medico->email = $validatedData['email_med']; //$request->email_med;
-        $medico->estado = 'TRUE';
-        $medico->creatoruser_id = $id_user;
-        $medico->updateduser_id = $id_user;
-        $medico->save();
-        return redirect(route('listar.medicos.registrar'))->with('success', 'El medico se registro correctamente');
-        // 
     }
 
     public function show($id)
@@ -68,21 +65,67 @@ class MedicoController extends Controller
         //
     }
 
-    public function edit($id)
+    public function edit(Medicos $medico) //$id
     {
-        //
+        return view('medicos.edit', compact('medico'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateMedicoRequest $request, Medicos $medico) //Request $request, $id)
     {
-        //
+          //  dd($request);
+          try{
+            DB::beginTransaction();
+            $id_user = auth()->user()->id;
+            $medico->fill([
+                'nombre' => $request->nombre,
+                'apellido' => $request->apellido,
+                'ci' => $request->ci,
+                'fecha_nacimiento' => $request->fecha_nacimiento,
+                'edad' => $request->edad,
+                'direccion' => $request->direccion,
+                'num_celular' => $request->num_celular,
+                'email' => $request->email,
+                'especialidad' => $request->especialidad,
+                'matricula_profesional' => $request->matricula_profesional,
+                'sexo' => $request->sexo,
+                'descripcion' => $request->descripcion,
+                'estado' => 'TRUE',
+                'updateduser_id' => $id_user
+            ]);
+             $medico->save();
+             
+           // dd($persona);
+            DB::commit();
+        }catch(Exception $e){
+            dd($e);
+            DB::rollBack();
+        }
+        return redirect()->route('medicos.index')->with('success','Medico actualizado');
     }
 
     public function destroy($id)
     {
-        //
+         //dd($id);
+         $mensaje = '';
+         $medico = Medicos::find($id);
+         
+         if($medico->estado == 'TRUE'){
+             Medicos::where('id',$medico->id)
+             ->update([
+                'estado' => 'FALSE'
+             ]);
+             $mensaje = 'Medico eliminado';
+         }else{
+             Medicos::where('id',$medico->id)
+             ->update([
+                'estado' => 'TRUE'
+             ]);
+             $mensaje = 'Medico restaurado';
+         }
+        
+          return redirect()->route('medicos.index')->with('success', $mensaje);
     }
-    public function deshabilitar(Request $request)
+    public function deshabilitar(Request $request) //NO USADO
     {
         $id_user = auth()->user()->id;
         $id = $request->id;
@@ -100,3 +143,4 @@ class MedicoController extends Controller
         } 
     }
 }
+
