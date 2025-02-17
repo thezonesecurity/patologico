@@ -16,9 +16,9 @@ class Establecimiento extends Model
     
     protected $primaryKey = 'id';
 
-    /*public function municipio_esta(){
-        return $this->belongsTo(Municipio::class, 'municipio_id','id');
-    }*/
+    public function municipio_esta(){
+        return $this->belongsTo(Municipio::class, 'municipio_id');
+    }
 
     public function establecimiento_solicitudes(){
         return $this->hasMany(\App\Models\Solicitud::class, 'establecimiento_id');

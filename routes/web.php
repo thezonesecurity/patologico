@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DiagnosticoController;
+use App\Http\Controllers\EstablecimientoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
@@ -10,6 +12,7 @@ use App\Http\Controllers\SolicitudCitologiaController;
 use App\Http\Controllers\ResultadoCitologiaController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\MedicoController;
+use App\Http\Controllers\MunicipioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,10 +69,10 @@ Route::group(['middleware' => 'auth'], function(){
 Route::group(['middleware' => 'auth'], function(){
     //medicos
     Route::resource('/medicos', MedicoController::class)->names('medicos');
-
-    /* Route::get('/listar/medicos/registrados', [MedicoController::class, 'index'])->name('listar.medicos.registrar');
-    Route::get('/crear/medico', [MedicoController::class, 'create'])->name('crear.medico');
-    Route::post('/registrar/medico/', [MedicoController::class, 'store'])->name('registrar.medico');
-    Route::post('/actualizar/medico', [MedicoController::class, 'update'])->name('editarsave.medico');
-    Route::post('/medico/Inahabilitado/Habilitado', [MedicoController::class, 'deshabilitar'])->name('inhabilitar.medico');*/
+    //municipios
+    Route::resource('/municipios', MunicipioController::class)->names('municipios');
+     //establecimientos
+    Route::resource('/establecimientos', EstablecimientoController::class)->names('establecimientos');
+     //diagnosticos
+     Route::resource('/diagnosticos', DiagnosticoController::class)->names('diagnosticos');
 });
