@@ -13,6 +13,7 @@ use App\Http\Controllers\ResultadoCitologiaController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\MunicipioController;
+use App\Http\Controllers\ReportesOldController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +65,10 @@ Route::group(['middleware' => 'auth'], function(){
      //reportes
      Route::get('/listar/reportes', [ReportesController::class, 'index'])->name('vista.reportes.index');
      Route::post('/generar/reportes', [ReportesController::class, 'print'])->name('generar.reportes.index');
+     Route::post('/generar/reportes/lista', [ReportesController::class, 'templist'])->name('lista.reportes.index');
+     Route::post('/eliminar/solicitud', [ReportesController::class, 'deleteSolicitud'])->name('solicitud.delete');
+     Route::post('/eliminar/resultado', [ReportesController::class, 'deleteResultado'])->name('resultado.delete');
+     Route::post('/lista', [ReportesController::class, 'list'])->name('lista'); //pruebas
 
 });
 Route::group(['middleware' => 'auth'], function(){
@@ -75,4 +80,6 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('/establecimientos', EstablecimientoController::class)->names('establecimientos');
      //diagnosticos
      Route::resource('/diagnosticos', DiagnosticoController::class)->names('diagnosticos');
+      //reportes antiguos
+      Route::get('/listar/reportes/antiguos', [ReportesOldController::class, 'index'])->name('reportes.old.index');
 });

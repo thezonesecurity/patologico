@@ -292,15 +292,10 @@
             var municipio_id = $('#p_municipio').val();
             var establecimiento = $('#p_establecimiento :selected').text();
             var establecimiento_id = $('#p_establecimiento').val();
-
-           var ci_paciente = $('#p_ci').val();
-           var nombre_pac = $('#p_nombre_paciente').val();
-           var id_paciente = $('#p_id_paciente').val();
-           var apellido_pac = $('#p_apellido_paciente').val();
-           var fec_nac_pac = $('#p_fecha_nac').val();
+ 
           
             if (fec_solicitud == '') {
-                notificaciones("Ingrese fecha de solicitud !!", "ERROR DE FORMULARIO", 'error');
+                notificaciones("Ingrese fecha de solicitud !!", "ERROR DE FORMULARIO", 'error');  
                 return false;
             } 
            if (municipio == 'Selecione una opcion') {

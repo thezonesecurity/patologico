@@ -86,6 +86,8 @@ class ResultadoRuralController extends Controller
                     $editExamen = $newResult->resultadoExamenes;
                     $editExamen->fecha_resultado = $request->fec_result;
                     $editExamen->resultado_estado = 'TRUE';
+                    $editExamen->resultado_user = auth()->user()->id; // add
+                    $editExamen->updateduser_id = auth()->user()->id; // add
                     $editExamen->save();
                 $newResult->estado = 'TRUE';
                 $newResult->creatoruser_id = auth()->user()->id;

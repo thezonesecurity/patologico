@@ -10,7 +10,6 @@
     color: red;
   }
   textarea {
-    /* Asegúrate de que no haya estilos que afecten el cursor */
     padding: 0;
     margin: 0;
 }
@@ -19,8 +18,225 @@
 
 
 @section('contenido')  
+
+<div class="row table-responsive d-flex justify-content-center border border-danger" style="font-size: 14px;">
+  <form action="" method="post" class="border border-info" id="form_medico" autocomplete="off">  
+  <div class="col-md-5 col-sm-4 mt-2">
+
+      {{--<form action="" method="post" class="border border-info" id="form_medico" autocomplete="off">--}}  
+         
+          @csrf
+          <h5 class="box-title text-center font-weight-bold mt-1">Registrar nuevo medico</h5>
+          <div class="form-row mt-1">
+              <div class="form-group col-md-5 col-sm-5 ml-3">
+                <label  for="inlinenum_examen">Nro. examen</label>
+                <label  for="inline_prefijo" class="text-right" >Prefijo</label>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="bi bi-sort-numeric-down"  style="font-size: 1.3rem; color: rgb(0, 0, 0);"></i></div>
+                  </div>
+                  <input type="number" class="form-control controlExamenC examen" id="num_examen" name="num_examen" >
+                  <div class="input-group-append">
+                    <span class="input-group-text">-C</span>
+                  </div>
+                </div>
+                <small id="PvalidacionExamen" class="form-text"></small> 
+              </div>
+              <div class="form-group col-md-6 col-sm-6 ml-1" >
+                <label  for="inline-fec_result">Fecha Resultado</label>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend"> 
+                    <div class="input-group-text"><i class="bi bi-calendar-date"  style="font-size: 1.3rem; color: rgb(0, 0, 0);"></i></div>
+                  </div>
+                  <input type="date" class="form-control" id="fec_result" name="fec_result" value="<?php echo date('Y-m-d'); ?>">
+                </div>
+              </div>
+              <div class="form-group col-md-4 col-sm-4 ml-3">
+                <label  for="inline_nombres">Nombres</label>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="bi bi-person-lock"  style="font-size: 1.3rem; color: rgb(0, 0, 0);"></i></div>
+                  </div>
+                  <input type="text" class="form-control" id="nombre_pac" name="nombre_pac" readonly>
+                </div>
+              </div>
+              <div class="form-group col-md-7 col-sm-7 ml-1">
+                <label  for="inlineapellidos">Apellidos</label>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="bi bi-person-lock"  style="font-size: 1.3rem; color: rgb(0, 0, 0);"></i></div>
+                  </div>
+                  <input type="text" class="form-control" id="apellido_pac" name="apellido_pac"  readonly>
+                </div>
+              </div>
+              <div class="form-group col-md-2 col-sm-2 ml-3">
+                  <label class="font-weight-bold">Edad</label>
+                  <input type="text" class="form-control" name="edad" id="edad"  value="{{old('edad')}}">
+                  @error('edad')
+                      <small class="text-danger">{{'* '.$message}}</small>
+                  @enderror
+              </div>
+              <div class="form-group col-md-9 col-sm-9 ml-1">
+                  <label  class="font-weight-bold ml-4">Sexo</label><br>
+                  <input type="radio" name="sexo" id="Femenino" value="Femenino" checked class="ml-4">
+                  <label class="form-check-label" for="exampleRadios1F">Femenino</label>
+                  <input  type="radio" name="sexo" id="Masculino" value="Masculino" class="ml-2">
+                  <label class="form-check-label" for="exampleRadios1M">Masculino</label>
+              </div>
+              <div class="form-group col-md-5 col-sm-5 ml-3">
+                  <label class="font-weight-bold">Especialidad</label>
+                  <input type="text" class="form-control" name="especialidad" id="especialidad"  value="{{old('especialidad')}}">
+                  @error('especialidad')
+                      <small class="text-danger">{{'* '.$message}}</small>
+                  @enderror
+              </div>
+              <div class="form-group col-md-6 col-sm-6 ml-1" >
+                  <label class="font-weight-bold">Correo electronico</label>
+                  <input type="email" class="form-control" name="email" id="email"  value="{{old('email')}}" placeholder="opcional">
+                  @error('email')
+                      <small class="text-danger">{{'* '.$message}}</small>
+                  @enderror
+              </div>
+              <div class="form-group col-md-4 col-sm-4 ml-3">
+                  <label class="font-weight-bold">Nro. celular</label>
+                  <input type="text" class="form-control" name="num_celular" id="num_celular"  value="{{old('num_celular')}}" placeholder="opcional">
+                  @error('num_celular')
+                      <small class="text-danger">{{'* '.$message}}</small>
+                  @enderror
+              </div>
+              <div class="form-group col-md-7 col-sm-7 ml-1">
+                  <label class="font-weight-bold">Matricula</label>
+                  <input type="text" class="form-control" name="matricula_profesional" id="matricula_profesional"  value="{{old('matricula_profesional')}}">
+                  @error('matricula_profesional')
+                      <small class="text-danger">{{'* '.$message}}</small>
+                  @enderror
+              </div>
+              <div class="form-group col-md-11 col-sm-11 ml-3">
+                  <label class="font-weight-bold">Direccion</label>
+                  <input type="text" class="form-control" name="direccion" id="direccion"  value="{{old('direccion')}}" placeholder="opcional">
+                  @error('direccion')
+                      <small class="text-danger">{{'* '.$message}}</small>
+                  @enderror
+              </div>
+              <div class="form-group col-md-11 col-sm-11 ml-3">
+                  <label class="font-weight-bold">Descripcion</label>
+                  <input type="text" class="form-control" name="descripcion" id="descripcion"  value="{{old('descripcion')}}" placeholder="opcional">
+                  @error('descripcion')
+                      <small class="text-danger">{{'* '.$message}}</small>
+                  @enderror
+              </div>
+
+              <div class="form-group col-md-10 col-sm-6 ml-1 text-center">
+                  <button type="submit" id="registrar" class="btn btn-outline-success btn-sm ml-1">Registrar</button>
+                  <button type="reset" id="limpiarForm" class="btn btn-outline-secondary btn-sm m-2">Limpiar</button>
+              </div>
+          </div>
+      {{--</form>--}}
+  </div>
+  <div class="col-md-8 col-sm-8 mt-2">
+    {{--<form action="" method="post" class="border border-info" id="form_medico" autocomplete="off">  --}}
+         
+      @csrf
+      <h5 class="box-title text-center font-weight-bold mt-1">Registrar nuevo medico</h5>
+      <div class="form-row mt-1">
+          <div class="form-group col-md-5 col-sm-5 ml-3">
+              <label class="font-weight-bold">Nombres</label>
+              <input type="text" class="form-control" name="nombre" id="nombre"  value="{{old('nombre')}}">
+              @error('nombre')
+                  <small class="text-danger">{{'* '.$message}}</small>
+              @enderror
+          </div>
+          <div class="form-group col-md-6 col-sm-6 ml-1" >
+              <label class="font-weight-bold">Apellidos</label>
+              <input type="text" class="form-control" name="apellido" id="apellido"  value="{{old('apellido')}}">
+              @error('apellido')
+                  <small class="text-danger">{{'* '.$message}}</small>
+              @enderror
+          </div>
+          <div class="form-group col-md-4 col-sm-4 ml-3">
+              <label class="font-weight-bold">Cedula de identidad</label>
+              <input type="text" class="form-control" name="ci" id="ci"  value="{{old('ci')}}" >
+              @error('ci')
+                  <small class="text-danger">{{'* '.$message}}</small>
+              @enderror
+          </div>
+          <div class="form-group col-md-7 col-sm-7 ml-1">
+              <label class="font-weight-bold">Fecha nacimiento</label>
+              <input type="date" class="form-control" name="fecha_nacimiento" id="fecha_nacimiento"   value="{{old('fecha_nacimiento')}}">
+              @error('fecha_nacimiento')
+                  <small class="text-danger">{{'* '.$message}}</small>
+              @enderror
+          </div>
+          <div class="form-group col-md-2 col-sm-2 ml-3">
+              <label class="font-weight-bold">Edad</label>
+              <input type="text" class="form-control" name="edad" id="edad"  value="{{old('edad')}}">
+              @error('edad')
+                  <small class="text-danger">{{'* '.$message}}</small>
+              @enderror
+          </div>
+          <div class="form-group col-md-9 col-sm-9 ml-1">
+              <label  class="font-weight-bold ml-4">Sexo</label><br>
+              <input type="radio" name="sexo" id="Femenino" value="Femenino" checked class="ml-4">
+              <label class="form-check-label" for="exampleRadios1F">Femenino</label>
+              <input  type="radio" name="sexo" id="Masculino" value="Masculino" class="ml-2">
+              <label class="form-check-label" for="exampleRadios1M">Masculino</label>
+          </div>
+          <div class="form-group col-md-5 col-sm-5 ml-3">
+              <label class="font-weight-bold">Especialidad</label>
+              <input type="text" class="form-control" name="especialidad" id="especialidad"  value="{{old('especialidad')}}">
+              @error('especialidad')
+                  <small class="text-danger">{{'* '.$message}}</small>
+              @enderror
+          </div>
+          <div class="form-group col-md-6 col-sm-6 ml-1" >
+              <label class="font-weight-bold">Correo electronico</label>
+              <input type="email" class="form-control" name="email" id="email"  value="{{old('email')}}" placeholder="opcional">
+              @error('email')
+                  <small class="text-danger">{{'* '.$message}}</small>
+              @enderror
+          </div>
+          <div class="form-group col-md-4 col-sm-4 ml-3">
+              <label class="font-weight-bold">Nro. celular</label>
+              <input type="text" class="form-control" name="num_celular" id="num_celular"  value="{{old('num_celular')}}" placeholder="opcional">
+              @error('num_celular')
+                  <small class="text-danger">{{'* '.$message}}</small>
+              @enderror
+          </div>
+          <div class="form-group col-md-7 col-sm-7 ml-1">
+              <label class="font-weight-bold">Matricula</label>
+              <input type="text" class="form-control" name="matricula_profesional" id="matricula_profesional"  value="{{old('matricula_profesional')}}">
+              @error('matricula_profesional')
+                  <small class="text-danger">{{'* '.$message}}</small>
+              @enderror
+          </div>
+          <div class="form-group col-md-11 col-sm-11 ml-3">
+              <label class="font-weight-bold">Direccion</label>
+              <input type="text" class="form-control" name="direccion" id="direccion"  value="{{old('direccion')}}" placeholder="opcional">
+              @error('direccion')
+                  <small class="text-danger">{{'* '.$message}}</small>
+              @enderror
+          </div>
+          <div class="form-group col-md-11 col-sm-11 ml-3">
+              <label class="font-weight-bold">Descripcion</label>
+              <input type="text" class="form-control" name="descripcion" id="descripcion"  value="{{old('descripcion')}}" placeholder="opcional">
+              @error('descripcion')
+                  <small class="text-danger">{{'* '.$message}}</small>
+              @enderror
+          </div>
+
+          <div class="form-group col-md-10 col-sm-6 ml-1 text-center">
+              <button type="submit" id="registrar" class="btn btn-outline-success btn-sm ml-1">Registrar</button>
+              <button type="reset" id="limpiarForm" class="btn btn-outline-secondary btn-sm m-2">Limpiar</button>
+          </div>
+      </div>
+    {{--</form>--}}
+    </div>
+  </form>
+</div>
+
+{{--
 <div class="m-4">
-<form class="border border-6" id="form_solicitud_patologico" autocomplete="off" >
+  <form class="border border-6" id="form_solicitud_patologico" autocomplete="off" >
     @csrf
     <center class="font-weight-bold m-2">Formulario de registro de resultados de citologia</center>
     <div class="row m-3">
@@ -158,7 +374,7 @@
     </div>
   </form>
 </div>
-
+--}}
 @include('Patologia.modalImprimirResul');
 
 @stop

@@ -61,7 +61,8 @@
             </div>
             <ul class="sub-menu">
                 <li><a class="link_name" href="#">Reportes</a></li>
-                <li><a href="{{route('vista.reportes.index')}}">IMPRIMIR RESULTADOS</a></li>
+                <li><a href="{{route('vista.reportes.index')}}">REPORTES ACTUALES</a></li>
+                <li><a href="{{route('reportes.old.index')}}">REPORTES ANTERIORES</a></li>
             </ul>
         </li>
       

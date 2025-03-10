@@ -8,6 +8,10 @@ class users extends Authenticatable
 {
     protected $remember_token = 'false';
     protected $table = 'public.users';
-    protected $fillable = ['email', 'password', 'persona_id'];
+    protected $fillable = ['id','email', 'password', 'persona_id', 'estado'];
     protected $guarded = ['id'];
+
+    public function persona(){
+        return $this->belongsTo(\App\Models\Login\Persona::class, 'persona_id');
+    }
 }

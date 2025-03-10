@@ -72,9 +72,12 @@ class ResultadoCitologiaController extends Controller
             $resultado->conclucion =  $request->conclucion;
             $resultado->nota =$nota; // $request->nota;
             $resultado->estado = 'TRUE';
+            $resultado->creatoruser_id = auth()->user()->id; //add
+            $resultado->updateduser_id = auth()->user()->id; //add
                 $editExamen = $resultado->resultado_examenCito;
                 $editExamen->fecha_resultado = $request->fec_result;
                 $editExamen->result_estado = 'TRUE';
+                $editExamen->updateduser_id =  auth()->user()->id; //add
                 //return response()->json($resultado);
                 $editExamen->save();
             $resultado->save();
