@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <title>Title</title>
@@ -130,7 +130,6 @@
 
 </head>
 <body>
-    @foreach($resultado as $examenes)
        
     <table style="width: 100%; border-top: 2px solid black;">
         <tr >
@@ -157,19 +156,19 @@
             <?php $anio= date('Y'); ?>
             <thead class="cabecera">                    
                 <th class="cabfsol" style="text-align:left">Fecha Solicitud:</th>
-                <th class="cabfsol2" style="text-align:center">{{$examenes->examen_solCitologia->fecha_solicitud}}</th>
+                <th class="cabfsol2" style="text-align:center">{{$examen->fec_soli}}</th>
                 <th class="cabnex" style="text-align:left">Nº Examen:</th>
-                <th class="cabnex2" style="text-align:center">{{$examenes->num_examen}}-C{{$anio}}</th>
+                <th class="cabnex2" style="text-align:center">{{$examen->nun_examens}}-C{{$anio}}</th>
                 <th class="cabfres" style="text-align:left">Fecha Resultado:</th>
-                <th class="cab2" style="text-align:center">{{$examenes->fecha_resultado}}</th>
+                <th class="cab2" style="text-align:center">{{$examen->fec_results}}</th>
             </thead>        
         </table>
         <table class="table table-striped">
             <thead class="cabecera">                    
                 <th class="cabregional" style="text-align:left">Municipio:</th>
-                <th class="cabregional2" style="text-align:center">{{$examenes->examen_solCitologia->solicitudCito_municipios->nombre_municipio}}</th>                                          
+                <th class="cabregional2" style="text-align:center">{{$examen->municipios}}</th>                                          
                 <th class="cabestablecimiento" style="text-align:left">Establecimiento:</th>
-                <th class="cabestablecimiento2" style="text-align:center" colspan="3">{{$examenes->examen_solCitologia->solicitudCito_establecimientos->nombre_establecimiento}}</th>          
+                <th class="cabestablecimiento2" style="text-align:center" colspan="3">{{$examen->establecimientos}}</th>          
             </thead>  
         </table>
 
@@ -182,90 +181,45 @@
                 <th style="text-align: left" style=" margin-left: -15px;">Edad:</th>
             </tr>  
             <tr>
-                <td style="text-align: left">{{$examenes->examen_citoPacientes->ci}}</td>
-                <td style="text-align: left">{{$examenes->examen_citoPacientes->nombre}}</td>
-                <td style="text-align: left">{{$examenes->examen_citoPacientes->apellido}}</td>
-                <td style="text-align: left">{{$examenes->examen_citoPacientes->fecha_nacimiento}}</td>
-                <td style="text-align: left">{{$examenes->examen_citoPacientes->edad}}</td>
+                <td style="text-align: left">{{$examen->ci}}</td>
+                <td style="text-align: left">{{$examen->nombre}}</td>
+                <td style="text-align: left">{{$examen->apellido}}</td>
+                <td style="text-align: left">{{$examen->fec_naci}}</td>
+                <td style="text-align: left">{{$examen->edades}}</td>
             </tr>  
         </table>
             <h4 class="text-left">RESULTADOS:</h4>
             <div class="c" style="font-size: 17px; vertical-align: middle;">
                 <div class="row ml-2 mt-2">
-                    <label for=""> <span class="fw-bolder font-weight-bold">Medico:</span> {{ $examenes->examenesResultadoCito[0]->resultado_medico->nombre}} {{ $examenes->examenesResultadoCito[0]->resultado_medico->apellido}} </label>
+                    <label for=""> <span class="fw-bolder font-weight-bold">Medico:</span> {{ $examen->medicos}}  </label>
                   </div>
                   <div class="row ml-2 mt-2">
-                    <label for=""> <span class="fw-bolder font-weight-bold">Servicio:</span> {{ $examenes->examenesResultadoCito[0]->resultado_servicio->nombre_servicio}} </label>
+                    <label for=""> <span class="fw-bolder font-weight-bold">Servicio:</span> {{ $examen->servicios}} </label>
                   </div>
                   <div class="row ml-2 mt-2">
-                    <label for=""> <span class="fw-bolder font-weight-bold">Diagnostico:</span> {{ $examenes->examenesResultadoCito[0]->diagnostico}} </label>
+                    <label for=""> <span class="fw-bolder font-weight-bold">Diagnostico:</span> {{ $examen->diag}} </label>
                   </div>
                   <div class="row ml-2 mt-2">
-                    <label for=""> <span class="fw-bolder font-weight-bold">Datos relevantes:</span> {{ $examenes->examenesResultadoCito[0]->datos_relevantes}} </label>
+                    <label for=""> <span class="fw-bolder font-weight-bold">Datos relevantes:</span> {{ $examen->dato}} </label>
                   </div>
                   <div class="row ml-2 mt-2">
-                    <label for=""> <span class="fw-bolder font-weight-bold">Descripcion:</span> {{ $examenes->examenesResultadoCito[0]->descripcion}} </label>
+                    <label for=""> <span class="fw-bolder font-weight-bold">Descripcion:</span> {{ $examen->des}} </label>
                   </div>
                   <div class="row ml-2 mt-2">
-                    <label for=""> <span class="fw-bolder font-weight-bold">Conclucion:</span> {{ $examenes->examenesResultadoCito[0]->conclucion}} </label>
+                    <label for=""> <span class="fw-bolder font-weight-bold">Conclucion:</span> {{ $examen->con}} </label>
                   </div>
                   <div class="row ml-2 mt-2">
-                    <label for=""> <span class="fw-bolder font-weight-bold">Nota:</span> {{ $examenes->examenesResultadoCito[0]->nota}}</label>
+                    <label for=""> <span class="fw-bolder font-weight-bold">Nota:</span> {{ $examen->notas}}</label>
                   </div>
             </div>
-             
-            {{--<table class="table table-striped">
-                <thead class="cabecera numsolicitud">
-                    <tr>
-                        <th style="text-align: center">Código</th>
-                        <th style="text-align: center">Descripcion del Diagnóstico</th>              
-                    </tr>            
-                </thead>
-                <tbody>
-                    < ?php  $resultadoExamenes=App\Models\Examen::where('paciente_id',$examenes->paciente_id)->get();  ?>
-                   
-                    @if (count($resultadoExamenes) > 0)
-                        < ?php  
-                                $diagnosticos = DB::table('sispatologico.resultados as R')
-                                ->select( 'D.id','D.codigo_diagnostico','D.descripcion_diagnostico') // 'R.id','R.examen_id','R.diagnostico_id','R.fecha_resultado')
-                                ->join('sispatologico.diagnosticos as D', 'D.id', '=', 'R.diagnostico_id')
-                                ->where('R.examen_id', '=', $resultadoExamenes[0]->num_examen)
-                                ->where('R.estado','TRUE')
-                                ->get();
-                        ?>
-                        @foreach($diagnosticos as $item)
-                            <tr >
-                                <td class="min-width" style="text-align: center; font-size: 12px; vertical-align: middle; height: 10px;">
-                                    <p>{{$item->codigo_diagnostico}}</p>
-                                </td>
-                                <td class="min-width" style="font-size: 12px; vertical-align: middle; height: 10px;">
-                                    <p>{{$item->descripcion_diagnostico}}</p>
-                                </td>
-                            </tr>
-                        @endforeach   
-                    @else
-                        <tr >
-                            <td class="min-width" style="text-align: center; font-size: 12px; vertical-align: middle; height: 10px;">
-                                <p>No existe</p>
-                            </td>
-                            <td class="min-width" style="font-size: 12px; vertical-align: middle; height: 10px;">
-                                <p>No existe</p>
-                            </td>
-                        </tr>
-                    @endif
-
-                              
-                </tbody>
-            </table>--}}
+        
             <br><br><br><br>
         <table>
             <div class="text-center">
-                
-            </div>
-            <h4  style="text-align:center; font-size: 12px;">CITOTECNÓLOGO(A)</h4>        
+                <h4  style="text-align:center; font-size: 12px;">CITOTECNÓLOGO(A)</h4>   
+            </div>   
         </table> 
         <br><br><br><br> 
-    @endforeach
 
     <script src="{{ asset("assets/librerias/bootstrap4/js/popper.min.js")}}" type="text/javascript"></script> 
     <script src="{{ asset("assets/librerias/bootstrap5/js/bootstrap.min.js")}}" type="text/javascript"></script> 
@@ -273,24 +227,3 @@
 </body>
 
 </html>
-{{--
-< ?php  $resultadoExamenes=App\Models\Examen::where('paciente_id',$examenes->paciente_id)->get(); 
-$diagnosticos = DB::table('sispatologico.resultados as R')
-->select( 'D.id','D.codigo_diagnostico','D.descripcion_diagnostico') // 'R.id','R.examen_id','R.diagnostico_id','R.fecha_resultado')
-->join('sispatologico.diagnosticos as D', 'D.id', '=', 'R.diagnostico_id')
-->where('R.examen_id', '=', $resultadoExamenes[0]->num_examen)
-->where('R.estado','TRUE')
-->get();
-?>
-{{ --dd($resultadoExamenes->examenesResultados)-- }}
-@foreach($diagnosticos as $item)
-<tr >
-<td class="min-width" style="text-align: center; font-size: 12px; vertical-align: middle; height: 10px;">
-    <p>{{$item->codigo_diagnostico}}</p>
-</td>
-<td class="min-width" style="font-size: 12px; vertical-align: middle; height: 10px;">
-    <p>{{$item->descripcion_diagnostico}}</p>
-</td>
-</tr>
-@endforeach   
---}}

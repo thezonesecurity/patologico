@@ -36,6 +36,8 @@ class ResultadoCitologiaController extends Controller
                     'apellido_pac' => $paciente->apellido,
                     'fec_nac_pac' => $paciente->fecha_nacimiento,
                     'edad_pac' => $paciente->edad,
+                    'celular_pac' => $paciente->num_celular,
+                    'direccion_pac' => $paciente->direccion,
                     'examen_id' => $existeResultado[0]->id,
                 ];
                 return response()->json($listadatos);
@@ -53,7 +55,8 @@ class ResultadoCitologiaController extends Controller
 
     public function store(Request $request)
     {
-       
+        // return response()->json('go');
+        $listas = [];
         if($request){
             $datos = ucfirst(strtolower($request->datos)); 
             $descripcion = ucfirst(strtolower($request->descripcion)); 
@@ -69,7 +72,7 @@ class ResultadoCitologiaController extends Controller
             $resultado->datos_relevantes = $datos; //$request->datos;
             $resultado->ci_pac = $request->cedula_pac;
             $resultado->descripcion = $descripcion; // $request->descripcion;
-            $resultado->conclucion =  $request->conclucion;
+            $resultado->conclucion =  $conclucion;
             $resultado->nota =$nota; // $request->nota;
             $resultado->estado = 'TRUE';
             $resultado->creatoruser_id = auth()->user()->id; //add
@@ -78,10 +81,33 @@ class ResultadoCitologiaController extends Controller
                 $editExamen->fecha_resultado = $request->fec_result;
                 $editExamen->result_estado = 'TRUE';
                 $editExamen->updateduser_id =  auth()->user()->id; //add
-                //return response()->json($resultado);
-                $editExamen->save();
+           // return response()->json($resultado);
+    
+            $listas []= [
+                'id' => $resultado->id_examen,
+                'fecha_solicitud' => $editExamen->examen_solCitologia->fecha_solicitud,
+                'nro_examen' => $request->num_examen,
+                'fecha_resultado' => $resultado->fecha_resultado,
+                'municipio' => $editExamen->examen_solCitologia->solicitudCito_municipios->nombre_municipio,
+                'establecimiento' => $editExamen->examen_solCitologia->solicitudCito_establecimientos->nombre_establecimiento,
+                'nombres' => $editExamen->examen_citoPacientes->nombre,
+                'apellidos' => $editExamen->examen_citoPacientes->apellido,
+                'ci' => $resultado->ci_pac,
+                'fecha_nacimiento' => $editExamen->examen_citoPacientes->fecha_nacimiento,
+                'edad' => $editExamen->examen_citoPacientes->edad,
+                'medico' => $resultado->resultado_medico->nombre .' '.$resultado->resultado_medico->apellido,
+                'servicio' => $resultado->resultado_servicio->nombre_servicio,
+                'diagnostico' => $resultado->diagnostico,
+                'datos' => $resultado->datos_relevantes,
+                'descripcion' => $resultado->descripcion,
+                'conclucion' => $resultado->conclucion,
+                'nota' => $resultado->nota,
+                'reporte' => 'Citologia'
+            ];
+            $editExamen->save();
             $resultado->save();
-            return 'ok';
+            return response()->json($listas);
+           // return 'ok';
         }else{
             return 'error_registro_resul_citologico';
         }

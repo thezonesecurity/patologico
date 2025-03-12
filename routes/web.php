@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth'], function(){
      Route::post('/generar/reportes/lista', [ReportesController::class, 'templist'])->name('lista.reportes.index');
      Route::post('/eliminar/solicitud', [ReportesController::class, 'deleteSolicitud'])->name('solicitud.delete');
      Route::post('/eliminar/resultado', [ReportesController::class, 'deleteResultado'])->name('resultado.delete');
+     Route::post('/generar/resultado', [ReportesController::class, 'printOne'])->name('print.result.one'); 
      Route::post('/lista', [ReportesController::class, 'list'])->name('lista'); //pruebas
 
 });

@@ -17,9 +17,15 @@
 @stop
 
 @section('contenido')  
+@if (session('error'))
+  <div class="alert alert-danger" role="alert">
+    {{session('error')}}
+  </div>
+@endif
 
+{{--  --}}
 <div class="m-2">
-    <form action="{{route('generar.reportes.index')}}" method="POST"  class="border border-5 border-info" id="form-list" autocomplete="off"  target='_Blank' >
+    <form action="{{route('generar.reportes.index')}}" method="POST"  class="border border-5 border-info" id="form-list" autocomplete="off" target='_Blank'  >
         @csrf
         <h5 class="box-title text-center font-weight-bold ">Formulario de reportes</h5>
         <div class="row m-1">
@@ -32,7 +38,7 @@
             </div>
             <div class="form-group col-md-2 col-sm-2 font-weight-bold">
                 <label for="formGroup_fecha ">Fecha <span id="seguido"></span> </label>
-                <input type="date" class="form-control" name="fecha" id="fecha">
+                <input type="date" class="form-control" name="fecha" id="fecha" value="{{ old('fecha') }}">
                 <small id="val_fecha" class="form-text text-danger"></small>
             </div>
             <div class="col-md-3 col-sm-3">
@@ -356,8 +362,74 @@
            }
         });   
 
-        //pruebas no usado
-        $("#btn").click(function(e){
+        //PROCESO PARA ELIMINAR SOLICITUD
+        $("#btnConfirmarS").click(function(e){
+            var formData = new FormData(document.getElementById("form-modalEliminarS"));
+            $.ajax({
+                url:"{{route('solicitud.delete')}}",
+                type:'POST',
+                dataType: "html",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData
+            }).done(function(data){
+               // console.log('modal el -> '+data );
+                if(data && data != 0 ){
+                   // console.log('id '+ data)
+                    $('#confirmarSolicitud').modal('hide');
+                    var btnEliminar = $('.btn_deleteS[id="' + data + '"]');  // Usamos el ID del botón "Dar baja" para encontrar la fila
+                    var fila = btnEliminar.closest('tr'); // Buscar la fila más cercana al botón
+                    // Actualizar el estado en la fila
+                    var estadoCell = fila.find('td').eq(9); // Suponiendo que la columna de "estado" está en la posición 7 (índice 7)
+                    estadoCell.text('Eliminado');
+                    btnEliminar.prop('disabled', true);
+                    btnEliminar.removeClass('btn-outline-danger').addClass('btn-danger');
+                    $('#tablaLista_solicitud tr[data-id="' + data + '"] td:nth-child(9)').val('eliminados');
+                    notificaciones("correctamente ....", "Solicitud eliminada", 'success');
+                }else{
+                    $('#confirmarSolicitud').modal('hide');
+                    notificaciones("Contacte con soporte !!", "Error al eliminar la solicitud !!", 'error');
+                }
+            }); 
+        }); 
+         //PROCESO PARA ELIMINAR RESULTADO
+         $("#btnConfirmarR").click(function(e){
+            var formData = new FormData(document.getElementById("form-modalEliminarR"));
+            $.ajax({
+                url:"{{route('resultado.delete')}}",
+                type:'POST',
+                dataType: "html",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData
+            }).done(function(data){
+               //console.log('modal el -> '+data );
+                if(data && data != 0 ){
+                   // console.log('id '+ data)
+                    $('#confirmarResultado').modal('hide');
+                    var btnEliminar = $('.btn_deleteR[id="' + data + '"]');  // Usamos el ID del botón "Dar baja" para encontrar la fila
+                    var btnVer = $('.btn_ver[id="' + data + '"]');
+                    var fila = btnEliminar.closest('tr'); // Buscar la fila más cercana al botón
+                    // Actualizar el estado en la fila
+                    var estadoCell = fila.find('td').eq(7); // Suponiendo que la columna de "estado" está en la posición 7 (índice 7)
+                    estadoCell.text('Eliminado');
+                    btnEliminar.prop('disabled', true);
+                    btnEliminar.removeClass('btn-outline-danger').addClass('btn-danger');
+                    btnVer.prop('disabled', true);
+                    btnVer.removeClass('btn-outline-info').addClass('btn-info');
+                    $('#tablaLista_resultado tr[data-id="' + data + '"] td:nth-child(8)').val('eliminados');
+                    notificaciones("correctamente ....", "Resultado eliminado", 'success');
+                }else{
+                    $('#confirmarResultado').modal('hide');
+                    notificaciones("Contacte con soporte !!", "Error al eliminar el resultado !!", 'error');
+                }
+            }); 
+        }); 
+
+          //pruebas no usado
+          $("#btn").click(function(e){
             $('#lista_solicitud'). DataTable(). destroy();
             $('#listatemp_resultado'). DataTable(). destroy();
             var fecha = $('#fecha').val();
@@ -511,72 +583,30 @@
                 });                
            }
         }); 
+        // no usado
+      /*  $('#form-list').on('submit', function(e) {
+            // Prevenir que el formulario se envíe en una nueva ventana
+            e.preventDefault();
 
-        //PROCESO PARA ELIMINAR SOLICITUD
-        $("#btnConfirmarS").click(function(e){
-            var formData = new FormData(document.getElementById("form-modalEliminarS"));
+            // Obtenemos los valores del formulario
+            var formData = $(this).serialize();
+
+            // Hacemos la solicitud AJAX al servidor
             $.ajax({
-                url:"{{route('solicitud.delete')}}",
-                type:'POST',
-                dataType: "html",
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: formData
-            }).done(function(data){
-               // console.log('modal el -> '+data );
-                if(data && data != 0 ){
-                   // console.log('id '+ data)
-                    $('#confirmarSolicitud').modal('hide');
-                    var btnEliminar = $('.btn_deleteS[id="' + data + '"]');  // Usamos el ID del botón "Dar baja" para encontrar la fila
-                    var fila = btnEliminar.closest('tr'); // Buscar la fila más cercana al botón
-                    // Actualizar el estado en la fila
-                    var estadoCell = fila.find('td').eq(9); // Suponiendo que la columna de "estado" está en la posición 7 (índice 7)
-                    estadoCell.text('Eliminado');
-                    btnEliminar.prop('disabled', true);
-                    btnEliminar.removeClass('btn-outline-danger').addClass('btn-danger');
-                    $('#tablaLista_solicitud tr[data-id="' + data + '"] td:nth-child(9)').val('eliminados');
-                    notificaciones("correctamente ....", "Solicitud eliminada", 'success');
-                }else{
-                    $('#confirmarSolicitud').modal('hide');
-                    notificaciones("Contacte con soporte !!", "Error al eliminar la solicitud !!", 'error');
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Si la respuesta es un PDF, crear un enlace para descargarlo
+                    // Aquí puedes procesar la respuesta como necesites, ya sea para descargar el PDF o mostrar el mensaje de error.
+                   // var pdfWindow = window.open();
+                   // pdfWindow.document.write(response);
+                },
+                error: function() {
+                    alert('Hubo un error al procesar la solicitud');
                 }
-            }); 
-        }); 
-         //PROCESO PARA ELIMINAR RESULTADO
-         $("#btnConfirmarR").click(function(e){
-            var formData = new FormData(document.getElementById("form-modalEliminarR"));
-            $.ajax({
-                url:"{{route('resultado.delete')}}",
-                type:'POST',
-                dataType: "html",
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: formData
-            }).done(function(data){
-               //console.log('modal el -> '+data );
-                if(data && data != 0 ){
-                   // console.log('id '+ data)
-                    $('#confirmarResultado').modal('hide');
-                    var btnEliminar = $('.btn_deleteR[id="' + data + '"]');  // Usamos el ID del botón "Dar baja" para encontrar la fila
-                    var btnVer = $('.btn_ver[id="' + data + '"]');
-                    var fila = btnEliminar.closest('tr'); // Buscar la fila más cercana al botón
-                    // Actualizar el estado en la fila
-                    var estadoCell = fila.find('td').eq(7); // Suponiendo que la columna de "estado" está en la posición 7 (índice 7)
-                    estadoCell.text('Eliminado');
-                    btnEliminar.prop('disabled', true);
-                    btnEliminar.removeClass('btn-outline-danger').addClass('btn-danger');
-                    btnVer.prop('disabled', true);
-                    btnVer.removeClass('btn-outline-info').addClass('btn-info');
-                    $('#tablaLista_resultado tr[data-id="' + data + '"] td:nth-child(8)').val('eliminados');
-                    notificaciones("correctamente ....", "Resultado eliminado", 'success');
-                }else{
-                    $('#confirmarResultado').modal('hide');
-                    notificaciones("Contacte con soporte !!", "Error al eliminar el resultado !!", 'error');
-                }
-            }); 
-        }); 
+            });
+        });*/
         
     });
 </script>

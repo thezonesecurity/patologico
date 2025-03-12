@@ -35,16 +35,38 @@ class ReportesController extends Controller
             $resultado=$resultado->whereHas('examen_solicitudes',function($query) use($tipo){
                 return $query->where('tipo_solicitud', $tipo)->where('estado', TRUE);
             })->where('fecha_resultado', $fecha)->where('resultado_estado','TRUE')->where('estado', TRUE)->get();
-           $pdf = Pdf::loadView('Reportes.pdf', compact('resultado'));
-           return $pdf->stream();
+            $cont = count($resultado) > 0;
+            if($cont){
+                //dd($cont);
+                $pdf = Pdf::loadView('Reportes.pdf', compact('resultado'));
+                return $pdf->stream(); //$pdf->download('archivo.pdf');
+            }else{
+               // dd('vacio');
+              // return redirect()->route('productos.index')->with('success','Producto actualizado');
+              return redirect()->back()->with('error', 'No se encontraron resultados');
+              // $users= users::orderBy('id')->get();
+             //  return redirect()->view('Reportes.index', compact('users'))->with('error', 'No se encontraron resultados');
+              //  session()->flash('error', 'No se generó el PDF correctamente.');
+               // return view('Reportes.index', compact('users'));
+                //return redirect(route('listar.personal'));
+               // return redirect()->route('vista.reportes.index')->with('nodata','No existe resultado con esos parametros');
+            }
+
        }else{
             $resultado=ExamenCitologia::query();
             $resultado=$resultado->whereHas('examenesResultadoCito',function($query) use($fecha){
                 return $query->where('fecha_resultado', $fecha)->where('estado', TRUE);
             })->where('fecha_resultado', $fecha)->where('result_estado','TRUE')->where('estado', TRUE)->get();
             //return view('Reportes.pdfCitologia')->with(compact('resultado')); 
-            $pdf = Pdf::loadView('Reportes.pdfCitologia', compact('resultado'));
-            return $pdf->stream();
+            $cont = count($resultado) > 0;
+            if($cont){
+                $pdf = Pdf::loadView('Reportes.pdfCitologia', compact('resultado'));
+                return $pdf->stream();
+            }
+            else{
+                return redirect()->back()->with('error', 'No se encontraron resultados');
+            }
+          
        }
      
     }
@@ -283,6 +305,16 @@ class ReportesController extends Controller
         } 
     }
 
+    public function printOne(Request $request)
+    {
+        $examen = $request;
+        //dd($examen);
+        if($examen){
+           // return view('Reportes.pdfCitologiaOne')->with(compact('examen')); 
+            $pdf = Pdf::loadView('Reportes.pdfCitologiaOne', compact('examen'));
+            return $pdf->stream();
+        }
+    }
     public function list(Request $request) //PRUEBAS no usado
     {
         $fecha = $request->fecha; // "2024-01-04";

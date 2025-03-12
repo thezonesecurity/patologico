@@ -53,7 +53,7 @@
                 <div class="row" >
                     <div class="col-md-3">
                         <table class="table table-sm border border-success">
-                            <center class="font-weight-bold m-2">Registro de Solicitud</center>
+                            <div class="font-weight-bold m-2 text-center">Registro de Solicitud</div>
                             <tr>
                                 <div style="background: #e9f8da;" class="border border-5">
                                     <div class="form-row " class="mt-2">
@@ -104,7 +104,7 @@
                                    
                                     <div class="form-row " >
                                         <div class="form-group col-md-3">
-                                            <label class="form-check-label" for="secer_nombre_pac">cedula de identidad</label>
+                                            <label class="form-check-label" for="secer_nombre_pac">cedula identidad</label>
                                         </div>
                                         <div class="form-group col-md-9">
                                             <input type="text" class="form-control controlCedula ControlCi" name="ci" id="ci" >
@@ -148,7 +148,7 @@
                         </table> <!--REGISTRAR ROL TURNO-->
                     </div>
                     <div class="col-md-9" id="este"> {{--listar tabla--}}
-                        <center class="font-weight-bold mt-2">Lista Temporal de Solicitudes</center> <br>
+                        <div class="font-weight-bold mt-2 text-center">Lista Temporal de Solicitudes</div> <br>
                         <table id="mytable" class="table table-sm table-striped border" style="font-size: 12px;  table-layout: fixed;" width="">
                                 <tr class="titulo" > {{--style="background-color: red;display: none;"--}}
                                     <th width="40px">Nro.</th>
@@ -168,10 +168,8 @@
             </th>
         </tr>
     </table>
-    <div class="col col-md-12" style="margin-top: -10px;">
-        <center>
-            <button type="button" id="registrar" class="btn btn-success btn-sm ml-4">Registrar</button>
-        </center>
+    <div class="col col-md-12 text-center" style="margin-top: -10px;">
+        <button type="button" id="registrar" class="btn btn-success btn-sm ml-4">Registrar</button>
     </div>
 
 {!!Form::Close()!!}
@@ -294,8 +292,8 @@
     });
 
      //PROCESO PARA ADICIONAR LOS DATOS DEL FORMUALRIO A LA TABLA TEMPORAL y VALIDACION DEL FORMULARIO
-     var i = 1, fila; //contador para asignar id al boton que borrara la fila
-        $('#adicionar').click(function() {
+    var i = 1, fila; //contador para asignar id al boton que borrara la fila
+    $('#adicionar').click(function() {
             //obtenemos el valor de todos los input
             var fec_solicitud = $('#fecha_solicitud').val();
             var municipio = $('#municipio :selected').text();
@@ -364,7 +362,7 @@
                 $('#validacionAgregar').text('Error verifique los errores del formulario !!!').addClass('text-danger').show();
             }
            
-        });
+    });
             
     $(document).on('click', '.btn_remove', function() { //limpia el formulario para que vuelva a contar las filas de la tabla
         var button_id = $(this).attr("id");
@@ -400,7 +398,7 @@
                     processData: false,
                     data: formData
                 }).done(function(data){ //alert(resp);
-                   // alert(data);
+                   console.log('-> '+data);
                     if(data=='error_registro_solicitud'){ //resp=='error'	
                         notificaciones("ERROR NO SE PUDO REALIZAR EL REGISTRO !!", "CONTACTE CON SOPORTE", 'error');
                         setTimeout(function(){	
