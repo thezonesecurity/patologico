@@ -26,7 +26,7 @@ class ResultadoRuralController extends Controller
         $resultado=Examen::query();
         $exiteExamen=$resultado->whereHas('examen_solicitudes',function($query) use($prefijo){
             return $query->where('tipo_solicitud', $prefijo);
-        })->where('num_examen', $nro_examen)->get();
+        })->where('num_examen', $nro_examen)->where('estado', '=', 'true')->get();
         if(count($exiteExamen) > 0){
             $existeResultado=$resultado->whereHas('examenesResultados',function($query) use($nro_examen){
                 return $query->where('num_examen', $nro_examen);
@@ -60,12 +60,16 @@ class ResultadoRuralController extends Controller
     public function getDiagnosticosR(Request $request)
     {
         //return response()->json($request->nro_examen);
-        $codigo_diag = strtoupper(trim(request()->input('nro_diagnostico')));
-        $diagnostico= Diagnostico::where('codigo_diagnostico', $codigo_diag)->where('estado', 'TRUE')->get(); 
-        if(isset($diagnostico) && count($diagnostico) > 0){
+        $codigo_diag = strtoupper(request()->input('nro_diagnostico'));
+        $diagnostico= Diagnostico::where('codigo_diagnostico', $codigo_diag)->first(); 
+        //return response()->json($diagnostico->id); //$codigo_diag);
+        if(isset($diagnostico->id)){
+            return response()->json($diagnostico);
+        }else{ return 'No existe'; }
+        /*if(isset($diagnostico) && count($diagnostico) > 0){
             return response()->json($diagnostico);}
         else{
-             return response()->json('No existe');}
+             return response()->json('No existe');}*/
     }
     public function create()//temp
     {

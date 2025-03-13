@@ -24,8 +24,22 @@ class StoreMunicipioRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre_municipio' => 'required|unique:App\Models\Municipio,nombre_municipio|regex:/^[\pL\s\-]+$/u|min:2|max:200',
-            'descripcion' => 'nullable|max:200',
+            'nombre_municipio' => 'required|unique:App\Models\Municipio,nombre_municipio|regex:/^[a-zA-ZñÑ\s.,\'\"-]+$/|min:2|max:200',
+            'descripcion' => 'nullable|regex:/^[a-zA-ZñÑ\s.,]+$/|max:200',
+        ];
+    }
+    public function attributes() //para cambiar el nombre de la variable
+    {
+        return[
+            'nombre_municipio' => 'nombre_municipio',
+        ];
+    }
+    public function messages()//para vambair el mensaje de la variable
+    {
+        return[
+            'nombre_municipio.required' => 'Se requiere un nombre',
+            'nombre_municipio.regex' => 'Formato invalido solo de admite letras, comas, puntos, comillas simples, comillas dobles y guiones',
+            'descripcion.regex' => 'Formato invalido solo de admite letras, comas y puntos',
         ];
     }
 }

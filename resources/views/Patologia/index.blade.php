@@ -54,7 +54,7 @@
                 <div class="row" >
                     <div class="col-md-3">
                         <table class="table table-sm border border-success">
-                            <center class="font-weight-bold m-2">Registro de Solicitud Citologia</center>
+                            <div class="text-center font-weight-bold m-2">Registro de Solicitud Citologia</div>
                             <tr>
                                 <div style="background: #daf2f8;" class="border border-5">
                                    
@@ -127,11 +127,10 @@
                                             <input type="text" class="form-control" name="p_fecha_nac" id="p_fecha_nac" readonly>
                                         </div>
                                     </div>
+                                    <small id="validacionPacienteR" class="form-text m-1"></small>
+                                    <small id="validacionAgregar" class="form-text m-1"></small>
                                 </div>
-
-                                <small id="validacionAgregar" class="form-text m-1"></small>
                                 <div class="row justify-content-center align-content-center" style="margin-top: -1x;">
-                                    <small id="validacionAgregar" class="form-text"></small>
                                     <button id="adicionarForm" class="btn btn-success btn-sm add" type="button"> Agregar</button>
                                     <button id="limpiarForm" class="btn btn-danger btn-sm ml-4 cancelar" type="button" > Cancelar</button>                                  
                                 </div>
@@ -139,7 +138,7 @@
                         </table> <!--REGISTRAR ROL TURNO-->
                     </div>
                     <div class="col-md-9" id="este"> {{--listar tabla--}}
-                        <center class="font-weight-bold mt-2">Lista Temporal de Solicitudes Citologia</center> <br>
+                        <div class="text-center font-weight-bold mt-2">Lista Temporal de Solicitudes Citologia</div> <br>
                         <table id="mytable" class="table table-sm table-striped border" style="font-size: 12px;  table-layout: fixed;" width="">
                                 <tr class="titulo" > {{--style="background-color: red;display: none;"--}}
                                     <th width="40px">Nro.</th>
@@ -160,9 +159,9 @@
         </tr>
     </table>
     <div class="col col-md-12" style="margin-top: -10px;">
-        <center>
+        <div class="text-center">
             <button type="button" id="registrarBTN" class="btn btn-success btn-sm ml-4">Registrar</button>
-        </center>
+        </div>
     </div>
 
 {!!Form::Close()!!}
@@ -210,6 +209,48 @@
                 data: { cedula: $('#p_ci').val() }, //$(this).val() 
                 success: function(data){
                     if(data == 'No existe'){
+                        //  alert('El paciente no existe');
+                        $(".PcontrolCi").addClass('is-invalid');
+                        $('#PvalidacionCi').text('El C.I. del paciente no existe, registrelo !!!').addClass('text-danger').show();
+                        
+                        $('#c_cedula').val( $('#p_ci').val() );
+                        $('#registrarPaciente').modal('show');
+                    
+                        document.getElementById("p_nombre_paciente").value = "";
+                        document.getElementById("p_apellido_paciente").value = "";
+                        document.getElementById("p_fecha_nac").value = "";
+                        document.getElementById("p_id_paciente").value = "";
+                        exitePaciente = 1;
+                    }else{
+                        //var data = JSON.parse(data);  
+                       // console.log('-> '+ data['estado']);
+                        if(data['estado'] == true){
+                        // console.log('<- '+ data['id']);
+                            $('#validacionPacienteR').hide();
+                            //pasos
+                            $(".PcontrolCi").removeClass('is-invalid');
+                            $('#PvalidacionCi').text('El C.I. del paciente no existe, registrelo !!!').removeClass('text-danger').hide();
+                            $('#validacionAgregar').text('Error verifique los errores del formulario !!!').addClass('text-danger').hide();
+                            $(".vistaModal").hide();
+
+                           $('#p_nombre_paciente').val(data['nombre']);
+                            $('#p_apellido_paciente').val(data['apellido']);
+                            $('#p_fecha_nac').val(data['fecha_nacimiento']);
+                            $('#p_id_paciente').val(data['id']);
+                            exitePaciente = 0;   
+
+                        }else{
+                        //  console.log('eliminado');
+                            $('#cedula').val('');
+                            document.getElementById("p_nombre_paciente").value = "";
+                            document.getElementById("p_apellido_paciente").value = "";
+                            document.getElementById("p_fecha_nac").value = "";
+                            document.getElementById("p_id_paciente").value = "";
+                            $('#validacionPacienteR').text('El paciente esta eliminado, incapaz de agregar !!').addClass('text-danger').show();
+                            exitePaciente = 1;
+                        }
+                    }
+                   /* if(data == 'No existe'){
                     //  alert('El paciente no existe');
                         $(".PcontrolCi").addClass('is-invalid');
                         $('#PvalidacionCi').text('El C.I. del paciente no existe, registrelo !!!').addClass('text-danger').show();
@@ -235,7 +276,7 @@
                         $('#p_fecha_nac').val(data[0]['fecha_nacimiento']);
                         $('#p_id_paciente').val(data[0]['id']);
                         exitePaciente = 0;   
-                    }
+                    }*/
                 }
             });
         });
@@ -255,7 +296,7 @@
                 data:{ _token:_token, ci_pac: ci_pac, nombre_pac: nombre, apellido_pac: apellido, fecha_nac: fec_nac, sexo_pac: sexo},
                 success:function(data){
                     if(data != 'error Paciente'){
-                        console.log(data);
+                       // console.log(data);
                         $('#registrarPaciente').modal('hide');
                         $('#form-registrar-paciente_cito')[0].reset(); 
                         notificaciones("Paciente registrado correctamente..!!", "Felicidades", 'success');
@@ -292,8 +333,12 @@
             var municipio_id = $('#p_municipio').val();
             var establecimiento = $('#p_establecimiento :selected').text();
             var establecimiento_id = $('#p_establecimiento').val();
- 
-          
+            var id_paciente = $('#p_id_paciente').val();
+            var nombre_pac = $('#p_nombre_paciente').val();
+            var ci_paciente = $('#p_ci').val();
+            var apellido_pac = $('#p_apellido_paciente').val();
+            var fec_nac_pac = $('#p_fecha_nac').val();
+
             if (fec_solicitud == '') {
                 notificaciones("Ingrese fecha de solicitud !!", "ERROR DE FORMULARIO", 'error');  
                 return false;
@@ -307,14 +352,14 @@
                 return false;
             } 
           
-            if (nombre_pac  == '') {
+            /*if (nombre_pac  == '') {
                 notificaciones("Campo nombre vacio, registre un paciente !!", "ERROR DE FORMULARIO", 'error');
                 return false;
             } 
             if (apellido_pac  == '') {
                 notificaciones("Campo apellido vacio, registre un paciente !!", "ERROR DE FORMULARIO", 'error');
                 return false;
-            } 
+            } */
 
             control=-1;
             var existe;
@@ -334,9 +379,11 @@
                 limpiarformParcialP(); //para limpiar el formulario despues de registrarlo
                  document.getElementById("p_id_paciente").value = "";
                 $('#validacionAgregar').text('Error verifique los errores del formulario !!!').removeClass('text-danger').hide();
+                $('#validacionPacienteR').hide(); 
                 i++;
             }else{
                 $('#validacionAgregar').text('Error verifique los errores del formulario !!!').addClass('text-danger').show();
+                $('#validacionPacienteR').hide(); 
             }
            
         });
@@ -371,6 +418,7 @@
                     processData: false,
                     data: formData
                 }).done(function(data){ //alert(resp);
+                 //   console.log('-> '+data)
                     if(data=='error_registro_solicitud_citologico'){ //resp=='error'	
                         notificaciones("ERROR NO SE PUDO REALIZAR EL REGISTRO !!", "CONTACTE CON SOPORTE", 'error');
                         setTimeout(function(){	
@@ -458,7 +506,6 @@
             $('#c_cedula').focus();
         });
        
-
     });
 </script>
 

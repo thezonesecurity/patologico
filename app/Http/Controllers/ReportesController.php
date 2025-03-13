@@ -55,8 +55,8 @@ class ReportesController extends Controller
        }else{
             $resultado=ExamenCitologia::query();
             $resultado=$resultado->whereHas('examenesResultadoCito',function($query) use($fecha){
-                return $query->where('fecha_resultado', $fecha)->where('estado', TRUE);
-            })->where('fecha_resultado', $fecha)->where('result_estado','TRUE')->where('estado', TRUE)->get();
+                return $query->where('fecha_resultado', $fecha)->where('estado', 'true');
+            })->where('fecha_resultado', $fecha)->where('result_estado','TRUE')->where('estado', 'true')->get();
             //return view('Reportes.pdfCitologia')->with(compact('resultado')); 
             $cont = count($resultado) > 0;
             if($cont){
@@ -253,8 +253,8 @@ class ReportesController extends Controller
                 $examen=ExamenCitologia::query();
                 $examen=$examen->whereHas('examen_solCitologia',function($query) use($fecha){
                     return $query->where('fecha_solicitud', $fecha);
-                })->where('id', $id)->where('estado','TRUE')->where('fecha_resultado', null)->update([
-                    'estado' => 'FALSE'
+                })->where('id', $id)->where('estado','true')->where('fecha_resultado', null)->update([
+                    'estado' => 'false'
                  ]);
                 return response($id);//->json($id);
             }else{ // para tipo rural y urbano
@@ -262,7 +262,7 @@ class ReportesController extends Controller
                 $examen=$examen->whereHas('examen_solicitudes',function($query) use($tipo, $fecha){
                     return $query->where('tipo_solicitud', $tipo)->where('fecha_solicitud', $fecha);
                 })->where('id', $id)->where('estado','TRUE')->where('fecha_resultado', null)->update([
-                    'estado' => 'FALSE'
+                    'estado' => 'false'
                  ]);
                 return response($id); //->json($id);
             }
@@ -284,10 +284,10 @@ class ReportesController extends Controller
             if($tipo == 'C'){ // para tipo citologico
                 $examen=ExamenCitologia::whereHas('examen_solCitologia',function($query) use($fechaS){
                     return $query->where('fecha_solicitud', $fechaS)->where('estado', TRUE);
-                })->where('id', $id)->where('estado', TRUE)->where('fecha_resultado', $fechaR)->first();
+                })->where('id', $id)->where('estado', 'true')->where('fecha_resultado', $fechaR)->first();
                 //return response()->json($examen->id);
-                $result = ResultadoCitologia::where('id_examen', $examen->id)->where('estado', TRUE)->where('fecha_resultado', $fechaR)->update([ 'estado' => FALSE ]); //->first();
-                $examen = $examen->update([ 'estado' => FALSE ]);
+                $result = ResultadoCitologia::where('id_examen', $examen->id)->where('estado', 'true')->where('fecha_resultado', $fechaR)->update([ 'estado' => 'false' ]); //->first();
+                $examen = $examen->update([ 'estado' => 'false' ]);
                 return response($id); //->json($result);
             }else{ // para tipo rural y urbano
                 $examen=Examen::whereHas('examen_solicitudes',function($query) use($tipo, $fechaS){

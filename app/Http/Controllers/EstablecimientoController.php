@@ -31,9 +31,9 @@ class EstablecimientoController extends Controller
            $id_user = auth()->user()->id;
            $establecimiento = new Establecimiento(); //llenado a la tabla Productos
            $establecimiento->fill([
-               'nombre_establecimiento' => $request->nombre_establecimiento,
+               'nombre_establecimiento' => ucfirst(strtoupper(str($request->nombre_establecimiento)->squish())),  // $request->nombre_establecimiento,
                'municipio_id' => $request->municipio_id,
-               'descripcion' => $request->descripcion,
+               'descripcion' =>  ucfirst(strtolower(str($request->descripcion)->squish())),  // $request->descripcion,
                'estado' => 'TRUE',
                'creatoruser_id' =>$id_user,
                'updateduser_id' => $id_user
@@ -62,15 +62,15 @@ class EstablecimientoController extends Controller
             $id_user = auth()->user()->id;
             if($request->nombre == '0'){
                 $establecimiento->fill([
-                    'nombre_establecimiento' => $request->nombre_establecimiento,
+                    'nombre_establecimiento' => ucfirst(strtoupper(str($request->nombre_establecimiento)->squish())),  //$request->nombre_establecimiento,
                     'municipio_id' => $request->municipio_id,
-                    'descripcion' => $request->descripcion,
+                    'descripcion' =>  ucfirst(strtolower(str($request->descripcion)->squish())),  //$request->descripcion,
                     'updateduser_id' => $id_user
                  ]);
             }else{
                 $establecimiento->fill([
-                    'nombre_establecimiento' => $request->nombre_establecimiento,
-                    'descripcion' => $request->descripcion,
+                    'nombre_establecimiento' => ucfirst(strtoupper(str($request->nombre_establecimiento)->squish())),  // $request->nombre_establecimiento,
+                    'descripcion' =>  ucfirst(strtolower(str($request->descripcion)->squish())),  //$request->descripcion,
                     'updateduser_id' => $id_user
                  ]);
             }

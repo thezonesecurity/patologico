@@ -27,8 +27,8 @@ class MunicipioController extends Controller
            $id_user = auth()->user()->id;
            $municipio = new Municipio(); //llenado a la tabla Productos
            $municipio->fill([
-               'nombre_municipio' => $request->nombre_municipio,
-               'descripcion' => $request->descripcion,
+               'nombre_municipio' => ucfirst(strtoupper(str($request->nombre_municipio)->squish())),  //$request->nombre_municipio,
+               'descripcion' => ucfirst(strtolower(str($request->descripcion)->squish())),  // $request->descripcion,
                'estado' => 'TRUE',
                'creatoruser_id' =>$id_user,
                'updateduser_id' => $id_user
@@ -50,13 +50,13 @@ class MunicipioController extends Controller
 
     public function update(UpdateMunicipioRequest $request, Municipio $municipio)//Request $request, $id)
     {
-        //  dd($request);
+        //dd(ucfirst(strtoupper(str($request->nombre_municipio)->squish())));
         try{
             DB::beginTransaction();
             $id_user = auth()->user()->id;
             $municipio->fill([
-                'nombre_municipio' => $request->nombre_municipio,
-                'descripcion' => $request->descripcion,
+                'nombre_municipio' => ucfirst(strtoupper(str($request->nombre_municipio)->squish())),  //$request->nombre_municipio,
+                'descripcion' => ucfirst(strtolower(str($request->descripcion)->squish())), // $request->descripcion,
                 'updateduser_id' => $id_user
             ]);
              $municipio->save();

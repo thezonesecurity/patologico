@@ -24,9 +24,25 @@ class StoreEstablecimientoRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre_establecimiento' => 'required|unique:App\Models\Establecimiento,nombre_establecimiento|regex:/^[\pL\s\-]+$/u|min:2|max:200',
+            'nombre_establecimiento' => 'required|unique:App\Models\Establecimiento,nombre_establecimiento|regex:/^[a-zA-ZñÑ\s.\-]+$/|min:2|max:200',
             'municipio_id' => 'required|integer',
-            'descripcion' => 'nullable|regex:/^[\pL\s\-]+$/u|max:200',
+            'descripcion' => 'nullable|regex:/^[a-zA-ZñÑ\s.,]+$/|max:200',
+        ];
+    }
+    public function attributes() //para cambiar el nombre de la variable
+    {
+        return[
+            'nombre_establecimiento' => 'nombre establecimiento',
+            'municipio_id' => 'municipio',
+        ];
+    }
+    public function messages()//para vambair el mensaje de la variable
+    {
+        return[
+            'nombre establecimiento.required' => 'Se requiere un nombre',
+            'nombre establecimiento.regex' => 'Formato invalido solo de admite letras, puntos y guiones',
+            'descripcion' => 'Formato invalido solo de admite letras, comas y puntos',
+            'municipio.required' => 'Se requiere un nombre',
         ];
     }
 }

@@ -25,8 +25,8 @@ class DiagnosticoController extends Controller
         $id_user = auth()->user()->id;
         $diagnostico = new Diagnostico(); //llenado a la tabla Productos
         $diagnostico->fill([
-            'codigo_diagnostico' => $request->codigo_diagnostico,
-            'descripcion_diagnostico' => $request->descripcion_diagnostico,
+            'codigo_diagnostico' => ucfirst(strtoupper(str($request->codigo_diagnostico)->squish())),  //$request->codigo_diagnostico,
+            'descripcion_diagnostico' => ucfirst(strtoupper(str($request->descripcion_diagnostico)->squish())),  // $request->descripcion_diagnostico,
             'estado' => 'TRUE',
             'creatoruser_id' =>$id_user,
             'updateduser_id' => $id_user
@@ -53,8 +53,8 @@ class DiagnosticoController extends Controller
             DB::beginTransaction();
             $id_user = auth()->user()->id;
             $diagnostico->fill([
-                'codigo_diagnostico' => $request->codigo_diagnostico,
-                'descripcion_diagnostico' => $request->descripcion_diagnostico,
+                'codigo_diagnostico' => ucfirst(strtoupper(str($request->codigo_diagnostico)->squish())),  //$request->codigo_diagnostico,
+                'descripcion_diagnostico' => ucfirst(strtoupper(str($request->descripcion_diagnostico)->squish())),  // $request->descripcion_diagnostico,
                 'updateduser_id' => $id_user
             ]);
              $diagnostico->save();

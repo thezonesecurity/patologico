@@ -25,7 +25,7 @@ class ResultadoCitologiaController extends Controller
         $resultado=ExamenCitologia::query();
         $resultado=$resultado->where('num_examen', $nro_examen)->first();
         if($resultado){
-            $existeResultado=$resultado->where('num_examen', $nro_examen)->where('result_estado', 'FALSE')->get();
+            $existeResultado=$resultado->where('num_examen', $nro_examen)->where('result_estado', 'FALSE')->where('estado', 'true')->get();
             if(count($existeResultado) == 0){
                 return 'registrado'; 
             }else{

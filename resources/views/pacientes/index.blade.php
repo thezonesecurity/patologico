@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group col-md-5 col-sm-5 ml-4">
                     <label class="font-weight-bold">Cedula de identidad</label>
-                    <input type="text" class="form-control" name="ci" id="ci" value="{{old('ci')}}">
+                    <input type="text" class="form-control" name="ci" id="ci" value="{{old('ci')}}" placeholder="formato 123456 PT">
                     @error('ci')
                          <small class="text-danger">{{'* '.$message}}</small>
                     @enderror
@@ -123,11 +123,12 @@
             <thead>
                 <tr>
                     <th width="20px">Nro.</th>
-                    <th width="150px">Nombres</th>
-                    <th width="150px">Apellidos</th>
-                    <th width="55px">C.I.</th>
+                    <th width="130px">Nombres</th>
+                    <th width="140px">Apellidos</th>
+                    <th width="45px">C.I.</th>
                     <th width="55px">Fecha nacimiento</th>
                     <th width="25px">Edad</th>
+                    <th width="25px">Estado</th>
                     <th width="">Opciones</th>
                 </tr>
             </thead>
@@ -146,18 +147,23 @@
                             <td  >{{ $paciente->ci }}</td>
                             <td  >{{ $paciente->fecha_nacimiento }}</td>
                             <td  >{{$paciente->edad}} </td>
+                            @if ($paciente->estado == 'TRUE')
+                                <td class="text-success fw-bold">Habilitado</td>
+                            @else                        
+                                <td class="text-danger fw-bold">Eliminado</td>
+                            @endif
                             <td style='background-color: ;'>
                                 @if($paciente->estado == "TRUE")
+                                   <button type="button" class="btn btn-outline-primary btn-sm ml-1"  data-toggle="modal" data-target="#ModalVer-{{$paciente->id}}">Ver</button>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                         <form action="{{route('pacientes.edit',['paciente' => $paciente])}}" method="GET">
                                             <button type="submit" class="btn btn-outline-success btn-sm">Editar</button>
                                         </form>
                                     </div>   
-                                    <button type="button" class="btn btn-outline-primary btn-sm ml-1"  data-toggle="modal" data-target="#ModalVer-{{$paciente->id}}">Ver</button>
                                     <button type="button" class="btn btn-sm btn-outline-danger m-1"  data-toggle="modal" data-target="#confirmarModal-{{$paciente->id}}">Eliminar</button>
                                 @else
-                                    <button disabled type="button" class="btn btn-outline-success btn-sm ml-1"  data-toggle="modal" data-target="#Actualizar_Area">Editar</button>
                                     <button type="button" class="btn btn-outline-primary btn-sm ml-1"  data-toggle="modal" data-target="#ModalVer-{{$paciente->id}}">Ver</button>
+                                    <button disabled type="button" class="btn btn-outline-success btn-sm ml-1"  data-toggle="modal" data-target="#Actualizar_Area">Editar</button>
                                     <button type="button" class="btn btn-sm btn-outline-warning m-1" data-toggle="modal" data-target="#confirmarModal-{{$paciente->id}}">Restaurar</button>
                                 @endif 
                             </td>

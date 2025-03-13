@@ -53,7 +53,7 @@
                 <div class="row" >
                     <div class="col-md-3">
                         <table class="table table-sm border border-success">
-                            <div class="font-weight-bold m-2 text-center">Registro de Solicitud</div>
+                            <div class="font-weight-bold m-2 text-center">Registro de Solicitud Patologia</div>
                             <tr>
                                 <div style="background: #e9f8da;" class="border border-5">
                                     <div class="form-row " class="mt-2">
@@ -136,19 +136,19 @@
                                             <input type="text" class="form-control" name="fecha_nac_p" id="fecha_nac_p" readonly>
                                         </div>
                                     </div>
+                                    <small id="validacionPaciente" class="form-text m-1"></small>
+                                    <small id="validacionAgregar" class="form-text m-1"></small>
                                 </div>
-
-                                <small id="validacionAgregar" class="form-text m-1"></small>
+                                
                                 <div class="row justify-content-center align-content-center" style="margin-top: -1x;">
-                                    <small id="validacionAgregar" class="form-text"></small>
-                                    <button id="adicionar" class="btn btn-success btn-sm add" type="button"> Agregar</button>
-                                    <button id="limpiar" class="btn btn-danger btn-sm ml-4 cancelar" type="button" > Cancelar</button>                                  
+                                    <button id="adicionar" class="btn btn-outline-success btn-sm add" type="button"> Agregar</button>
+                                    <button id="limpiar" class="btn btn-outline-danger btn-sm ml-4 cancelar" type="button" > Cancelar</button>                                  
                                 </div>
                             </tr>
                         </table> <!--REGISTRAR ROL TURNO-->
                     </div>
                     <div class="col-md-9" id="este"> {{--listar tabla--}}
-                        <div class="font-weight-bold mt-2 text-center">Lista Temporal de Solicitudes</div> <br>
+                        <div class="font-weight-bold mt-2 text-center">Lista Temporal de Solicitudes Patologia</div> <br>
                         <table id="mytable" class="table table-sm table-striped border" style="font-size: 12px;  table-layout: fixed;" width="">
                                 <tr class="titulo" > {{--style="background-color: red;display: none;"--}}
                                     <th width="40px">Nro.</th>
@@ -169,7 +169,7 @@
         </tr>
     </table>
     <div class="col col-md-12 text-center" style="margin-top: -10px;">
-        <button type="button" id="registrar" class="btn btn-success btn-sm ml-4">Registrar</button>
+        <button type="button" id="registrar" class="btn btn-outline-success btn-sm ml-4">Registrar</button>
     </div>
 
 {!!Form::Close()!!}
@@ -213,9 +213,62 @@
     //PROCESO PARA MOSTRAS NOMBRE, APELLIDO Y FECHA_NACIMIENTO MEDIANTE EL CI
     $('.controlCedula').change(function() {
         $.ajax({
-            url: "{{ route('lista.registrados.pacientes') }}",
+            url:"{{route('lista.registrados.pacientes')}}",
+            dataType: "html",
+            cache: false,
+            data: { cedula: $('#ci').val(), "_token": "{{ csrf_token() }}"  }, //$(this).val() 
+        }).done(function(data){
+          //  console.log('<- '+ data);
+            if(data == 'No existe'){
+                //  alert('El paciente no existe');
+                $(".controlCi").addClass('is-invalid');
+                $('#validacionCi').text('El C.I. del paciente no existe, registrelo !!!').addClass('text-danger').show();
+                     
+                $('#cedula').val( $('#ci').val() );
+                $('#exampleModal').modal('show');
+                     
+                document.getElementById("nombre_paciente").value = "";
+                document.getElementById("apellido_paciente").value = "";
+                document.getElementById("fecha_nac_p").value = "";
+                document.getElementById("id_paciente").value = "";
+                $('#validacionPaciente').hide();
+                exitePaciente = 1;
+            }else{
+                var data = JSON.parse(data);
+                //console.log('-> '+ data['estado']);
+                if(data['estado'] == true){
+                   // console.log('<- '+ data['id']);
+                    $('#validacionPaciente').hide();
+                    //pasos
+                    $(".controlCi").removeClass('is-invalid');
+                     $('#validacionCi').text('El C.I. del paciente no existe, registrelo !!!').removeClass('text-danger').hide();
+                     $('#validacionAgregar').text('Error verifique los errores del formulario !!!').addClass('text-danger').hide();
+                     $(".vistaModal").hide();
+                     $('#nombre_paciente').val(data['nombre']);
+                     $('#apellido_paciente').val(data['apellido']);
+                     $('#fecha_nac_p').val(data['fecha_nacimiento']);
+                     $('#id_paciente').val(data['id']);
+                     exitePaciente = 0; 
+
+                }else{
+                  //  console.log('eliminado');
+                    $('#cedula').val('');
+                     document.getElementById("nombre_paciente").value = "";
+                     document.getElementById("apellido_paciente").value = "";
+                     document.getElementById("fecha_nac_p").value = "";
+                     document.getElementById("id_paciente").value = "";
+                     $('#validacionPaciente').text('El paciente esta eliminado, incapaz de agregar !!').addClass('text-danger').show();
+                     exitePaciente = 1;
+                }
+            }
+           
+        });
+
+       /* $.ajax({
+            url: "",
             data: { cedula: $('#ci').val() }, //$(this).val() 
             success: function(data){
+                console.log('-> '+ data);
                 if(data == 'No existe'){
                    //  alert('El paciente no existe');
                      $(".controlCi").addClass('is-invalid');
@@ -243,7 +296,7 @@
                      exitePaciente = 0;   
                  }
              }
-        });
+        });*/
     });
     //funcion para registrar paciente por ajax
     $('#BtnPacienteRegistrar').click(function(e) {

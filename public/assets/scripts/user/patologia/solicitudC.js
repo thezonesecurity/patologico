@@ -19,6 +19,8 @@ function limpiarformParcialP(){
         $('#p_establecimiento').val('Elegir opcion').trigger('change.select2');
         $(".PcontrolCi").removeClass('is-invalid');//-
         $('#PvalidacionCi').removeClass('text-danger').hide();//-
+        $('#validacionPacienteR').hide();  
+        $('#validacionAgregar').hide();
     });
     //validacion para el modal registrar paciente
     var rules = /^[a-zA-ZÑñ ]{3,50}$/;

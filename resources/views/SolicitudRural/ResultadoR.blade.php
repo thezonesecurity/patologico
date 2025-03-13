@@ -39,6 +39,16 @@
     .error {
         color: red;
     }
+    textarea {
+        padding: 0;
+        margin: 0;
+        resize: none;
+    }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 </style>
 @stop
 
@@ -53,7 +63,7 @@
                 <div class="row" >
                     <div class="col-md-3">
                         <table class="table table-sm border border-success">
-                            <center class="font-weight-bold m-2">Registro de Resultado</center>
+                            <div class="text-center font-weight-bold m-2">Registro de Resultado Patologia</div>
                             <tr>
                                 <div style="background: #f8daee;" class="border border-5">
                                     <div class="form-row " style="margin-bottom: -15px;">
@@ -132,23 +142,24 @@
                                 </div>
                                 <label for="ho_diang" class="m-1">Diagnosticos</label>
                                 <div style="background: #ddf8da;" class="border border-5">
-                                    <div class="form-row mt-1" style="margin-bottom: -2px;">
+                                    <div class="form-row mt-1" style="margin-bottom: -1px;">
                                         <div class="form-group col-md-3">
                                             <label >Codigo</label>
                                         </div>
                                         <div class="form-group col-md-9">
                                             <input type="text" class="form-control text-uppercase controlDiagnostico" name="nombre_diag" id="nombre_diag">
                                             <input type="hidden" class="form-control " name="codigo_diag" id="codigo_diag" readonly style="display: none;">
-                                            <small id="validacionDiagnostico" class="form-text"></small>
                                         </div>
                                     </div>
-                                    <label for="ho_diang" >Descripcion</label>
-                                    <div class="form-group ">
-                                        <textarea class="form-control" name="descripcion" id="descripcion" rows="3" readonly></textarea>
+                                    <small id="validacionDiagnostico" class="form-text"></small>
+                                    <div class="" style="margin-top: -1px;"> <label for="ho_diang" >Descripcion</label> </div>
+                                    <div class="form-group " >
+                                        <textarea class="form-control" name="descripcion" id="descripcion" rows="3" readonly style="font-size: 13px;"></textarea>
                                     </div>
+                                    <small id="validacionDiagnosticos" class="form-text"></small>
+                                    <small id="validacionAgregarR" class="form-text"></small>
                                 </div>
-                                <small id="validacionAgregarR" class="form-text"></small>
-                                <div class="row justify-content-center align-content-center" style="margin-top: -1x;">
+                                <div class="row justify-content-center align-content-center" style="margin-top: -1px;">
                                     <button id="adicionar" class="btn btn-success btn-sm add" type="button"> Agregar</button>
                                     <button id="limpiarResultR" class="btn btn-danger btn-sm ml-4 cancelar" type="button" > Cancelar</button>                                  
                                 </div>
@@ -157,7 +168,7 @@
                     </div>
                     <!---->
                     <div class="col-md-9" id="este"> {{--listar tabla--}}
-                        <center class="font-weight-bold mt-2">Lista Temporal de Resultados</center> <br>
+                        <div class="text-center font-weight-bold mt-2">Lista Temporal de Resultados Patologia</div> <br>
                         <table id="mytable" class="table table-sm table-striped border" style="font-size: 12px;  table-layout: fixed;" width="">
                                 <tr class="titulo" > {{--style="background-color: red;display: none;"--}}
                                     <th width="40px">Nro.</th>
@@ -175,9 +186,7 @@
         </tr>
     </table>
     <div class="col col-md-12" style="margin-top: -10px;">
-        <center>
-            <button type="button" id="registrarResult" class="btn btn-success btn-sm ml-4">Registrar</button>
-        </center>
+        <div class="text-center"> <button type="button" id="registrarResult" class="btn btn-success btn-sm ml-4">Registrar</button> </div>
     </div>
 
 {!!Form::Close()!!}
@@ -206,7 +215,7 @@ $(document).ready(function() {
             url: "{{ route('examens.lista.resultados') }}",
             data: { nro_examen: $('#examen_nro').val(), prefijo: $('#prefijo').val() }, 
         }).done(function(data){ //alert(resp);
-            console.log(data);
+           // console.log(data);
             if(data == 'no_encontrado'){
                 $(".controlExamen").addClass('is-invalid');
                 $('#validacionExamen').text('Nro. de examen no econtrado.. !!!').addClass('text-danger').show();
@@ -247,9 +256,41 @@ $(document).ready(function() {
      $('.controlDiagnostico').change(function() {
         $.ajax({
             url: "{{ route('diagnostico.lista.resultados') }}",
+            dataType: "html",
+            cache: false,
             data: { nro_diagnostico: $('#nombre_diag').val() }, 
         }).done(function(data){ //alert(resp);
+            //console.log('-> '+ data);
             if(data == 'No existe'){
+                $(".controlDiagnostico").addClass('is-invalid');
+                $('#validacionDiagnostico').text('Codigo de diagnostico no existe, registrelo !!!').addClass('text-danger').show();
+                document.getElementById("codigo_diag").value = "";
+                document.getElementById("descripcion").value = "";
+                $('#validacionDiagnosticos').hide();
+                exiteDiagnsotico = 1;
+            }else{
+                var data = JSON.parse(data);
+               // console.log('-> '+ data['descripcion_diagnostico']);
+                if(data['estado'] == true){
+                    $('#validacionDiagnosticos').hide();
+
+                     $(".controlDiagnostico").removeClass('is-invalid');
+                     $('#validacionDiagnostico').text('NroCodigo de diagnostico existe, registrelo !!!').removeClass('text-danger').hide();
+                     $('#nombre_diag').val(data['codigo_diagnostico']);
+                     $('#codigo_diag').val(data['id']);
+                     $('#descripcion').val(data['descripcion_diagnostico']);
+                     $('#validacionAgregarR').text('Error verifique los errores del formulario !!!').removeClass('text-danger').hide();
+                     exiteDiagnsotico = 0;   
+                }else{
+                    $(".controlDiagnostico").addClass('is-invalid');
+                    $('#validacionDiagnostico').hide();
+                    document.getElementById("codigo_diag").value = "";
+                    document.getElementById("descripcion").value = "";
+                    exiteDiagnsotico = 1;
+                    $('#validacionDiagnosticos').text('Diagnostico eliminado, incapaz de agregar !!').addClass('text-danger').show();
+                }
+            }
+           /* if(data == 'No existe'){
                      $(".controlDiagnostico").addClass('is-invalid');
                      $('#validacionDiagnostico').text('Codigo de diagnostico no existe, registrelo !!!').addClass('text-danger').show();
                      document.getElementById("codigo_diag").value = "";
@@ -264,7 +305,7 @@ $(document).ready(function() {
                      $('#descripcion').val(data[0]['descripcion_diagnostico']);
                      $('#validacionAgregarR').text('Error verifique los errores del formulario !!!').removeClass('text-danger').hide();
                      exiteDiagnsotico = 0;   
-                 }
+                 }*/
         });
     });
      //PROCESO PARA ADICIONAR LOS DATOS DEL FORMUALRIO A LA TABLA TEMPORAL y VALIDACION DEL FORMULARIO

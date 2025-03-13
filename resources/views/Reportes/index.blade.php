@@ -153,7 +153,7 @@
                         var cuerpoTabla_solicitudes = $('#tablaLista_solicitud'); //para solicitudes
                         cuerpoTabla_solicitudes.empty();
                         data.forEach(function(datos, index) { // Iterar sobre los datos devueltos y agregarlos a la tabla
-                           // console.log('data-> '+datos['reporte']);
+                           // console.log('data-> '+datos);
                             if(datos['reporte'] == 'solicitud'){
                                 $('#titulo').hide();
                                 $('#listatemp_resultado').hide();
@@ -167,8 +167,8 @@
                                 nuevaFila.append('<td>' + datos.edad + '</td>');
                                 nuevaFila.append('<td>' + datos.municipio + '</td>');
                                 nuevaFila.append('<td>' + datos.establecimiento + '</td>');
-                                nuevaFila.append('<td>' + (datos.estado === true ? 'Habilitado' : 'Eliminado') + '</td>');
-                                nuevaFila.append((datos.estado == true ? '<td> <button type="button" name="delete" id="' + datos.id + '" class="btn btn-outline-danger btn-sm btn_deleteS">Dar baja</button> </td>' : '<td> <button type="button" name="delete" id="' + datos.id + '" class="btn btn-danger btn-sm btn_deleteS" disabled >Dar baja</button> </td>'));
+                                nuevaFila.append('<td>' + (datos.estado == 'true' ? 'Habilitado' : 'Eliminado') + '</td>');
+                                nuevaFila.append((datos.estado == 'true' ? '<td> <button type="button" name="delete" id="' + datos.id + '" class="btn btn-outline-danger btn-sm btn_deleteS">Dar baja</button> </td>' : '<td> <button type="button" name="delete" id="' + datos.id + '" class="btn btn-danger btn-sm btn_deleteS" disabled >Dar baja</button> </td>'));
                                // nuevaFila.append('<td> <button type="button" name="delete" id="' + datos.id + '" class="btn btn-outline-danger btn-sm btn_deleteS">Dar baja</button> </td>');
         
                                 cuerpoTabla_solicitudes.append(nuevaFila);
@@ -204,9 +204,9 @@
                                 nuevaFila.append('<td>' + datos.edad + '</td>');
                                 nuevaFila.append('<td>' + datos.fecha_solicitud + '</td>');
                                 nuevaFila.append('<td>' + datos.fecha_resultado + '</td>');
-                                nuevaFila.append('<td>' + (datos.estado === true ? 'Habilitado' : 'Eliminado') + '</td>');
+                                nuevaFila.append('<td>' + (datos.estado == 'true' ? 'Habilitado' : 'Eliminado') + '</td>');
                                // nuevaFila.append('<td> <button type="button" name="ver" id="' + datos.id + '" class="btn btn-outline-info btn-sm btn_ver">Ver</button> <button type="button" name="delete" id="' + datos.id + '" class="btn btn-outline-danger btn-sm btn_deleteR">Dar baja</button> </td>');
-                                nuevaFila.append((datos.estado == true ? '<td> <button type="button" name="ver" id="' + datos.id + '" class="btn btn-outline-info btn-sm btn_ver">Ver</button> <button type="button" name="delete" id="' + datos.id + '" class="btn btn-outline-danger btn-sm btn_deleteR">Dar baja</button> </td>' : '<td> <button type="button" name="ver" id="' + datos.id + '" class="btn btn-info btn-sm btn_ver" disabled>Ver</button> <button type="button" name="delete" id="' + datos.id + '" class="btn btn-danger btn-sm btn_deleteR" disabled>Dar baja</button> </td>'));
+                                nuevaFila.append((datos.estado == 'true' ? '<td> <button type="button" name="ver" id="' + datos.id + '" class="btn btn-outline-info btn-sm btn_ver">Ver</button> <button type="button" name="delete" id="' + datos.id + '" class="btn btn-outline-danger btn-sm btn_deleteR">Dar baja</button> </td>' : '<td> <button type="button" name="ver" id="' + datos.id + '" class="btn btn-outline-info btn-sm btn_ver" >Ver</button> <button type="button" name="delete" id="' + datos.id + '" class="btn btn-danger btn-sm btn_deleteR" disabled>Dar baja</button> </td>'));
                                
                                 cuerpoTabla_resultado.append(nuevaFila);
                                 //PROCESO PARA MOSTAR EL MODAL VER
@@ -254,6 +254,9 @@
                                         $('#descripcionC').text((examen.descripcion != '' ? examen.descripcion : 'No tiene'));
                                         $('#conclucionC').text((examen.conclucion != '' ? examen.conclucion : 'No tiene'));
                                         $('#notaC').text((examen.nota != '' ? examen.nota : 'No tiene'));
+                                        if(examen.estado == 'true'){
+                                            $('#estadoR').text('Habilitado').removeClass('text-danger').addClass('text-success'); 
+                                        }else { $('#estadoR').text('Eliminado').removeClass('text-success').addClass('text-danger');  }
                                         $('#exampleModalverCito').modal('show'); // Mostrar el modal
                                     }
                                 });
@@ -417,8 +420,8 @@
                     estadoCell.text('Eliminado');
                     btnEliminar.prop('disabled', true);
                     btnEliminar.removeClass('btn-outline-danger').addClass('btn-danger');
-                    btnVer.prop('disabled', true);
-                    btnVer.removeClass('btn-outline-info').addClass('btn-info');
+                   // btnVer.prop('disabled', false);
+                   // btnVer.removeClass('btn-outline-info').addClass('btn-info');
                     $('#tablaLista_resultado tr[data-id="' + data + '"] td:nth-child(8)').val('eliminados');
                     notificaciones("correctamente ....", "Resultado eliminado", 'success');
                 }else{

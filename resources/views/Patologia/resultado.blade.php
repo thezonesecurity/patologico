@@ -466,7 +466,7 @@
                     processData: false,
                     data: formData
                 }).done(function(data){ 
-                  console.log('-> '+data);
+                  //console.log('-> '+data);
                   data = JSON.parse(data);
                  // console.log(data[0]['fecha_solicitud'] + data[0]['nombres']);
                   if(data != 'error_registro_resul_citologico'){

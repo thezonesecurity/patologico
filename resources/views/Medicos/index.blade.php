@@ -121,11 +121,12 @@
             <thead>
                 <tr>
                     <th width="20px">Nro.</th>
-                    <th width="150px">Nombres</th>
-                    <th width="150px">Apellidos</th>
-                    <th width="69px">C.I.</th>
+                    <th width="130px">Nombres</th>
+                    <th width="130px">Apellidos</th>
+                    <th width="55px">C.I.</th>
                     <th width="55px">Fecha nacimiento</th>
                     <th width="25px">Edad</th>
+                    <th width="25px">Estado</th>
                     <th width="">Opciones</th>
                 </tr>
             </thead>
@@ -144,6 +145,11 @@
                             <td  >{{ $medico->ci }}</td>
                             <td  >{{ $medico->fecha_nacimiento }}</td>
                             <td  >{{$medico->edad}} </td>
+                            @if ($medico->estado == 'TRUE')
+                                <td class="text-success fw-bold">Habilitado</td>
+                            @else                        
+                                <td class="text-danger fw-bold">Eliminado</td>
+                            @endif
                             <td style='background-color: ;'>
                                 <button type="button" class="btn btn-outline-primary btn-sm ml-1"  data-toggle="modal" data-target="#ModalVerM-{{$medico->id}}">Ver</button>
                                 @if($medico->estado == "TRUE")

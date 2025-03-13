@@ -25,8 +25,22 @@ class UpdateMunicipioRequest extends FormRequest
     {
         $municipio = $this->route('municipio');
         return [
-            'nombre_municipio' => 'required|unique:App\Models\Municipio,nombre_municipio,'.$municipio->id.'|regex:/^[\pL\s\-]+$/u|min:2|max:200',
-            'descripcion' => 'nullable|max:200',
+            'nombre_municipio' => 'required|unique:App\Models\Municipio,nombre_municipio,'.$municipio->id.'|regex:/^[a-zA-ZñÑ\s.,\'\"-]+$/|min:2|max:200',
+            'descripcion' => 'nullable|regex:/^[a-zA-ZñÑ\s.,]+$/|max:200',
+        ];
+    }
+    public function attributes() //para cambiar el nombre de la variable
+    {
+        return[
+            'nombre_municipio' => 'nombre municipio',
+        ];
+    }
+    public function messages()//para vambair el mensaje de la variable
+    {
+        return[
+            'nombre municipio.required' => 'Se requiere un nombre',
+            'nombre municipio.regex' => 'Formato invalido solo de admite letras, comas, puntos, comillas simples, comillas dobles y guiones',
+            'descripcion.regex' => 'Formato invalido solo de admite letras, comas y puntos',
         ];
     }
 }

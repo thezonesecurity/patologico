@@ -14,7 +14,7 @@ class SolicitudRuralController extends Controller
 {
     public function index()
     {
-        $municipios = Municipio::where( 'estado', 'TRUE')->pluck('nombre_municipio', 'id');
+        $municipios = Municipio::where('estado', 'TRUE')->pluck('nombre_municipio', 'id');
        // $establecimientos = Establecimiento::where( 'estado', 'TRUE')->pluck('nombre_establecimiento', 'id');
        // dd($municipios);
         return view('SolicitudRural.index')->with(compact('municipios')); 
@@ -29,13 +29,16 @@ class SolicitudRuralController extends Controller
 
     }
 
-    public function getPacientes()
+    public function getPacientes(Request $request)
     {
-        $paciente= Paciente::where('ci', request()->input('cedula'))->where('estado', 'TRUE')->get(); 
-        if(isset($paciente) && count($paciente) > 0){
-            return response()->json($paciente);}
-        else{
-             return response()->json('No existe');}
+        $cedula = request()->input('cedula');
+      // return response()->json( $cedula );
+      
+       $paciente  = Paciente::where('ci', $cedula)->first(); 
+       // return response()->json($paciente->id);
+        if(isset($paciente->id)){
+            return response()->json($paciente);
+        }else{   return 'No existe'; }
     }
    
     public function create()

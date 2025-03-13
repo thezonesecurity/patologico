@@ -34,8 +34,8 @@ class PacienteRuralController extends Controller
         $fechaNacimiento = Carbon::parse($request->fecha_nac);
         $edad = $fechaNacimiento->age; //se obtiene la edad a partir d la fecha d nacimiento
     
-        $nombre = ucfirst(strtolower($request->nombre_pac)); //elimina espacios y pone en mayusculas solo las 1ras letras
-        $apellido = ucfirst(strtolower($request->apellido_pac));
+        $nombre = ucwords(strtolower(str($request->nombre_pac)->squish())); //ucfirst(strtolower($request->nombre_pac)); //elimina espacios y pone en mayusculas solo las 1ras letras
+        $apellido = ucwords(strtolower(str($request->apellido_pac)->squish())); //ucfirst(strtolower($request->apellido_pac));
         if($request){
             $newPaciente = new Paciente;
             $newPaciente->nombre = $nombre; //$request->nombre_pac;  //$validatedData['cedula'];
@@ -60,18 +60,18 @@ class PacienteRuralController extends Controller
             $id_user = auth()->user()->id;
             $persona = new Paciente(); //llenado a la tabla Productos
             $persona->fill([
-                'nombre' => $request->nombre,
-                'apellido' => $request->apellido,
+                'nombre' => ucwords(strtolower(str($request->nombre)->squish())), //$request->nombre,
+                'apellido' => ucwords(strtolower(str($request->apellido)->squish())), //$request->apellido,
                 'ci' => $request->ci,
                 'fecha_nacimiento' => $request->fecha_nacimiento,
                 'edad' => $request->edad,
-                'direccion' => $request->direccion,
+                'direccion' => ucfirst(strtolower(str($request->direccion)->squish())),  //$request->direccion,
                 'num_celular' => $request->num_celular,
                 'email' => $request->email,
                 'hc' => $request->hc,
                 'num_asegurado' => $request->num_asegurado,
                 'sexo' => $request->sexo,
-                'descripcion' => $request->descripcion,
+                'descripcion' => ucfirst(strtolower(str($request->descripcion)->squish())),   //$request->descripcion,
                 'estado' => 'TRUE',
                 'creatoruser_id' =>$id_user,
                 'updateduser_id' => $id_user
@@ -94,25 +94,25 @@ class PacienteRuralController extends Controller
 
     public function update(UpdatePacienteRequest $request, Paciente $paciente) // Request $request, $id) //
     {
-        //  dd($request);
+        //$r = ucfirst(strtolower($request->nombre)); 
+         //dd($r);
          try{
             DB::beginTransaction();
             $id_user = auth()->user()->id;
             $paciente->fill([
-                'nombre' => $request->nombre,
-                'apellido' => $request->apellido,
+                'nombre' =>  ucwords(strtolower(str($request->nombre)->squish())),  //$request->nombre,
+                'apellido' => ucwords(strtolower(str($request->apellido)->squish())),  // $request->apellido,
                 'ci' => $request->ci,
                 'fecha_nacimiento' => $request->fecha_nacimiento,
                 'edad' => $request->edad,
-                'direccion' => $request->direccion,
+                'direccion' => ucfirst(strtolower(str($request->direccion)->squish())),  //$request->direccion,
                 'num_celular' => $request->num_celular,
                 'email' => $request->email,
                 'hc' => $request->hc,
                 'num_asegurado' => $request->num_asegurado,
                 'sexo' => $request->sexo,
-                'descripcion' => $request->descripcion,
+                'descripcion' => ucfirst(strtolower(str($request->descripcion)->squish())),  //$request->descripcion,
                 'estado' => 'TRUE',
-                'creatoruser_id' =>$id_user,
                 'updateduser_id' => $id_user
             ]);
              $paciente->save();
@@ -131,17 +131,19 @@ class PacienteRuralController extends Controller
         //dd($id);
         $mensaje = '';
         $paciente = Paciente::find($id);
-        
+        $id_user = auth()->user()->id;
         if($paciente->estado == 'TRUE'){
             Paciente::where('id',$paciente->id)
             ->update([
-               'estado' => 'FALSE'
+               'estado' => 'FALSE',
+               'updateduser_id' => $id_user
             ]);
             $mensaje = 'Paciente eliminado';
         }else{
             Paciente::where('id',$paciente->id)
             ->update([
-               'estado' => 'TRUE'
+               'estado' => 'TRUE',
+               'updateduser_id' => $id_user
             ]);
             $mensaje = 'Paciente restaurado';
         }

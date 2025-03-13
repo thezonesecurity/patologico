@@ -26,11 +26,8 @@ class SolicitudCitologiaController extends Controller
         $variable = 0;
         $listadatos = [];
         $id_user = auth()->user()->id;
-        $lastSolicitud = ExamenCitologia::latest('id')->first(); //obtine ultimo nro de examen
-        if(isset($lastSolicitud)){
-            $nro_examen = $lastSolicitud->num_examen + 1 ; // verificamos si exite el ultimo nro de solictud si existe +1 pero sino toma el valor d 1
-        }else { $nro_examen=1; }
 
+       
         $lastSolicitud = SolicitudCitologia::latest()->first(); //obtine ultimo nro de solicitud
         if(isset($lastSolicitud)){
             $numero_soli = $lastSolicitud->nro_solicitud + 1 ; // verificamos si exite el ultimo nro de solictud si existe +1 pero sino toma el valor d 1
@@ -49,12 +46,31 @@ class SolicitudCitologiaController extends Controller
             $pos=0;
 
             foreach($request->id_paciente as $paciente_id) {
+
+                $ultimoEliminado =  ExamenCitologia::where('estado', '=', 'false')->orderBy('id')->first();
+                //return response()->json($ultimoElimniado->num_examen);
+                if(isset($ultimoEliminado)){
+                    $nro_examen = $ultimoEliminado->num_examen;
+                    $ultimoEliminado->fill([
+                        'estado' => 'delete',
+                    ]);
+                    $ultimoEliminado->save();
+                   // return response()->json($nro_examen); 
+                }else{ 
+                    $examen=ExamenCitologia::where('estado', '=', 'true')->latest('id')->first();
+                    if(isset($examen)){
+                        $nro_examen = $examen->num_examen + 1 ;
+                    }else { $nro_examen= 1; }
+                    //return response()->json($nro_examen); 
+                }
+               // return response()->json($nro_examen);
+        
                 $newexamen = new ExamenCitologia;
                 $newexamen->solicitud_id = $solicitud->id; 
                 $newexamen->num_examen = $nro_examen;
                 $newexamen->paciente_id = $request->id_paciente[$pos];
                 $newexamen->ci = $request->ci_pac[$pos];
-                $newexamen->estado = 'TRUE';
+                $newexamen->estado = 'true';
                 $newexamen->creatoruser_id = $id_user;
                 $newexamen->updateduser_id = $id_user;
                 $newexamen->result_estado = 'FALSE';
