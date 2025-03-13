@@ -16,8 +16,8 @@ function limpiarformParcial(){
         $('#form_reg_solicitud')[0].reset(); 
         $('#municipio').val('Elegir opcion').trigger('change.select2');
         $('#establecimiento').val('Elegir opcion').trigger('change.select2');
-        $('#validacionPaciente').hide();
-        $('#validacionAgregar').hide();
+        $('#validacionPaciente').text('El paciente esta eliminado, incapaz de agregar !!').hide();
+        $('#validacionAgregar').text('Error verifique los errores del formulario !!!').addClass('text-danger').hide();
     });
 
  //validacion para el modal registrar paciente

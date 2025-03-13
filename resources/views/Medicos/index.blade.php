@@ -26,35 +26,35 @@
                     <label class="font-weight-bold">Nombres</label>
                     <input type="text" class="form-control" name="nombre" id="nombre"  value="{{old('nombre')}}">
                     @error('nombre')
-                        <small class="text-danger">{{'* '.$message}}</small>
+                        <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
                     @enderror
                 </div>
                 <div class="form-group col-md-6 col-sm-6 ml-1" >
                     <label class="font-weight-bold">Apellidos</label>
                     <input type="text" class="form-control" name="apellido" id="apellido"  value="{{old('apellido')}}">
                     @error('apellido')
-                        <small class="text-danger">{{'* '.$message}}</small>
+                        <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
                     @enderror
                 </div>
                 <div class="form-group col-md-4 col-sm-4 ml-3">
                     <label class="font-weight-bold">Cedula de identidad</label>
                     <input type="text" class="form-control" name="ci" id="ci"  value="{{old('ci')}}" >
                     @error('ci')
-                        <small class="text-danger">{{'* '.$message}}</small>
+                        <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
                     @enderror
                 </div>
                 <div class="form-group col-md-7 col-sm-7 ml-1">
                     <label class="font-weight-bold">Fecha nacimiento</label>
                     <input type="date" class="form-control" name="fecha_nacimiento" id="fecha_nacimiento"   value="{{old('fecha_nacimiento')}}">
                     @error('fecha_nacimiento')
-                        <small class="text-danger">{{'* '.$message}}</small>
+                        <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
                     @enderror
                 </div>
                 <div class="form-group col-md-2 col-sm-2 ml-3">
                     <label class="font-weight-bold">Edad</label>
                     <input type="text" class="form-control" name="edad" id="edad"  value="{{old('edad')}}">
                     @error('edad')
-                        <small class="text-danger">{{'* '.$message}}</small>
+                        <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
                     @enderror
                 </div>
                 <div class="form-group col-md-9 col-sm-9 ml-1">
@@ -68,42 +68,42 @@
                     <label class="font-weight-bold">Especialidad</label>
                     <input type="text" class="form-control" name="especialidad" id="especialidad"  value="{{old('especialidad')}}">
                     @error('especialidad')
-                        <small class="text-danger">{{'* '.$message}}</small>
+                        <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
                     @enderror
                 </div>
                 <div class="form-group col-md-6 col-sm-6 ml-1" >
                     <label class="font-weight-bold">Correo electronico</label>
                     <input type="email" class="form-control" name="email" id="email"  value="{{old('email')}}" placeholder="opcional">
                     @error('email')
-                        <small class="text-danger">{{'* '.$message}}</small>
+                        <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
                     @enderror
                 </div>
                 <div class="form-group col-md-4 col-sm-4 ml-3">
                     <label class="font-weight-bold">Nro. celular</label>
                     <input type="text" class="form-control" name="num_celular" id="num_celular"  value="{{old('num_celular')}}" placeholder="opcional">
                     @error('num_celular')
-                        <small class="text-danger">{{'* '.$message}}</small>
+                        <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
                     @enderror
                 </div>
                 <div class="form-group col-md-7 col-sm-7 ml-1">
                     <label class="font-weight-bold">Matricula</label>
                     <input type="text" class="form-control" name="matricula_profesional" id="matricula_profesional"  value="{{old('matricula_profesional')}}">
                     @error('matricula_profesional')
-                        <small class="text-danger">{{'* '.$message}}</small>
+                        <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
                     @enderror
                 </div>
                 <div class="form-group col-md-11 col-sm-11 ml-3">
                     <label class="font-weight-bold">Direccion</label>
                     <input type="text" class="form-control" name="direccion" id="direccion"  value="{{old('direccion')}}" placeholder="opcional">
                     @error('direccion')
-                        <small class="text-danger">{{'* '.$message}}</small>
+                        <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
                     @enderror
                 </div>
                 <div class="form-group col-md-11 col-sm-11 ml-3">
                     <label class="font-weight-bold">Descripcion</label>
                     <input type="text" class="form-control" name="descripcion" id="descripcion"  value="{{old('descripcion')}}" placeholder="opcional">
                     @error('descripcion')
-                        <small class="text-danger">{{'* '.$message}}</small>
+                        <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
                     @enderror
                 </div>
 

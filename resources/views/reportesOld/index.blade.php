@@ -19,7 +19,7 @@
             <div class="form-group col-md-2 col-sm-2 font-weight-bold">
                 <label for="formGroup_fecha " >Gestion </label>
                 <input type="date" class="form-control" name="gestion" id="gestion">
-                <small id="gestion" class="form-text text-danger"></small>
+                <small id="gestion" class="form-text text-danger font-weight-bold"></small>
             </div>
             <div class="form-group col-md-2 col-sm-2 font-weight-bold">
                 <label for="formGroup_fecha " >Fecha desde </label>
@@ -29,7 +29,7 @@
             <div class="form-group col-md-2 col-sm-2 font-weight-bold">
                 <label for="formGroup_fecha " >Fecha hasta </label>
                 <input type="date" class="form-control" name="fecha" id="fecha">
-                <small id="fecha_fin" class="form-text text-danger"></small>
+                <small id="fecha_fin" class="form-text text-danger font-weight-bold"></small>
             </div>
             <div class="col-md-2 col-sm-2 font-weight-bold">
                 <label for="form_tipo_report" >Tipo Reporte</label>
@@ -39,7 +39,7 @@
                     <option value="R">Rural</option>
                     <option value="C">Citologia</option>
                 </select>
-                <small id="val_tipo" class="form-text text-danger"></small>
+                <small id="val_tipo" class="form-text text-danger font-weight-bold"></small>
             </div>
             <div class="col-md-3 col-sm-3 font-weight-bold">
                 <label for="formGroupExampleInput" >Accion</label>

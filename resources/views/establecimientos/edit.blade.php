@@ -27,7 +27,7 @@
               <label class="font-weight-bold">Nombre</label>
               <input type="text" class="form-control" name="nombre_establecimiento" id="nombre_establecimiento"  value="{{old('nombre_establecimiento', $establecimiento->nombre_establecimiento)}}" style="text-transform:uppercase" >
               @error('nombre_establecimiento')
-                  <small class="text-danger">{{'* '.$message}}</small>
+                  <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
               @enderror
           </div>
           <div class="form-group col-md-11 col-sm-11 ml-3">
@@ -39,14 +39,14 @@
                 @endforeach
             </select>
             @error('municipio_id')
-                <small class="text-danger">{{'* '.$message}}</small>
+                <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
             @enderror
           </div>
           <div class="form-group col-md-11 col-sm-11 ml-3">
             <label class="font-weight-bold">Descripcion</label>
             <input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="opcional" value="{{old('descripcion', $establecimiento->descripcion ) }}">
             @error('descripcion')
-                <small class="text-danger">{{'* '.$message}}</small>
+                <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
             @enderror
           </div>
 

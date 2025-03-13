@@ -23,9 +23,8 @@
           </div>
           <h5 class="fw-bolder font-weight-bold text text-center">Detalles del resultado patologia</h5>
           <div class="row ml-2">
-            <label for=""> 
-                <span class="fw-bolder font-weight-bold ">Nro. examen: </span> <span id="nro_examen"></span>
-            </label>
+            <label for=""> <span class="fw-bolder font-weight-bold ">Nro. examen: </span> <span id="nro_examen"></span> </label>
+            <label for=""> <span class="fw-bolder font-weight-bold ml-4">Estado: </span> <span id="estadoS" class="fw-bolder font-weight-bold "></span> </label>
           </div>
           <div class="row ml-2">
               <label for=""> <span class="fw-bolder font-weight-bold">Fecha solicitud: </span> <span id="fecha_solicitud"></span>

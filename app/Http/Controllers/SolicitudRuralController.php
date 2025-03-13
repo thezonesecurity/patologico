@@ -53,39 +53,9 @@ class SolicitudRuralController extends Controller
         $listadatos = [];
         $id_user = auth()->user()->id;
         $tipo = $request->tipo_soli;
-        $ultimoElimniado='';
-        if($tipo == 'U'){
-            $ultimoElimniado =  Examen::whereHas('examen_solicitudes',function($query) use($tipo){
-                return $query->where('tipo_solicitud', $tipo);
-            })->where('estado', '=', 'false')->orderBy('id')->first();
-    
-            if(isset($ultimoElimniado)){
-                $nro_examen = $ultimoElimniado->num_examen;
-               // return response()->json($ultimoElimniado->num_examen); 
-            }else{ 
-                $resultado=Examen::whereHas('examen_solicitudes',function($query) use($tipo){
-                    return $query->where('tipo_solicitud', $tipo);
-                })->where('estado', '=', 'true')->latest('id')->first();
-                if(isset($resultado->num_examen)){ $nro_examen = $resultado->num_examen + 1; }
-                else{ $nro_examen = $variable + 1; }
-            }
-           
-        }else{ //rural
-            $ultimoElimniado =  Examen::whereHas('examen_solicitudes',function($query) use($tipo){
-                return $query->where('tipo_solicitud', $tipo);
-            })->where('estado', '=', 'false')->orderBy('id')->first();
+       
 
-            if(isset($ultimoElimniado)){
-                $nro_examen = $ultimoElimniado->num_examen;
-               // return response()->json($ultimoElimniado->num_examen); 
-            }else{ 
-                $resultado=Examen::whereHas('examen_solicitudes',function($query) use($tipo){
-                    return $query->where('tipo_solicitud', $tipo);
-                })->where('estado', '=', 'true')->latest('id')->first();
-                if(isset($resultado->num_examen)){ $nro_examen = $resultado->num_examen + 1; }
-                else{ $nro_examen = $variable + 1; }
-            }
-        }
+        //
       //  return response()->json($nro_examen); //nro_examen); // resultado);
        /*$resultExamen=Examen::query();
         if($tipo == 'U'){
@@ -107,7 +77,7 @@ class SolicitudRuralController extends Controller
             $numero_soli = $lastSolicitud->num_solicitud + 1 ; // verificamos si exite el ultimo nro de solictud si existe +1 pero sino toma el valor d 1
         }else { $numero_soli=1; }
 
-        if($request->id_paciente && $nro_examen != 0){
+        if($request->id_paciente ){
             $solicitud = new Solicitud;
             //$solicitud->num_solicitud = $numero_soli;  se mantiene nro_solicitud pero no se usara
             $solicitud->fecha_solicitud = $request->fecha_solicitud;
@@ -121,26 +91,73 @@ class SolicitudRuralController extends Controller
 
             $pos=0;
             foreach($request->id_paciente as $paciente_id) {
-                $newExamenR = new Examen;
-                $newExamenR->solicitud_id = $solicitud->id; 
-                $newExamenR->paciente_id = $request->id_paciente[$pos];
-                $newExamenR->ci = $request->ci_pac[$pos];
-                $newExamenR->estado = 'TRUE';
-                $newExamenR->creatoruser_id = $id_user;
-                $newExamenR->updateduser_id = $id_user;
-                $newExamenR->num_examen = $nro_examen;
-                $newExamenR->resultado_estado = 'FALSE';
-                $newExamenR->save();
-                if($request->tipo_soli === 'U'){ $exemen_nro = $nro_examen.'-U';}
-                else{  $exemen_nro = $nro_examen.'-R'; }
-                $listadatos[] = [
-                    'ci' => $request->ci_pac[$pos],
-                    'nombre' => $request->nombre_pac[$pos],
-                    'apellido' => $request->apellido_pac[$pos],
-                    'nro_examen' => $exemen_nro
-                ];
-                $nro_examen++;
-                $pos++;
+                $ultimoElimniado='';
+                if($tipo == 'U'){
+                    $ultimoElimniado =  Examen::whereHas('examen_solicitudes',function($query) use($tipo){
+                        return $query->where('tipo_solicitud', $tipo);
+                    })->where('estado', '=', 'false')->orderBy('id')->first();
+            
+                    if(isset($ultimoElimniado)){
+                        $nro_examen = $ultimoElimniado->num_examen;
+                        $ultimoElimniado->fill([
+                            'estado' => 'delete',
+                        ]);
+                        $ultimoElimniado->save();
+                       // return response()->json($ultimoElimniado->num_examen); 
+                    }else{ 
+                        $resultado=Examen::whereHas('examen_solicitudes',function($query) use($tipo){
+                            return $query->where('tipo_solicitud', $tipo);
+                        })->where('estado', '=', 'true')->latest('id')->first();
+                        if(isset($resultado->num_examen)){ $nro_examen = $resultado->num_examen + 1; }
+                        else{ $nro_examen = $variable + 1; }
+                    }
+                   
+                }else{ //rural
+                    $ultimoElimniado =  Examen::whereHas('examen_solicitudes',function($query) use($tipo){
+                        return $query->where('tipo_solicitud', $tipo);
+                    })->where('estado', '=', 'false')->orderBy('id')->first();
+        
+                    if(isset($ultimoElimniado)){
+                        $nro_examen = $ultimoElimniado->num_examen;
+                        $ultimoElimniado->fill([
+                            'estado' => 'delete',
+                        ]);
+                        $ultimoElimniado->save();
+                       // return response()->json($ultimoElimniado->num_examen); 
+                    }else{ 
+                        $resultado=Examen::whereHas('examen_solicitudes',function($query) use($tipo){
+                            return $query->where('tipo_solicitud', $tipo);
+                        })->where('estado', '=', 'true')->latest('id')->first();
+                        if(isset($resultado->num_examen)){ $nro_examen = $resultado->num_examen + 1; }
+                        else{ $nro_examen = $variable + 1; }
+                    }
+                }
+                
+                if($nro_examen != 0){
+                    $newExamenR = new Examen;
+                    $newExamenR->solicitud_id = $solicitud->id; 
+                    $newExamenR->paciente_id = $request->id_paciente[$pos];
+                    $newExamenR->ci = $request->ci_pac[$pos];
+                    $newExamenR->estado = 'TRUE';
+                    $newExamenR->creatoruser_id = $id_user;
+                    $newExamenR->updateduser_id = $id_user;
+                    $newExamenR->num_examen = $nro_examen;
+                    $newExamenR->resultado_estado = 'FALSE';
+                    $newExamenR->save();
+                    if($request->tipo_soli === 'U'){ $exemen_nro = $nro_examen.'-U';}
+                    else{  $exemen_nro = $nro_examen.'-R'; }
+                    $listadatos[] = [
+                        'ci' => $request->ci_pac[$pos],
+                        'nombre' => $request->nombre_pac[$pos],
+                        'apellido' => $request->apellido_pac[$pos],
+                        'nro_examen' => $exemen_nro
+                    ];
+                    $nro_examen++;
+                    $pos++;
+                }else {
+                    break;
+                    return 'error_registro_solicitud';
+                } 
             }
            return response()->json($listadatos);
         }

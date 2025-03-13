@@ -55,7 +55,7 @@
                         <table class="table table-sm border border-success">
                             <div class="font-weight-bold m-2 text-center">Registro de Solicitud Patologia</div>
                             <tr>
-                                <div style="background: #e9f8da;" class="border border-5">
+                                <div style="background: #E1FFC7;" class="border border-5">
                                     <div class="form-row " class="mt-2">
                                         <div class="form-group col-md-4">
                                             <label for="fecha_solicitud">Tipo Solicitud</label>
@@ -100,7 +100,7 @@
                                     </div>
                                 </div>
                                 <label for="hora de inicio" class="m-1">Detalle de Pacientes</label>
-                                <div style="background: #dadef8;" class="border border-5">
+                                <div style="background: #FFD6AB;" class="border border-5">
                                    
                                     <div class="form-row " >
                                         <div class="form-group col-md-3">
@@ -108,7 +108,7 @@
                                         </div>
                                         <div class="form-group col-md-9">
                                             <input type="text" class="form-control controlCedula ControlCi" name="ci" id="ci" >
-                                            <small id="validacionCi" class="form-text"></small>
+                                            <small id="validacionCi" class="form-text font-weight-bold"></small>
                                         </div>
                                     </div>
                                     <div class="form-row " >
@@ -136,8 +136,10 @@
                                             <input type="text" class="form-control" name="fecha_nac_p" id="fecha_nac_p" readonly>
                                         </div>
                                     </div>
-                                    <small id="validacionPaciente" class="form-text m-1"></small>
-                                    <small id="validacionAgregar" class="form-text m-1"></small>
+                                    <div class="" style="margin-top: -8px;">
+                                        <small id="validacionPaciente" class="form-text font-weight-bold m-1"  ></small>
+                                        <small id="validacionAgregar" class="form-text font-weight-bold m-1" ></small>
+                                     </div>
                                 </div>
                                 
                                 <div class="row justify-content-center align-content-center" style="margin-top: -1x;">

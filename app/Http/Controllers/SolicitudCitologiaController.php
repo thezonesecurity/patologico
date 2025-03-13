@@ -42,7 +42,7 @@ class SolicitudCitologiaController extends Controller
             $solicitud->creatoruser_id = $id_user;
             $solicitud->updateduser_id = $id_user;
             $solicitud->estado = 'TRUE';
-            $solicitud->save();
+            //$solicitud->save();
             $pos=0;
 
             foreach($request->id_paciente as $paciente_id) {

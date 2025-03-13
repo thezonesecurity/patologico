@@ -34,7 +34,7 @@ class ReportesController extends Controller
             $resultado=Examen::query();
             $resultado=$resultado->whereHas('examen_solicitudes',function($query) use($tipo){
                 return $query->where('tipo_solicitud', $tipo)->where('estado', TRUE);
-            })->where('fecha_resultado', $fecha)->where('resultado_estado','TRUE')->where('estado', TRUE)->get();
+            })->where('fecha_resultado', $fecha)->where('resultado_estado','TRUE')->where('estado', 'true')->get();
             $cont = count($resultado) > 0;
             if($cont){
                 //dd($cont);
@@ -132,7 +132,7 @@ class ReportesController extends Controller
           // return response()->json($solicitud); //
             foreach ($solicitud as $row) {
                 if($tipo != 'C'){ //para urbano o rural
-                    $listas_examen = Examen::where('solicitud_id', $row->id)->where('fecha_resultado', null)->get();
+                    $listas_examen = Examen::where('solicitud_id', $row->id)->where('fecha_resultado', null)->orderBy('id')->get();
                     foreach ($listas_examen as $examen){
                         $listas[] = [
                             'id' => $examen->id,
@@ -151,7 +151,7 @@ class ReportesController extends Controller
                     }
                 }
                 else{ //para citologia
-                    $listas_examen = ExamenCitologia::where('solicitud_id', $row->id)->where('fecha_resultado', null)->get();
+                    $listas_examen = ExamenCitologia::where('solicitud_id', $row->id)->where('fecha_resultado', null)->orderBy('id')->get();
                     foreach ($listas_examen as $examen){
                         $listas[] = [
                             'id' => $examen->id,
@@ -175,7 +175,7 @@ class ReportesController extends Controller
             foreach ($resultado as $row) {
                 if($tipo != 'C'){ //para urbano o rural
                     // Creamos un array de diagnósticos URBANO O RURAL
-                    $diagnosticos = Resultado::where('examen_id', $row->id)->get();
+                    $diagnosticos = Resultado::where('examen_id', $row->id)->orderBy('id')->get();
                     $diagnosticosArray = [];
                     foreach($diagnosticos as $diagnostico) {
                         $diagnosticosArray[] = [
@@ -209,7 +209,7 @@ class ReportesController extends Controller
                             'descripcion' => $diagnostico->examenDiagnostico->descripcion_diagnostico,
                         ];
                     }*/
-                    $result_aux = ResultadoCitologia::where('id_examen', $row->id)->get(); 
+                    $result_aux = ResultadoCitologia::where('id_examen', $row->id)->orderBy('id')->get(); 
                     $listas[] = [
                         'tipo' => 'C',
                         'id' => $row->id,
@@ -261,7 +261,7 @@ class ReportesController extends Controller
                 $examen=Examen::query();
                 $examen=$examen->whereHas('examen_solicitudes',function($query) use($tipo, $fecha){
                     return $query->where('tipo_solicitud', $tipo)->where('fecha_solicitud', $fecha);
-                })->where('id', $id)->where('estado','TRUE')->where('fecha_resultado', null)->update([
+                })->where('id', $id)->where('estado','true')->where('fecha_resultado', null)->update([
                     'estado' => 'false'
                  ]);
                 return response($id); //->json($id);
@@ -292,12 +292,12 @@ class ReportesController extends Controller
             }else{ // para tipo rural y urbano
                 $examen=Examen::whereHas('examen_solicitudes',function($query) use($tipo, $fechaS){
                     return $query->where('tipo_solicitud', $tipo)->where('fecha_solicitud', $fechaS)->where('estado', TRUE);
-                })->where('id', $id)->where('estado', TRUE)->where('fecha_resultado', $fechaR)->first();
+                })->where('id', $id)->where('estado', 'true')->where('fecha_resultado', $fechaR)->first();
               //  return response()->json($examen);
               foreach ($examen as $item) {
-                $result = Resultado::where('examen_id', $examen->id)->where('estado', TRUE)->where('fecha_resultado', $fechaR)->update([ 'estado' => FALSE ]);
+                $result = Resultado::where('examen_id', $examen->id)->where('estado', 'true')->where('fecha_resultado', $fechaR)->update([ 'estado' => 'false' ]);
               }
-              $examen = $examen->update([ 'estado' => FALSE ]);
+              $examen = $examen->update([ 'estado' => 'false' ]);
               return response($id); //->json($result);
             }
         }else{

@@ -26,7 +26,7 @@
           
           <div class="row ml-2">
             <label for=""> <span class="fw-bolder font-weight-bold ">Nro. examen: </span> <span id="nro_examenC"></span> </label>
-            <label for=""> <span class="fw-bolder font-weight-bold ">Estado: </span> <span id="estadoR" class="fw-bolder font-weight-bold "></span> </label>
+            <label for=""> <span class="fw-bolder font-weight-bold ml-4">Estado: </span> <span id="estadoR" class="fw-bolder font-weight-bold "></span> </label>
           </div>
           <div class="row ml-2">
               <label for=""> <span class="fw-bolder font-weight-bold">Fecha solicitud: </span> <span id="fecha_solicitudC"></span>

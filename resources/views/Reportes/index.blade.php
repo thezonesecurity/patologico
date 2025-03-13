@@ -39,7 +39,7 @@
             <div class="form-group col-md-2 col-sm-2 font-weight-bold">
                 <label for="formGroup_fecha ">Fecha <span id="seguido"></span> </label>
                 <input type="date" class="form-control" name="fecha" id="fecha" value="{{ old('fecha') }}">
-                <small id="val_fecha" class="form-text text-danger"></small>
+                <small id="val_fecha" class="form-text text-danger font-weight-bold"></small>
             </div>
             <div class="col-md-3 col-sm-3">
                 <label class="font-weight-bold">Usuario</label>
@@ -50,7 +50,7 @@
                         <option value="{{ $user->id }}" {{old('user') == $user->id ? 'selected' : ''}} >{{ $user->persona->nombres}} {{ $user->persona->apellidos}}</option>
                     @endforeach
                 </select>
-                <small id="val_user" class="form-text text-danger"></small>
+                <small id="val_user" class="form-text text-danger font-weight-bold"></small>
             </div>
             <div class="col-md-2 col-sm-2">
                 <label for="form_tipo_report">Tipo Reporte</label>
@@ -60,7 +60,7 @@
                     <option value="R">Rural</option>
                     <option value="C">Citologia</option>
                 </select>
-                <small id="val_tipo" class="form-text text-danger"></small>
+                <small id="val_tipo" class="form-text text-danger font-weight-bold"></small>
             </div>
             <div class="col-md-3 col-sm-3">
                 <label for="formGroupExampleInput">Accion</label>
@@ -228,13 +228,15 @@
                                         $('#fecha_resultado').text(examen.fecha_resultado); 
                                         $('#municipio').text(examen.municipio); 
                                         $('#establecimiento').text(examen.establecimiento); 
-                                        //$('#modalEstado').text(examen.estado === true ? 'Habilitado' : 'Eliminado'); // Mostrar estado
                                         var diagnosticosHTML = '';
                                         examen.diagnosticos.forEach(function(diagnostico, index) {
                                             diagnosticosHTML += '<p><strong>' + (index + 1) + ' Código: </strong> ' + diagnostico.codigo + ' - <strong> Descripción: </strong> ' + diagnostico.descripcion + '</p>';
                                         });
                                         // Insertar los diagnósticos en el modal
                                         $('#diagnosticos').html(diagnosticosHTML);
+                                        if(examen.estado == 'true'){
+                                            $('#estadoS').text('Habilitado').removeClass('text-danger').addClass('text-success'); 
+                                        }else { $('#estadoS').text('Eliminado').removeClass('text-success').addClass('text-danger');  }
                                         $('#exampleModalver').modal('show'); // Mostrar el modal
                                     }else{
                                         $('#nro_examenC').text(examen.nro_examen + '-'+examen.tipo);

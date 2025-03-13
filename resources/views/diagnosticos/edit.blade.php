@@ -27,14 +27,14 @@
               <label class="font-weight-bold">Nombre</label>
               <input type="text" class="form-control" name="codigo_diagnostico" id="codigo_diagnostico"  value="{{old('codigo_diagnostico', $diagnostico->codigo_diagnostico)}}">
               @error('codigo_diagnostico')
-                  <small class="text-danger">{{'* '.$message}}</small>
+                  <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
               @enderror
           </div>
           <div class="form-group col-md-11 col-sm-11 ml-3">
             <label class="font-weight-bold">Descripcion</label>
             <input type="text" class="form-control" name="descripcion_diagnostico" id="descripcion_diagnostico" placeholder="opcional" value="{{old('descripcion_diagnostico', $diagnostico->descripcion_diagnostico ) }}">
             @error('descripcion_diagnostico')
-                <small class="text-danger">{{'* '.$message}}</small>
+                <small class="text-danger font-weight-bold">{{'* '.$message}}</small>
             @enderror
           </div>
 

@@ -30,7 +30,7 @@
     @csrf
     <div class="font-weight-bold m-2 text-center">Formulario de registro de resultados de citologia</div>
     <div class="form-row m-2">
-      <div class="col-md-5 col-sm-5">
+      <div class="col-md-5 col-sm-5"  style="background: #FFB3B9;">
         <div class="form-row">
           <div class="form-group col-md-6 col-sm-6 font-weight-bold ">
             <label  for="inlinenum_examen">Nro. examen</label>
@@ -44,7 +44,7 @@
                 <span class="input-group-text">-C</span>
               </div>
             </div>
-            <small id="PvalidacionExamen" class="form-text text-danger"></small> 
+            <small id="PvalidacionExamen" class="form-text text-danger font-weight-bold"></small> 
           </div>
           <div class="form-group col-md-6 col-sm-6 font-weight-bold">
             <label  for="inline-fec_result">Fecha Resultado</label>
@@ -54,7 +54,7 @@
               </div>
               <input type="date" class="form-control" id="fec_result" name="fec_result" value="<?php echo date('Y-m-d'); ?>">
             </div>
-            <small id="vali_fecha" class="form-text text-danger"></small> 
+            <small id="vali_fecha" class="form-text text-danger font-weight-bold"></small> 
           </div>
         </div>
 
@@ -145,7 +145,7 @@
                     <option value="{{$medico->id}}" >{{$medico->nombre}} {{$medico->apellido}}</option>                      
                 @endforeach
             </select>
-            <small id="vali_medico" class="form-text text-danger"></small> 
+            <small id="vali_medico" class="form-text text-danger font-weight-bold"></small> 
           </div>
           <div class="form-group col-md-6 col-sm-6 font-weight-bold">
             <div class="font-weight-bold"> <label  for="inline_servicio">Servicio</label> </div>
@@ -155,13 +155,13 @@
                     <option value="{{$id}}" > {{$item}} </option>                      
                 @endforeach
             </select>
-            <small id="vali_servicio" class="form-text text-danger"></small> 
+            <small id="vali_servicio" class="form-text text-danger font-weight-bold"></small> 
           </div>
         </div>
       </div>
 
       {{----}}
-      <div class="col-md-7 col-sm-7">
+      <div class="col-md-7 col-sm-7" style="background: #94E0FF;" > 
         <div class="form-group">
           <div class="font-weight-bold"> <label  for="inline_dig_clinico">Diagnostico clinico</label> </div>
           <div class="input-group mb-2">
@@ -170,7 +170,7 @@
             </div>
             <textarea class="form-control" name="diag_clinico" id="diag_clinico" rows="1"></textarea>
           </div>
-          <small id="vali_diagnostico" class="form-text text-danger"></small> 
+          <small id="vali_diagnostico" class="form-text text-danger font-weight-bold"></small> 
         </div>
 
         <div class="form-group">
@@ -181,7 +181,7 @@
               </div>
               <textarea class="form-control" name="datos" id="datos" rows="1"></textarea>
           </div>
-          <small id="vali_datos" class="form-text text-danger"></small> 
+          <small id="vali_datos" class="form-text text-danger font-weight-bold"></small> 
         </div>
 
         <div class="form-group">
@@ -192,7 +192,7 @@
             </div>
             <textarea class="form-control" name="descripcion" id="descripcion" rows="1"></textarea>
           </div>
-          <small id="vali_descripcion" class="form-text text-danger"></small> 
+          <small id="vali_descripcion" class="form-text text-danger font-weight-bold"></small> 
         </div>
 
         <div class="form-group">
@@ -203,7 +203,7 @@
             </div>
             <textarea class="form-control" name="conclucion" id="conclucion" rows="1"></textarea>
           </div>
-          <small id="vali_conclucion" class="form-text text-danger"></small>
+          <small id="vali_conclucion" class="form-text text-danger font-weight-bold"></small>
         </div>
 
         <div class="form-group">
@@ -214,7 +214,7 @@
             </div>
             <textarea class="form-control" name="nota" id="nota" rows="1"></textarea>
           </div>
-          <small id="vali_nota" class="form-text text-danger"></small>
+          <small id="vali_nota" class="form-text text-danger font-weight-bold"></small>
         </div>
 
       </div>

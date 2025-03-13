@@ -65,7 +65,7 @@
                         <table class="table table-sm border border-success">
                             <div class="text-center font-weight-bold m-2">Registro de Resultado Patologia</div>
                             <tr>
-                                <div style="background: #f8daee;" class="border border-5">
+                                <div style="background: #FFD6AB" class="border border-5">
                                     <div class="form-row " style="margin-bottom: -15px;">
                                         <div class="form-group col-md-5">
                                             <label for="fecha_solicitud">Tipo Resultado</label>
@@ -89,13 +89,14 @@
                                                     <input type="text" class="form-control" name="prefijo" id="prefijo" readonly>
                                                 </div>
                                             </div>
-                                            <small id="validacionExamen" class="form-text"></small>
+                                       
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="fecha_resu">Fecha resultado</label>
                                             <input type="date" class="form-control" name="fec_result" id="fec_result" value="<?php echo date('Y-m-d'); ?>">
                                         </div>
                                     </div>
+                                    <small id="validacionExamen" class="form-text font-weight-bold" style="margin-top: -9px;"></small>
                                     <div class="form-row " >
                                         <div class="form-group col-md-3">
                                             <label class="form-check-label" for="secer_cedula_identidad">Cedula identidad</label>
@@ -141,7 +142,7 @@
                                     
                                 </div>
                                 <label for="ho_diang" class="m-1">Diagnosticos</label>
-                                <div style="background: #ddf8da;" class="border border-5">
+                                <div style="background: #E1FFC7;" class="border border-5">
                                     <div class="form-row mt-1" style="margin-bottom: -1px;">
                                         <div class="form-group col-md-3">
                                             <label >Codigo</label>
@@ -151,13 +152,13 @@
                                             <input type="hidden" class="form-control " name="codigo_diag" id="codigo_diag" readonly style="display: none;">
                                         </div>
                                     </div>
-                                    <small id="validacionDiagnostico" class="form-text"></small>
+                                    <small id="validacionDiagnostico" class="form-text font-weight-bold"></small>
                                     <div class="" style="margin-top: -1px;"> <label for="ho_diang" >Descripcion</label> </div>
                                     <div class="form-group " >
                                         <textarea class="form-control" name="descripcion" id="descripcion" rows="3" readonly style="font-size: 13px;"></textarea>
                                     </div>
-                                    <small id="validacionDiagnosticos" class="form-text"></small>
-                                    <small id="validacionAgregarR" class="form-text"></small>
+                                    <small id="validacionDiagnosticos" class="form-text font-weight-bold"></small>
+                                    <small id="validacionAgregarR" class="form-text font-weight-bold"></small>
                                 </div>
                                 <div class="row justify-content-center align-content-center" style="margin-top: -1px;">
                                     <button id="adicionar" class="btn btn-success btn-sm add" type="button"> Agregar</button>
