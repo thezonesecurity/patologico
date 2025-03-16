@@ -18,7 +18,7 @@
         <div class="row m-1">
             <div class="form-group col-md-2 col-sm-2 font-weight-bold">
                 <label for="formGroup_fecha " >Gestion </label>
-                <input type="date" class="form-control" name="gestion" id="gestion">
+                <input type="month" class="form-control" name="gestion" id="gestion">
                 <small id="gestion" class="form-text text-danger font-weight-bold"></small>
             </div>
             <div class="form-group col-md-2 col-sm-2 font-weight-bold">

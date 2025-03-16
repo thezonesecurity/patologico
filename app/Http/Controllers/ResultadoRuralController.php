@@ -40,7 +40,7 @@ class ResultadoRuralController extends Controller
             }else{
                 $data = Examen::whereHas('examen_solicitudes',function($query) use($prefijo){
                     return $query->where('tipo_solicitud', $prefijo);
-                })->where('num_examen', $nro_examen)->where('fecha_resultado', )->get();
+                })->where('num_examen', $nro_examen)->where('fecha_resultado', null)->where('estado', 'true')->get();
                 $paciente = $data[0]->examenPacientes;
                 $listadatos[] = [
                     'ci_pac' => $paciente->ci,

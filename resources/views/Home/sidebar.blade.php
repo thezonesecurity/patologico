@@ -3,7 +3,7 @@
         <a href="{{route('inicio')}}" class="logo">
             <i class="bi bi-house-door"></i>{{-- style="font-size: 1rem;"--}}
         </a>
-        <span class="logo_name">Sistema</span>
+        <span class="logo_name">Sistema de control de lab. Patologia</span>
     </div>
     <ul class="nav-links">
         <li>
@@ -72,18 +72,22 @@
                     <img src="{{ asset("assets/img/login/avatar.svg")}}" alt="profileImg">
                 </div>
                 <div class="name-job">
-                    <div class="profile_name">{{--auth()->user()->per_user->nombres.' '.auth()->user()->per_user->apellidos --}}</div>
-                    <div class="job">Web Desginer</div>
+                    <div class="profile_name">{{auth()->user()->persona->nombres.' '.auth()->user()->persona->apellidos}}</div>
+                    <div class="job">Usuario</div>
                 </div>
                 <a href="{{route('logout')}}" class="logout">
                     <i class="bi bi-box-arrow-left" style="font-size: 2rem; color: rgb(222, 12, 12);" ></i>
                 </a>
                 <ul class="sub-menu"  style="margin-top: -28px; align: center;">
-                    {{--<li><a class="link_name" href="#">Administrar</a></li>--}}
-                    <span class="" style="margin: -17px; font-size: 14px; color: white">Cerrar Sesion</span>
-                    <li><a href="{{route('logout')}}" class="iconlogout">
-                        <i class="bi bi-box-arrow-left" style="margin-top: -8px; font-size: 2.5rem; color: red; " ></i>    
-                    </a></li>
+                    {{--<li><a class="link_name" href="#">Administrar</a></li>-- }}
+                    <span class="" style="margin: -17px; font-size: 14px; color: white">Cerrar Sesion</span>--}}
+                    <li class="link_name mt-1" style="margin-left: -14px; font-size: 14px; color: white" >Usuario: {{auth()->user()->persona->nombres.' '.auth()->user()->persona->apellidos}} </li>
+                    <li>
+                        <a href="{{route('logout')}}" class="iconlogout">
+                            <span class="mt-2" style="margin: -10px; font-size: 14px; color: white" >Cerrar Sesion</span>
+                            <i class="bi bi-box-arrow-left ml-4 " style="margin-top: -5px; font-size: 2.5rem; color: red; " ></i>    
+                        </a>
+                    </li>
                 </ul>
             </div>             
         </li>

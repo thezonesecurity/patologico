@@ -138,7 +138,7 @@ class SolicitudRuralController extends Controller
                     $newExamenR->solicitud_id = $solicitud->id; 
                     $newExamenR->paciente_id = $request->id_paciente[$pos];
                     $newExamenR->ci = $request->ci_pac[$pos];
-                    $newExamenR->estado = 'TRUE';
+                    $newExamenR->estado = 'true';
                     $newExamenR->creatoruser_id = $id_user;
                     $newExamenR->updateduser_id = $id_user;
                     $newExamenR->num_examen = $nro_examen;
