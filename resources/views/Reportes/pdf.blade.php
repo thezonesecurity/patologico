@@ -200,7 +200,7 @@
                     </tr>            
                 </thead>
                 <tbody>
-                    <?php $resultados=App\Models\Resultado::where('examen_id',$examenes->id)->get(); ?>
+                    <?php $resultados=App\Models\Resultado::where('examen_id',$examenes->id)->where('estado', '=', 'true')->get(); ?>
                     @foreach($resultados as $resultado)
                         <tr >
                             <td class="min-width" style="text-align: center; font-size: 12px; vertical-align: middle; height: 10px;">

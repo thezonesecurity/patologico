@@ -426,7 +426,7 @@
                         },4000);
                     }
                     else {//paa Registro Exitoso
-                        console.log(data);
+                       // console.log(data);
                         var data = JSON.parse(data);
                         var cuerpoTabla = $('#tablaDatos_p');
                         cuerpoTabla.empty();
@@ -436,7 +436,7 @@
                             nuevaFila.append('<td>' + datos.ci + '</td>');
                             nuevaFila.append('<td>' + datos.nombre + '</td>');
                             nuevaFila.append('<td>' + datos.apellido + '</td>');
-                            nuevaFila.append('<td>' + datos.nro_examen + '</td>');
+                            nuevaFila.append('<td class="form-text font-weight-bold fs-4" >' + datos.nro_examen + '</td>');
                             cuerpoTabla.append(nuevaFila);
                         });
                         $('#ModalListaExamenesCitologia').modal('show');

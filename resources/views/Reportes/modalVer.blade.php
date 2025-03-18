@@ -1,5 +1,5 @@
 <div class="modal fade" id="exampleModalver" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bolder font-weight-bold text text-center" id="exampleModalLabel">Detalles del paciente</h5>
@@ -24,7 +24,7 @@
           <h5 class="fw-bolder font-weight-bold text text-center">Detalles del resultado patologia</h5>
           <div class="row ml-2">
             <label for=""> <span class="fw-bolder font-weight-bold ">Nro. examen: </span> <span id="nro_examen"></span> </label>
-            <label for=""> <span class="fw-bolder font-weight-bold ml-4">Estado: </span> <span id="estadoS" class="fw-bolder font-weight-bold "></span> </label>
+            <h5> <label for="" > <span class="fw-bolder font-weight-bold ml-4">Estado: </span> <span id="estadoS" class="fw-bolder font-weight-bold "></span> </label> </h5>
           </div>
           <div class="row ml-2">
               <label for=""> <span class="fw-bolder font-weight-bold">Fecha solicitud: </span> <span id="fecha_solicitud"></span>
@@ -41,8 +41,8 @@
               <span class="fw-bolder font-weight-bold">Establecimiento:</span> <span id="establecimiento"></span>
             </label>
           </div>
-          <span class="fw-bolder font-weight-bold ml-2">Diagnosticos </span>
-          <div class="row ml-2">
+         <div ><h5 class="text-center fw-bolder font-weight-bold ml-2"> Diagnosticos </h5> </div>
+          <div class="row ml-2 mt-2">
               <label for="">
                  <span id="diagnosticos"></span>
               </label>

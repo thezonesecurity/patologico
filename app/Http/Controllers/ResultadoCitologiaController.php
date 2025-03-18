@@ -23,8 +23,33 @@ class ResultadoCitologiaController extends Controller
         $nro_examen = $request->nro_examen;
         $listadatos = [];
         $resultado=ExamenCitologia::query();
+        $exiteExamen=$resultado->where('num_examen', $nro_examen)->first();
+        if(isset($exiteExamen)){
+            if($exiteExamen->estado == 'true' && $exiteExamen->result_estado == 'TRUE' ){
+                return 'registrado'; 
+            }else{
+                //return response()->json($exiteExamen); 
+                $listadatos[] = [
+                    'ci_pac' => $exiteExamen->ci,
+                    'nombre_pac' =>$exiteExamen->examen_citoPacientes->nombre,
+                    'apellido_pac' => $exiteExamen->examen_citoPacientes->apellido,
+                    'fec_nac_pac' => $exiteExamen->examen_citoPacientes->fecha_nacimiento,
+                    'edad_pac' => $exiteExamen->examen_citoPacientes->edad,
+                    'celular_pac' => $exiteExamen->examen_citoPacientes->num_celular,
+                    'direccion_pac' => $exiteExamen->examen_citoPacientes->direccion,
+                    'examen_id' => $exiteExamen->id,
+                ];
+                return response()->json($listadatos);
+            }
+        }else{
+            return 'no_encontrado';
+        }
+      /*  
+       $nro_examen = $request->nro_examen;
+        $listadatos = [];
+       $resultado=ExamenCitologia::query();
         $resultado=$resultado->where('num_examen', $nro_examen)->first();
-        if($resultado){
+      if($resultado){
             $existeResultado=$resultado->where('num_examen', $nro_examen)->where('result_estado', 'FALSE')->where('estado', 'true')->get();
             if(count($existeResultado) == 0){
                 return 'registrado'; 
@@ -45,7 +70,7 @@ class ResultadoCitologiaController extends Controller
         }
         else{
             return 'no_encontrado';
-        }
+        }*/
     }
 
     public function create()
@@ -55,7 +80,7 @@ class ResultadoCitologiaController extends Controller
 
     public function store(Request $request)
     {
-        // return response()->json('go');
+        // return response()->json($request);
         $listas = [];
         if($request){
             $datos = ucfirst(strtolower($request->datos)); 
@@ -64,7 +89,7 @@ class ResultadoCitologiaController extends Controller
             $conclucion = ucfirst(strtolower($request->conclucion)); 
             $nota = ucfirst(strtolower($request->nota)); 
             $resultado = new ResultadoCitologia;
-            $resultado->id_examen = $request->num_examen;
+            $resultado->id_examen = $request->codigo_examen;
             $resultado->id_servicio = $request->servicio;
             $resultado->id_medico = $request->medico;
             $resultado->fecha_resultado = $request->fec_result;
@@ -74,15 +99,11 @@ class ResultadoCitologiaController extends Controller
             $resultado->descripcion = $descripcion; // $request->descripcion;
             $resultado->conclucion =  $conclucion;
             $resultado->nota =$nota; // $request->nota;
-            $resultado->estado = 'TRUE';
+            $resultado->estado = 'true';
             $resultado->creatoruser_id = auth()->user()->id; //add
             $resultado->updateduser_id = auth()->user()->id; //add
-                $editExamen = $resultado->resultado_examenCito;
-                $editExamen->fecha_resultado = $request->fec_result;
-                $editExamen->result_estado = 'TRUE';
-                $editExamen->updateduser_id =  auth()->user()->id; //add
-           // return response()->json($resultado);
-    
+            $editExamen = ExamenCitologia::where('id', $request->codigo_examen)->first();
+           // return response()->json($editExamen);
             $listas []= [
                 'id' => $resultado->id_examen,
                 'fecha_solicitud' => $editExamen->examen_solCitologia->fecha_solicitud,
@@ -104,8 +125,16 @@ class ResultadoCitologiaController extends Controller
                 'nota' => $resultado->nota,
                 'reporte' => 'Citologia'
             ];
-            $editExamen->save();
             $resultado->save();
+            
+            $editExamen->update([ 
+                'estado' => 'true',
+                'fecha_resultado' => $request->fec_result,
+                'result_estado' => 'TRUE',
+                'updateduser_id' => auth()->user()->id, // add
+            ]);
+         //   return response()->json($listas);
+        
             return response()->json($listas);
            // return 'ok';
         }else{

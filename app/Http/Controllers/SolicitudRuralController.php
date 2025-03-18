@@ -54,24 +54,22 @@ class SolicitudRuralController extends Controller
         $id_user = auth()->user()->id;
         $tipo = $request->tipo_soli;
        
-
-        //
       //  return response()->json($nro_examen); //nro_examen); // resultado);
-       /*$resultExamen=Examen::query();
+       $resultExamen=Examen::query();
         if($tipo == 'U'){
             $resultado=$resultExamen->whereHas('examen_solicitudes',function($query) use($tipo){
                 return $query->where('tipo_solicitud', $tipo);
-            })->where('estado', TRUE)->where('fecha_resultado', '!=' , null)->latest('id')->first();
+            })->where('estado', '=', 'true')->latest('id')->first();
             if(isset($resultado->num_examen)){ $nro_examen = $resultado->num_examen + 1; }
             else{ $nro_examen = $variable + 1; }
         }else{
             $resultado=$resultExamen->whereHas('examen_solicitudes',function($query) use($tipo){
                 return $query->where('tipo_solicitud', $tipo);
-            })->latest('id')->first();
+            })->where('estado', '=', 'true')->latest('id')->first();
             if(isset($resultado->num_examen)){ $nro_examen = $resultado->num_examen + 1; }
             else{  $nro_examen = $variable + 1;  }
-        }*/
-
+        }
+       // return response()->json($resultado);
         $lastSolicitud = Solicitud::latest()->first(); //obtine ultimo nro de solicitud
         if(isset($lastSolicitud)){
             $numero_soli = $lastSolicitud->num_solicitud + 1 ; // verificamos si exite el ultimo nro de solictud si existe +1 pero sino toma el valor d 1
@@ -79,7 +77,7 @@ class SolicitudRuralController extends Controller
 
         if($request->id_paciente ){
             $solicitud = new Solicitud;
-            //$solicitud->num_solicitud = $numero_soli;  se mantiene nro_solicitud pero no se usara
+            $solicitud->num_solicitud = $numero_soli;  // se mantiene nro_solicitud pero no se usara
             $solicitud->fecha_solicitud = $request->fecha_solicitud;
             $solicitud->municipio_id = $request->municipio; 
             $solicitud->establecimiento_id = $request->establecimiento;
@@ -91,7 +89,7 @@ class SolicitudRuralController extends Controller
 
             $pos=0;
             foreach($request->id_paciente as $paciente_id) {
-                $ultimoElimniado='';
+             /* $ultimoElimniado=''; PARA ELIMINAR EL 1ER NRO_EXAMEN ENCONTRADO Y VOLVERLO A USAR ESE MISMO NRO_EXAMEN
                 if($tipo == 'U'){
                     $ultimoElimniado =  Examen::whereHas('examen_solicitudes',function($query) use($tipo){
                         return $query->where('tipo_solicitud', $tipo);
@@ -131,7 +129,7 @@ class SolicitudRuralController extends Controller
                         if(isset($resultado->num_examen)){ $nro_examen = $resultado->num_examen + 1; }
                         else{ $nro_examen = $variable + 1; }
                     }
-                }
+                }*/
                 
                 if($nro_examen != 0){
                     $newExamenR = new Examen;

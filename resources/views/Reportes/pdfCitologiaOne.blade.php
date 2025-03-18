@@ -158,7 +158,7 @@
                 <th class="cabfsol" style="text-align:left">Fecha Solicitud:</th>
                 <th class="cabfsol2" style="text-align:center">{{$examen->fec_soli}}</th>
                 <th class="cabnex" style="text-align:left">Nº Examen:</th>
-                <th class="cabnex2" style="text-align:center">{{$examen->nun_examens}}-C{{$anio}}</th>
+                <th class="cabnex2" style="text-align:center">{{$examen->num_examens}}-C{{$anio}}</th>
                 <th class="cabfres" style="text-align:left">Fecha Resultado:</th>
                 <th class="cab2" style="text-align:center">{{$examen->fec_results}}</th>
             </thead>        

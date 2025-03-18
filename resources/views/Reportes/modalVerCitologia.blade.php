@@ -26,7 +26,7 @@
           
           <div class="row ml-2">
             <label for=""> <span class="fw-bolder font-weight-bold ">Nro. examen: </span> <span id="nro_examenC"></span> </label>
-            <label for=""> <span class="fw-bolder font-weight-bold ml-4">Estado: </span> <span id="estadoR" class="fw-bolder font-weight-bold "></span> </label>
+            <h5> <label for="" > <span class="fw-bolder font-weight-bold ml-4">Estado: </span> <span id="estadoR" class="fw-bolder font-weight-bold "></span> </label> </h5>
           </div>
           <div class="row ml-2">
               <label for=""> <span class="fw-bolder font-weight-bold">Fecha solicitud: </span> <span id="fecha_solicitudC"></span>
@@ -38,7 +38,7 @@
           <div class="row ml-2">
             <label for=""> <span class="fw-bolder font-weight-bold">Establecimiento:</span> <span id="establecimientoC"></span> </label>
           </div>
-
+          <div ><h5 class="text-center fw-bolder font-weight-bold ml-2"> Diagnosticos </h5> </div>
           <div class="row ml-2">
             <label for=""> <span class="fw-bolder font-weight-bold">Medico:</span> <span id="medicoC"></span> </label>
           </div>

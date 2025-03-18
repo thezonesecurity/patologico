@@ -27,7 +27,11 @@ class SolicitudCitologiaController extends Controller
         $listadatos = [];
         $id_user = auth()->user()->id;
 
-       
+        $lastExamen = ExamenCitologia::where('estado', '=', 'true')->latest('id')->first(); //obtine ultimo nro de examen
+        if(isset($lastExamen)){
+            $nro_examen = $lastExamen->num_examen + 1 ; // verificamos si exite el ultimo nro de solictud si existe +1 pero sino toma el valor d 1
+        }else { $nro_examen=1; }
+
         $lastSolicitud = SolicitudCitologia::latest()->first(); //obtine ultimo nro de solicitud
         if(isset($lastSolicitud)){
             $numero_soli = $lastSolicitud->nro_solicitud + 1 ; // verificamos si exite el ultimo nro de solictud si existe +1 pero sino toma el valor d 1
@@ -35,19 +39,19 @@ class SolicitudCitologiaController extends Controller
        
         if($request->id_paciente){
             $solicitud = new SolicitudCitologia;
-            //$solicitud->nro_solicitud = $numero_soli;  se mantiene nro_solicitud pero no se usara
+            $solicitud->nro_solicitud = $numero_soli; // se mantiene nro_solicitud pero no se usara
             $solicitud->fecha_solicitud = $request->fec_solicitud;
             $solicitud->municipio_id = $request->p_municipio; 
             $solicitud->establecimiento_id = $request->p_establecimiento;
             $solicitud->creatoruser_id = $id_user;
             $solicitud->updateduser_id = $id_user;
             $solicitud->estado = 'TRUE';
-            //$solicitud->save();
+            $solicitud->save();
             $pos=0;
 
             foreach($request->id_paciente as $paciente_id) {
-
-                $ultimoEliminado =  ExamenCitologia::where('estado', '=', 'false')->orderBy('id')->first();
+                /*  PARA ELIMINAR EL 1ER NRO_EXAMEN ENCONTRADO Y VOLVERLO A USAR ESE MISMO NRO_EXAMEN
+                $ultimoEliminado =  ExamenCitologia::where('estado', '=', 'false')->orderBy('id')->first();  
                 //return response()->json($ultimoElimniado->num_examen);
                 if(isset($ultimoEliminado)){
                     $nro_examen = $ultimoEliminado->num_examen;
@@ -63,7 +67,7 @@ class SolicitudCitologiaController extends Controller
                     }else { $nro_examen= 1; }
                     //return response()->json($nro_examen); 
                 }
-               // return response()->json($nro_examen);
+               // return response()->json($nro_examen);*/
         
                 $newexamen = new ExamenCitologia;
                 $newexamen->solicitud_id = $solicitud->id; 

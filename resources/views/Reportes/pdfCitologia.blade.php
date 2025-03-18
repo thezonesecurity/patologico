@@ -190,8 +190,34 @@
             </tr>  
         </table>
             <h4 class="text-left">RESULTADOS:</h4>
+            
             <div class="c" style="font-size: 17px; vertical-align: middle;">
-                <div class="row ml-2 mt-2">
+                <?php  $resultado=App\Models\ResultadoCitologia::where('id_examen',$examenes->id)->latest('id')->first()  ?>
+                 @if ($resultado->estado != 'false')
+                    <div class="row ml-2 mt-2">
+                        <label for=""> <span class="fw-bolder font-weight-bold">Medico:</span> {{ $resultado->resultado_medico->nombre}} {{ $resultado->resultado_medico->apellido}} </label>
+                    </div>
+                    <div class="row ml-2 mt-2">
+                        <label for=""> <span class="fw-bolder font-weight-bold">Servicio:</span> {{ $resultado->resultado_servicio->nombre_servicio}} </label>
+                    </div>
+                    <div class="row ml-2 mt-2">
+                        <label for=""> <span class="fw-bolder font-weight-bold">Diagnostico:</span> {{ $resultado->diagnostico}} </label>
+                    </div>
+                    <div class="row ml-2 mt-2">
+                        <label for=""> <span class="fw-bolder font-weight-bold">Datos relevantes:</span> {{ $resultado->datos_relevantes}} </label>
+                    </div>
+                    <div class="row ml-2 mt-2">
+                        <label for=""> <span class="fw-bolder font-weight-bold">Descripcion:</span> {{ $resultado->descripcion}} </label>
+                    </div>
+                    <div class="row ml-2 mt-2">
+                        <label for=""> <span class="fw-bolder font-weight-bold">Conclucion:</span> {{ $resultado->conclucion}} </label>
+                    </div>
+                    <div class="row ml-2 mt-2">
+                        <label for=""> <span class="fw-bolder font-weight-bold">Nota:</span> {{ $resultado->nota}}</label>
+                    </div>
+                 @endif
+              
+                 {{-- <div class="row ml-2 mt-2">
                     <label for=""> <span class="fw-bolder font-weight-bold">Medico:</span> {{ $examenes->examenesResultadoCito[0]->resultado_medico->nombre}} {{ $examenes->examenesResultadoCito[0]->resultado_medico->apellido}} </label>
                   </div>
                   <div class="row ml-2 mt-2">
@@ -211,7 +237,7 @@
                   </div>
                   <div class="row ml-2 mt-2">
                     <label for=""> <span class="fw-bolder font-weight-bold">Nota:</span> {{ $examenes->examenesResultadoCito[0]->nota}}</label>
-                  </div>
+                  </div>--}}
             </div>
              
             {{--<table class="table table-striped">

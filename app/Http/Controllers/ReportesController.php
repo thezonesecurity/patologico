@@ -181,6 +181,7 @@ class ReportesController extends Controller
                         $diagnosticosArray[] = [
                             'codigo' => $diagnostico->examenDiagnostico->codigo_diagnostico,
                             'descripcion' => $diagnostico->examenDiagnostico->descripcion_diagnostico,
+                            'estadoDia' => $diagnostico->estado,
                         ];
                     }
                     $listas[] = [
@@ -209,7 +210,7 @@ class ReportesController extends Controller
                             'descripcion' => $diagnostico->examenDiagnostico->descripcion_diagnostico,
                         ];
                     }*/
-                    $result_aux = ResultadoCitologia::where('id_examen', $row->id)->orderBy('id')->get(); 
+                    $result_aux = ResultadoCitologia::where('id_examen', $row->id)->latest('id')->get(); //->orderBy('id')->get(); 
                     $listas[] = [
                         'tipo' => 'C',
                         'id' => $row->id,

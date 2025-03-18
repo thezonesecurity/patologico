@@ -13,7 +13,7 @@
               @csrf
               <input type="text" name="ide" id="ide" class="form-control" hidden disabled> 
               <input type="text" name="fec_soli" id="fec_soli" class="form-control"  hidden > 
-              <input type="text" name="nun_examens" id="num_examens" class="form-control"  hidden > 
+              <input type="text" name="num_examens" id="num_examens" class="form-control"  hidden > 
               <input type="text" name="fec_results" id="fec_results" class="form-control"  hidden > 
               <input type="text" name="municipios" id="municipios" class="form-control"  hidden > 
               <input type="text" name="establecimientos" id="establecimientos" class="form-control"  hidden > 

@@ -230,7 +230,7 @@
                                         $('#establecimiento').text(examen.establecimiento); 
                                         var diagnosticosHTML = '';
                                         examen.diagnosticos.forEach(function(diagnostico, index) {
-                                            diagnosticosHTML += '<p><strong>' + (index + 1) + ' Código: </strong> ' + diagnostico.codigo + ' - <strong> Descripción: </strong> ' + diagnostico.descripcion + '</p>';
+                                            diagnosticosHTML += '<p><strong>' + (index + 1) + ' Código: </strong> ' + diagnostico.codigo + ' - <strong> Descripción: </strong> ' + diagnostico.descripcion + ' - <strong> Estado: </strong> ' + (diagnostico.estadoDia == 'true' ? '<spam class=" font-weight-bold text-success" > Habilitado </spam>' : '<spam class=" font-weight-bold text-danger" > Eliminado </spam>' ) + '</p>';
                                         });
                                         // Insertar los diagnósticos en el modal
                                         $('#diagnosticos').html(diagnosticosHTML);

@@ -453,7 +453,7 @@
                     processData: false,
                     data: formData
                 }).done(function(data){ //alert(resp);
-                   console.log('-> '+data);
+                  // console.log('-> '+data);
                     if(data=='error_registro_solicitud'){ //resp=='error'	
                         notificaciones("ERROR NO SE PUDO REALIZAR EL REGISTRO !!", "CONTACTE CON SOPORTE", 'error');
                         setTimeout(function(){	
@@ -461,7 +461,7 @@
                         },4000);
                     }
                     else {//paa Registro Exitoso
-                        console.log(data);
+                        //console.log(data);
                         var data = JSON.parse(data);
                         var cuerpoTabla = $('#tablaDatos');
                         cuerpoTabla.empty();
@@ -471,7 +471,7 @@
                             nuevaFila.append('<td>' + datos.ci + '</td>');
                             nuevaFila.append('<td>' + datos.nombre + '</td>');
                             nuevaFila.append('<td>' + datos.apellido + '</td>');
-                            nuevaFila.append('<td>' + datos.nro_examen + '</td>');
+                            nuevaFila.append('<td  class="form-text font-weight-bold fs-4" >' + datos.nro_examen + '</td>');
                             cuerpoTabla.append(nuevaFila);
                         });
                         $('#ModalListaExamenes').modal('show');

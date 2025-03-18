@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Lista de solicitudes registrados</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Lista de solicitudes patologicos registrados</h5>
           
         </div>
         <div class="modal-body">
@@ -10,9 +10,9 @@
                 <thead>
                   <tr>
                     <th scope="col">Nro.</th>
-                    <th scope="col">ci</th>
-                    <th scope="col">nombre</th>
-                    <th scope="col">apellido</th>
+                    <th scope="col">Cedula</th>
+                    <th scope="col">Nombres</th>
+                    <th scope="col">Apellidos</th>
                     <th scope="col">Nro. examen</th>
                   </tr>
                 </thead>

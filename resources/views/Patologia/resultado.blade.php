@@ -393,7 +393,7 @@
             url: "{{ route('lista.resultados.examen') }}",
             data: { nro_examen: $('#num_examen').val(), prefijo: $('#num_examen').val() }, 
         }).done(function(data){ 
-           //  console.log(data);
+            // console.log(data);
             if(data == 'no_encontrado'){
                 $(".examen").addClass('is-invalid');
                 $('#PvalidacionExamen').text('Nro. de examen no econtrado.. !!!').addClass('text-danger').show();
@@ -466,7 +466,7 @@
                     processData: false,
                     data: formData
                 }).done(function(data){ 
-                  //console.log('-> '+data);
+                  console.log('-> '+data);
                   data = JSON.parse(data);
                  // console.log(data[0]['fecha_solicitud'] + data[0]['nombres']);
                   if(data != 'error_registro_resul_citologico'){
@@ -493,7 +493,7 @@
                   }
                   
                 });
-                $("#registrarForm").prop("disabled", true);
+               // $("#registrarForm").prop("disabled", true);
           }else{
             notificaciones("Verificque el formulario ..!!", "Error de formulario", 'error');
           }   
